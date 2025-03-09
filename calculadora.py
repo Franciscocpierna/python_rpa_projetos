@@ -5,7 +5,7 @@ import os
 numero = 0
 opcao = 0
 while True:
-   print("Calculadora")
+   print("\nCalculadora")
    print("1 - Soma")
    print("2 - Subtração")
    print("3 - Multiplicação")
