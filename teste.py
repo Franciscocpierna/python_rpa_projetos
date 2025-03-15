@@ -1,4 +1,4 @@
-fatorial = 1
+
 def calcula_fatorial(n):
  
     if n == 0:
