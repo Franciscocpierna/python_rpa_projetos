@@ -89,6 +89,9 @@ produto = {
 }
 print()
 print("1. Adicionando itens ao dicionário 'produto'")
+if "id" in produto:
+    print("o produto tem em produtos ", produto["id"])
+print()    
 
 # Adicionando a chave 'marca' com o valor "FashionBrand"
 produto["marca"] = "FashionBrand"
