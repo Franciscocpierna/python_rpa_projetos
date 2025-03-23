@@ -127,3 +127,74 @@ produto_copia_2 = dict(produto)
 print("\nCópias do produto:")
 print("Cópia 1:", produto_copia_1)
 print("Cópia 2:", produto_copia_2)
+
+#Dicionário fornecido:
+
+estacionamento = {
+    "nome": "estacionameto do sr Joaquim",
+    "A1": {
+        "marca": "Toyota",
+        "modelo": "Corolla",
+        "dono": "Sr. Silva"
+    },
+    "B2": {
+        "marca": "Honda",
+        "modelo": "Civic",
+        "dono": "Dona Maria"
+    },
+    "C3": {
+        "marca": "Ford",
+        "modelo": "Mustang",
+        "dono": "Sr. Jorge"
+    }
+}
+
+"""
+Onde as chaves (A1, B2, C3) representam as vagas no estacionamento.
+
+Instruções:
+
+    1. Acesse e imprima o modelo do carro estacionado na vaga "B2".
+    
+    2. Altere o dono do carro na vaga "A1" para "Sra. Lúcia".
+    
+    3. Adicione um novo carro na vaga "D4" com as seguintes 
+        informações: marca "Chevrolet", modelo "Onix", dono "Sr. Roberto".
+        
+    4. Acesse e imprima a marca do carro que agora pertence à "Sra. Lúcia".
+
+"""
+print("\nnome do estacionamento")
+print(estacionamento["nome"])
+print("\nAcesse e imprima o modelo do carro estacionado na vaga B2")
+
+print(estacionamento["B2"])
+print("\nmodelo do carro C3")
+print(estacionamento["C3"]["modelo"])
+print()
+print(estacionamento["A1"])
+print("\nAltere o dono do carro na vaga A1 para Sra. Lúcia")
+
+estacionamento["A1"]["dono"]="Sra. Lúcia"
+print(estacionamento["A1"])
+print('\nAdicione um novo carro na vaga "D4" com as seguintes informações: marca "Chevrolet", modelo "Onix", dono "Sr. Roberto"')
+estacionamento["D4"] = {
+        "marca": "Chevrolet",
+        "modelo": "Onix",
+        "dono": "Sr. Roberto"              
+}
+print("\n",estacionamento)
+print("\nAcesse e imprima a marca do carro que agora pertence à 'Sra. Lúcia'")
+
+
+    
+
+for vaga, carro in estacionamento.items():
+        # Verifica se o campo "dono" do dicionário 'carro' é igual a "Sra. Lúcia"
+    if carro["dono"] == "Sra. Lúcia":      
+        # Imprime a marca do carro que pertence à Sra. Lúcia
+        print(f"Marca do carro da Sra. Lúcia: {carro['marca']}")
+        
+        # Encerra o loop após encontrar o carro da Sra. Lúcia
+        break
+  
