@@ -131,7 +131,6 @@ print("Cópia 2:", produto_copia_2)
 #Dicionário fornecido:
 
 estacionamento = {
-    "nome": "estacionameto do sr Joaquim",
     "A1": {
         "marca": "Toyota",
         "modelo": "Corolla",
@@ -165,7 +164,7 @@ Instruções:
 
 """
 print("\nnome do estacionamento")
-print(estacionamento["nome"])
+#print(estacionamento["nome"])
 print("\nAcesse e imprima o modelo do carro estacionado na vaga B2")
 
 print(estacionamento["B2"])
@@ -198,3 +197,50 @@ for vaga, carro in estacionamento.items():
         # Encerra o loop após encontrar o carro da Sra. Lúcia
         break
   
+'''estacionamento = {
+    "nome": "estacionamento do sr Joaquim",
+    "vagas": {
+        "A1": {...},
+        "B2": {...},
+        "C3": {...}
+    }
+}
+
+
+
+
+
+for vaga, carro in estacionamento["vagas"].items():
+'''
+estacionamento1 = {
+    "nome": "estacionamento do sr Joaquim",
+    "vagas":{
+      "A1":{  
+        "marca": "Toyota",
+        "modelo": "Corolla",
+        "dono": "Sra. Lúcia"
+        },
+      "B2": {
+        "marca": "Honda",
+        "modelo": "Civic",
+        "dono": "Dona Maria"
+       },
+      "C3": {
+        "marca": "Ford",
+        "modelo": "Mustang",
+        "dono": "Sr. Jorge"
+      }
+   } 
+}
+
+print("versão estacionamento1")
+for vaga, carro in estacionamento1["vagas"].items():
+     # Verifica se o campo "dono" do dicionário 'carro' é igual a "Sra. Lúcia"
+    if carro["dono"] == "Sra. Lúcia":      
+        # Imprime a marca do carro que pertence à Sra. Lúcia
+        print(f"Marca do carro da Sra. Lúcia: {carro['marca']}")
+        
+        # Encerra o loop após encontrar o carro da Sra. Lúcia
+        break
+  
+print("nome do estacionamento", estacionamento1['nome'])
