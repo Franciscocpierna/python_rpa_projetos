@@ -7,5 +7,10 @@ def calcula_fatorial(n):
   
 
 print(calcula_fatorial(5))  # Saída: 120
-
-
+palavras = ['Olá,', 'como', 'vai', 'você?']
+print(palavras)
+frase = ' '.join(palavras)
+print(frase)
+espaco=[" "," "," "]
+nova = '|'.join(espaco)
+print(nova)
