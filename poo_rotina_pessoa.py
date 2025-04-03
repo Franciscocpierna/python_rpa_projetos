@@ -262,3 +262,8 @@ joao.dormir()  # Já está dormindo, então uma mensagem informando isso é impr
 
 # Tentando fazer João dirigir enquanto dorme
 joao.dirigir()  # Não pode dirigir enquanto dorme, então uma mensagem informando isso é impressa
+print("Acordado: ",joao.acordado)
+print("comendo", joao.comendo)
+print("dormindo ", joao.dirigindo)
+acordar= not joao.acordado
+print("Acordado: ", acordar)
