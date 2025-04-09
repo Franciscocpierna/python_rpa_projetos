@@ -130,6 +130,7 @@ def menu():
             for estudante in estudantes:
                 
                 # Verifica se o nome do estudante na lista é igual ao nome inserido pelo usuário
+                
                 if estudante.get_nome() == nome:
                     
                     # Solicita a nova nota e a converte para float
@@ -160,6 +161,7 @@ def menu():
             for estudante in estudantes:
                 
                 # Verifica se o nome do estudante na lista é igual ao nome inserido pelo usuário
+                
                 if estudante.get_nome() == nome:
                     
                     # Exibe as informações do estudante usando os métodos getters
