@@ -93,6 +93,7 @@ class Agenda:
 
             # Verifica se o atributo 'nome' do objeto 'contato' é igual 
             # ao nome fornecido como argumento
+            print("contato",contato)# imprime o objeto contato
             if contato.nome == nome:
 
                 # Se encontrado, remove o objeto 'contato' da lista 'self.contatos'
