@@ -29,10 +29,12 @@ def agrupar_por_comprimento(palavras):
             # Se não existir, cria uma nova entrada no dicionário com o 
                     # comprimento como chave e uma lista vazia como valor.
             agrupadas[comprimento] = []
+            print("comprimento não existe, criando lista vazia ", agrupadas)  # Imprime o dicionário 'agrupadas' após a criação da nova chave.
         
         # Adiciona a 'palavra' atual à lista correspondente ao 
                 # seu comprimento no dicionário.
         agrupadas[comprimento].append(palavra)
+        print("palavras agrupadas ", agrupadas)  # Imprime o dicionário 'agrupadas' após cada iteração.
     
     # Retorna o dicionário 'agrupadas' que agora contém as palavras 
             # agrupadas por seu comprimento.
