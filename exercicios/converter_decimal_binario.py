@@ -41,3 +41,5 @@ print(f"O número em binário é: {binario}")
 numero=1
 numero //=2
 print("divisão 1/2, 1//=2) = ", numero)  # Imprime o resultado da divisão inteira por 2.
+#// O operador '//' é usado para garantir que o resultado
+# seja um número inteiro, descartando qualquer parte decimal.
