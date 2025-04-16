@@ -73,6 +73,7 @@ def contar_segundas_feiras(data_inicio, data_fim):
             # Isso é necessário para verificar o dia da semana 
                     # daquela data específica.
             data = datetime.date(ano, mes, 1)
+            print(" data = datetime.date(ano, mes, 1) = ",data)
             
             # Checagem se o primeiro dia do mês é uma segunda-feira.
             # 'weekday()' retorna 0 para segunda-feira, 1 para terça-feira, etc.
