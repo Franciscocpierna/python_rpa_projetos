@@ -71,7 +71,8 @@ for i, preco in enumerate(produtos, 1):
     
     diferenca = preco - produto_mais_barato
     print(f"A diferença de preço entre o produto {i} e o produto mais barato é R$ {diferenca:.2f}")
-    
+    print(f"produtos[0] {produtos[0]}")
+    print(f"produtos[0] {produtos[i]}")
     
 """
 4. Pergunte ao usuário se ele deseja comprar o produto mais barato agora.
