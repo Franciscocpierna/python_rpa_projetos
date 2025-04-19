@@ -39,6 +39,7 @@ def gerar_criptografia():
     # Ao converter essa string para uma lista, cada letra se 
             # torna um elemento separado da lista.
     letras = list(string.ascii_lowercase)
+    print("letras = ",letras)  # Exibe a lista de letras para depuração.
     
     # Embaralha a lista de letras para criar uma sequência aleatória.
     # 'random.shuffle' recebe uma lista e reorganiza seus 
@@ -46,6 +47,7 @@ def gerar_criptografia():
     # Isso é crucial para garantir que a cifra de 
             # substituição não seja previsível.
     random.shuffle(letras)
+    print("letras embaralhadas = ",letras)  # Exibe a lista de letras embaralhadas para depuração.
     
     # Cria um dicionário que mapeia cada letra do alfabeto a 
             # uma letra embaralhada.
@@ -58,7 +60,7 @@ def gerar_criptografia():
     # Para cada iteração, uma letra do alfabeto (a partir de 'a') é 
             # associada a uma letra na lista embaralhada.
     substituicao = {chr(i + 97): letras[i] for i in range(26)}
-    
+    print("substituiçao = ",substituicao)  # Exibe o dicionário de substituição para depuração.
     # Retorna o dicionário de substituição.
     # Este dicionário será usado para substituir as letras na 
             # mensagem original durante a criptografia.
@@ -87,6 +89,7 @@ def criptografar_mensagem(mensagem, substituicao):
             # mensagem criptografada.
     # 'join' é usado para concatenar todos os caracteres 
             # processados de volta em uma única string.
+    
     return ''.join(substituicao.get(c, c) for c in mensagem)
 
 
@@ -134,6 +137,7 @@ def jogo_criptografia():
     # Esta função cria um mapeamento aleatório de cada letra 
             # do alfabeto para outra letra.
     substituicao = gerar_criptografia()
+    print("substituicao = ",substituicao)  # Exibe o dicionário de substituição para depuração.
     
     # Criptografa a mensagem original usando o mapa de 
             # substituição gerado.

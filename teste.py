@@ -1,5 +1,5 @@
 
-def calcula_fatorial(n):
+'''def calcula_fatorial(n):
  
     if n == 0:
         return 1
@@ -45,3 +45,12 @@ resultado = eh_primo(2)
 # A f-string é usada para incluir o resultado da 
         # verificação na mensagem exibida.
 print(f"É primo? {resultado}")
+'''
+dicionario_palavras = ["casa", "carro", "jogo", "animal", "caminho", "livro", "escola", "planta"]
+import random
+palavra_escolhida = random.choice(dicionario_palavras)
+print(palavra_escolhida)
+
+palavra = palavra_escolhida[0]
+print(palavra)
+print("dicionario_palavras[0][0]",dicionario_palavras[0][0])
