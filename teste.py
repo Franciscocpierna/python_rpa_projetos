@@ -46,6 +46,7 @@ resultado = eh_primo(2)
         # verificação na mensagem exibida.
 print(f"É primo? {resultado}")
 '''
+'''
 dicionario_palavras = ["casa", "carro", "jogo", "animal", "caminho", "livro", "escola", "planta"]
 import random
 palavra_escolhida = random.choice(dicionario_palavras)
@@ -54,3 +55,19 @@ print(palavra_escolhida)
 palavra = palavra_escolhida[0]
 print(palavra)
 print("dicionario_palavras[0][0]",dicionario_palavras[0][0])
+'''
+1350//10000 # 0.1350
+print("a divisão = ",1350//100000) # 0
+print("a divisão = ",1350/100000) 
+milhares = 1350//10000
+if milhares:
+    print("milhares = ", milhares)
+else:
+    print("milhares = 0")
+    
+milhares = 1350//1000    
+print("a divisão = ",1350/1000)
+if milhares:
+    print("milhares = ", milhares)
+else:
+    print("milhares = 0")
