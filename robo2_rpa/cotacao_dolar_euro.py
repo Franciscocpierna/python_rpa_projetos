@@ -1,4 +1,5 @@
 #Importamos o selenium para trabalhar com as páginas da web
+from selenium.webdriver.chrome.options import Options
 from selenium import webdriver as opcoes_selenium_aula
 from selenium.webdriver.common.keys import Keys
 
@@ -10,9 +11,15 @@ import pyautogui as teclasAtalhoTeclado
 
 #Usando o By para trabalhar com as atualizações mais recentes
 from selenium.webdriver.common.by import By
-
+# configurando o Chrome para não ser detectado como um robô
+opcoes = Options()
+opcoes.add_argument("--disable-blink-features=AutomationControlled")
+opcoes.add_experimental_option("excludeSwitches", ["enable-automation"])
+opcoes.add_experimental_option('useAutomationExtension', False)
+meuNavegador = opcoes_selenium_aula.Chrome(options=opcoes)
+#
 #Passamos autorização ao acesso as configurações do Chrome
-meuNavegador = opcoes_selenium_aula.Chrome()
+#meuNavegador = opcoes_selenium_aula.Chrome()
 meuNavegador.get("https://www.google.com.br/")
 
 #Aguarda 4 segundo para dar tempo do computador processar as informações
@@ -52,7 +59,9 @@ meuNavegador.find_element(By.NAME, "q").send_keys("")
 tempoPausaComputador.sleep(4)
 
 #Estamos usando o pyautogui para apertar a tecla TAB
-teclasAtalhoTeclado.press('tab')
+#teclasAtalhoTeclado.press('tab')# 
+# Limpa o campo de pesquisa diretamente
+meuNavegador.find_element(By.NAME, "q").clear()
 
 #Aguarda 4 segundo para dar tempo do computador processar as informações
 tempoPausaComputador.sleep(4)
