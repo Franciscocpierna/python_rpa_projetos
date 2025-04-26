@@ -49,17 +49,17 @@ print(valorDolarPeloGoogle)
 #-----------------------------------------------------------------
 
 #Aguarda 2 segundo para dar tempo do computador processar as informações
-tempoPausaComputador.sleep(2)
+#tempoPausaComputador.sleep(2)
 
 #Retorna para o campo name q
 #Faz a busca do valor que está digitado no campo NAME q
-meuNavegador.find_element(By.NAME, "q").send_keys("")
+#meuNavegador.find_element(By.NAME, "q").send_keys("")
 
 #Aguarda 4 segundo para dar tempo do computador processar as informações
 tempoPausaComputador.sleep(4)
 
 #Estamos usando o pyautogui para apertar a tecla TAB
-#teclasAtalhoTeclado.press('tab')# 
+#teclasAtalhoTeclado.press('tab') 
 # Limpa o campo de pesquisa diretamente
 meuNavegador.find_element(By.NAME, "q").clear()
 
@@ -68,10 +68,10 @@ tempoPausaComputador.sleep(4)
 
 #Estamos usando o pyautogui para apertar a tecla enter
 #Enter para limpar o campo de pesquisa
-teclasAtalhoTeclado.press('enter')
+#teclasAtalhoTeclado.press('enter')
 
 #Aguarda 4 segundo para dar tempo do computador processar as informações
-tempoPausaComputador.sleep(4)
+#tempoPausaComputador.sleep(4)
 
 #Procurando pelo elemento NAME e quando encontrar vou escrever Dolar hoje
 meuNavegador.find_element(By.NAME, "q").send_keys("Euro")
@@ -81,10 +81,10 @@ tempoPausaComputador.sleep(4)
 
 #Retorna para o campo name q
 #Faz a busca do valor que está digitado no campo NAME q
-meuNavegador.find_element(By.NAME, "q").send_keys(Keys.RETURN)
+#meuNavegador.find_element(By.NAME, "q").send_keys(Keys.RETURN)
 
 #Aguarda 4 segundo para dar tempo do computador processar as informações
-tempoPausaComputador.sleep(4)
+#tempoPausaComputador.sleep(4)
 
 #No resultado da pesquisa pegamo o XPATH e no meios pegamos o primeiro elemento da lista
 valorEuroPeloGoogle = meuNavegador.find_elements(By.XPATH, '//*[@id="knowledge-currency__updatable-data-column"]/div[1]/div[2]/span[1]')[0].text
