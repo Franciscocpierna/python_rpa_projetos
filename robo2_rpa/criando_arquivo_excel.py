@@ -20,6 +20,7 @@ sheet1.write(2, 1, 25)  # Linha 2, Coluna 1
 # Salvando o arquivo Excel
 planilhaCriada.save(nomeCaminhoArquivo)
 
+
 # Abrindo o arquivo
 os.startfile(nomeCaminhoArquivo)
 

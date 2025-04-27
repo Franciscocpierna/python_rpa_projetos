@@ -93,3 +93,58 @@ valorEuroPeloGoogle = meuNavegador.find_elements(By.XPATH, '//*[@id="knowledge-c
 tempoPausaComputador.sleep(4)
 
 print(valorEuroPeloGoogle)
+
+#-------------------------------------
+
+#import xlsxwriter
+import os
+import xlwt
+
+nomeCaminhoArquivo = "C:\\python_projetos\\python_rpa_projetos\\robo2_rpa\\Dolar+e+Euro+Google.xls"
+
+#planilhaCriada = xlsxwriter.Workbook(nomeCaminhoArquivo)
+#sheet1 = planilhaCriada.add_worksheet()
+# Criando o arquivo Excel
+planilhaCriada = xlwt.Workbook()
+sheet1 = planilhaCriada.add_sheet("Dados")
+
+
+#Escrevendo nas células
+#sheet1.write("A1", "Dolar")
+#sheet1.write("B1", "Euro")
+#sheet1.write("A2", valorDolarPeloGoogle)
+#sheet1.write("B2", valorEuroPeloGoogle)
+#
+# Escrevendo nas células
+sheet1.write(0, 0, "Dolar")  # Linha 0, Coluna 0
+sheet1.write(0, 1, "Euro")  # Linha 0, Coluna 1
+sheet1.write(1, 0, valorDolarPeloGoogle)  # Linha 1, Coluna 0
+sheet1.write(1, 1, valorEuroPeloGoogle)  # Linha 1, Coluna 1
+
+
+#
+
+#Substituir a vírgula por ponto deixando 5,38 para 5.38
+valorDolarPeloGoogle = valorDolarPeloGoogle.replace(',','.')
+valorEuroPeloGoogle = valorEuroPeloGoogle.replace(',','.')
+
+#Convertendo o valor do Dolar e Euro de String para Float
+valor_Dolar_Tipo_Float = float(valorDolarPeloGoogle)
+Valor_Euro_Tipo_Float = float(valorEuroPeloGoogle)
+
+sheet1.write(2, 0, valor_Dolar_Tipo_Float)
+sheet1.write(2, 1, Valor_Euro_Tipo_Float)
+print(valor_Dolar_Tipo_Float)
+print(Valor_Euro_Tipo_Float)        
+#Fechando o arquivo do Excel que está em segundo plano
+#planilhaCriada.close() 
+planilhaCriada.save(nomeCaminhoArquivo)
+
+
+#Abro o arquivo
+os.startfile(nomeCaminhoArquivo)
+
+
+
+# Caminho do arquivo Excel
+#
