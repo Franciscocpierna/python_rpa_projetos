@@ -53,6 +53,7 @@ def obter_endereco_por_cep(cep):
     return endereco
 
 import xlwt
+import os
 
 def salvar_endereco_excel(endereco, nome_arquivo="endereco.xls"):
     """
@@ -99,7 +100,7 @@ endereco_resultado = obter_endereco_por_cep(cep_exemplo)
 
 # Salva os dados de endereço em um arquivo Excel 2003.
 salvar_endereco_excel(endereco_resultado)
-
+os.startfile("endereco.xls")
 print(endereco_resultado)  # Imprime o resultado do endereço no console.
 
 

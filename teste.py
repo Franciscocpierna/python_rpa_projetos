@@ -71,3 +71,59 @@ if milhares:
     print("milhares = ", milhares)
 else:
     print("milhares = 0")
+    
+    
+'''
+# Define o caminho do arquivo Excel que contém os dados. Este arquivo deve
+# estar acessível no mesmo diretório do script ou o caminho deve ser
+# ajustado adequadamente.
+caminho_planilha = "CEP.xls"
+# Cria um arquivo Excel no formato 2003
+#workbook = xlwt.Workbook()
+#sheet = workbook.add_sheet("CEP")
+#columns=['CEP', 'Logradouro', 'Bairro', 'Localidade', 'UF']        
+# Escreve os cabeçalhos (nomes das colunas)
+sheet = xlwt.open_workbook("CEP.xls")
+
+sheet.write(0, 0, "Cep")  # Linha 0, Coluna 0
+sheet.write(0, 1, "Logradouro")  # Linha 0, Coluna 1
+sheet.write(0, 2, "Bairro")  # Linha 1, Coluna 0
+sheet.write(0, 3, "Localidade")  # Linha 1, Coluna 1
+sheet.write(0, 4, "UF")  # Linha 2, Coluna 0
+
+df = pd.read_excel("CEP.xls")
+
+linha = 0 
+for cep in df:
+    endereco = obter_endereco_por_cep(str(cep).replace('-', ''))
+# Verifica se o dicionário contém a chave 'erro'. A presença dessa
+    # chave indica que o CEP não foi encontrado.
+    if "erro" not in endereco:
+        
+        linha = linha +1       
+        # Escreve os valores do endereço
+        sheet.write(linha, 0, endereco.get("cep", ''))  # Linha 1, Coluna `col`
+        sheet.write(linha, 1, endereco.get('logradouro', ''))  # Linha 1, Coluna `col`
+        sheet.write(linha, 2, endereco.get('bairro', ''))  # Linha 1, Coluna `col`
+        sheet.write(linha, 3, endereco.get('localidade', ''))  # Linha 1, Coluna `col`
+        sheet.write(linha, 4, endereco.get('uf', ''))  # Linha 1, Coluna `col`
+  
+       
+      
+        
+        # Salva o arquivo Excel
+        sheet.save("CEP")
+        
+        # Imprime uma mensagem de sucesso
+        print(f"Dados salvos com sucesso no arquivo CEP.xls")
+        
+    else:
+        # Se a chave 'erro' estiver presente, imprime uma mensagem de erro.
+        print("Não foi possível salvar os dados: CEP não encontrado.")
+    
+
+print("Endereços salvos na aba 'Dados' da planilha 'CEP.xls'.")
+#Abro o arquivo
+#os.startfile("CEP.")
+
+'''    
