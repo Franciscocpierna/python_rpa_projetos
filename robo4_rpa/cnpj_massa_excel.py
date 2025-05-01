@@ -298,6 +298,7 @@ if resultados:
     # Cada dicionário na lista 'resultados' se torna uma linha no DataFrame, e
             # as chaves dos dicionários se tornam as colunas.
     resultados_df = pd.DataFrame(resultados)
+    print("df = ", resultados_df)
     
     # Chama a função 'salvar_dados_empresa_excel' para gravar o
             # DataFrame 'resultados_df' no arquivo Excel especificado.

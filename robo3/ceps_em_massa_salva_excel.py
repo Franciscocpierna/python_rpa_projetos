@@ -191,13 +191,14 @@ for cep in ceps:
 print()
 planilhaCriada = xlwt.Workbook()
 sheet = planilhaCriada.add_sheet("Dados")
-
-#percorre todos dados do DataFrame
-sheet.write(0, 0, "CEP")  # Linha 0, Coluna 0
-sheet.write(0, 1, "Logradouro")  # Linha 0, Coluna 1
-sheet.write(0, 2, "Bairro")  # Linha 1, Coluna 0
-sheet.write(0, 3, "Localidade")  # Linha 1, Coluna 1
-sheet.write(0, 4, "UF")  # Linha 2, Coluna 0
+coluna = -1
+for index in resultados.keys():
+  coluna +=1  
+  sheet.write(0, coluna, index)  # Linha 0, Coluna 0
+  '''sheet.write(0, 1, "Logradouro")  # Linha 0, Coluna 1
+  sheet.write(0, 2, "Bairro")  # Linha 1, Coluna 0
+  sheet.write(0, 3, "Localidade")  # Linha 1, Coluna 1
+  sheet.write(0, 4, "UF")  # Linha 2, Coluna 0'''
 linha=0
 for index, row in resultados.iterrows():
     linha = linha+1 

@@ -117,7 +117,7 @@ def salvar_dados_empresa_excel(dados_empresa, nome_arquivo="dados_empresa.xlsx")
         # o dicionário dados_empresa, transformando cada par chave-valor do
         # dicionário em colunas e valores no DataFrame.
         df = pd.DataFrame([dados_empresa])
-
+        print("df = ",df) 
         # Salva o DataFrame em um arquivo Excel.
         # O método to_excel do DataFrame permite a exportação direta
         # dos dados para um arquivo Excel.
