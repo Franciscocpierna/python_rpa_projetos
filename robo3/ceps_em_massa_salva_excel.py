@@ -186,8 +186,8 @@ for cep in ceps:
                 # automaticamente criados pelo pandas) não devem ser salvos no arquivo
                 # Excel. Isso ajuda a manter o arquivo de saída limpo e focado apenas
                 # nos dados sem colunas adicionais de índice.
-#    resultados.to_excel(writer, sheet_name='Dados', index=False)
-
+   # resultados.to_excel(writer, sheet_name='Dados', index=False)
+    
 print()
 planilhaCriada = xlwt.Workbook()
 sheet = planilhaCriada.add_sheet("Dados")
