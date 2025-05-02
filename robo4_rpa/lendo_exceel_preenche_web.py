@@ -118,19 +118,23 @@ for linha in range(2, len(sheet_selecionada['A']) + 1):
     # de rádio correspondente (identificado por 'By.ID') esteja clicável.
     # Uma vez clicável, o botão é acionado com o método '.click()'.
     if sexo == "Masculino":
-        botao_masculino = espera.until(EC.element_to_be_clickable((By.ID, "166517071_1215509812_label")))
+        #botao_masculino = espera.until(EC.element_to_be_clickable((By.ID, "166517071_1215509812_label")))
+        botao_masculino = espera.until(EC.element_to_be_clickable((By.ID, "1215509812-label")))
         botao_masculino.click()
-
+        #<span id="1215509812-label" class="smqr-richTextContent-0-2-25" translate="no">Masculino</span>
     # Se 'sexo' não for "Masculino" (ou seja, for "Feminino" ou outro valor), o botão de rádio "Feminino" é selecionado e clicado.
     else:
-        botao_feminino = espera.until(EC.element_to_be_clickable((By.ID, "166517071_1215509813_label")))
+        #botao_feminino = espera.until(EC.element_to_be_clickable((By.ID, "166517071_1215509813_label")))
+        botao_feminino = espera.until(EC.element_to_be_clickable((By.ID, "1215509813-label")))
         botao_feminino.click()
 
     # Finalmente, espera pelo botão de envio do formulário.
     # Uma vez que o botão (identificado por um XPath específico) esteja disponível para 
     # clique, ele é acionado.
     # Isso submete as informações preenchidas no formulário.
-    botao_enviar = espera.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="patas"]/main/article/section/form/div[2]/button')))
+    #botao_enviar = espera.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="patas"]/main/article/section/form/div[2]/button')))#antigo
+    botao_enviar = espera.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="view-pageNavigation"]/div/button')))
+
     # botao_enviar.click()
     
     

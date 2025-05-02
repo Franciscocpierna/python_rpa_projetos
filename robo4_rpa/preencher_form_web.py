@@ -86,7 +86,10 @@ sobre.send_keys("Sei automatizar processos e planilhas com Python")
 tempoEspera.sleep(1)
 
 # Localiza um botão de rádio pelo seu ID e o atribui à variável 'radio_button'.
-radio_button = navegadorFormulario.find_element(By.ID, "166517071_1215509813_label")
+radio_button = navegadorFormulario.find_element(By.ID, "1215509813-label")
+
+#<span id="1215509813-label" class="smqr-richTextContent-0-2-25" translate="no">Feminino</span>
+#1215509813-label antigo 166517071_1215509813_label
 
 # Pausa a execução do script por 1 segundo.
 tempoEspera.sleep(1)
@@ -95,10 +98,11 @@ tempoEspera.sleep(1)
 radio_button.click()
 
 # Pausa a execução do script por 2 segundos.
-tempoEspera.sleep(2)
+tempoEspera.sleep(20)
 
 # Localiza o botão de envio do formulário pelo seu XPath e o atribui à variável 'enviar'.
-enviar = navegadorFormulario.find_element(By.XPATH, '//*[@id="patas"]/main/article/section/form/div[2]/button')
+#enviar = navegadorFormulario.find_element(By.XPATH, '//*[@id="patas"]/main/article/section/form/div[2]/button')
+enviar = navegadorFormulario.find_element(By.XPATH,'//*[@id="view-pageNavigation"]/div/button')
 
 # Clica no botão de envio do formulário.
-# enviar.click()
+#enviar.click()
