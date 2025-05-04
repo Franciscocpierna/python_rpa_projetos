@@ -10,7 +10,7 @@ sheetPadrao = workbook.add_worksheet("Dados")
 #Adicionando dados na Sheet
 sheetPadrao.write("B3", "Imagem logo Udemy")
 
-sheetPadrao.insert_image('B5', 'C:\\Users\\Aluno\\Desktop\\Curso RPA\\xlsxwriter\\logo.png')
+sheetPadrao.insert_image('B5', 'C:\\python_projetos\\python_rpa_projetos\\python_excel\\img.jpg')
 
 
 
