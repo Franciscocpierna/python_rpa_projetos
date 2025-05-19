@@ -2,9 +2,9 @@
 import win32com.client
 
 # Caminho do arquivo modelo .doc
-caminho_modelo = r"C:\python_projetos\python_rpa_projetos\python_word\Certificado1.doc"
+caminho_modelo = r"C:\\python_projetos\\python_rpa_projetos\\python_word\\Certificado1.doc"
 # Caminho do novo certificado .doc
-caminho_saida = r"C:\python_projetos\python_rpa_projetos\python_word\Amanda Batista Alves.doc"
+caminho_saida = r"C:\\python_projetos\\python_rpa_projetos\\python_word\Amanda Batista Alves.doc"
 
 # Abre o Word
 word = win32com.client.Dispatch("Word.Application")
@@ -16,13 +16,15 @@ doc = word.Documents.Open(caminho_modelo)
 #doc.Content.Delete()
 #doc.PageSetup.TopMargin = 0  # ajuste o valor conforme necessário
 
-# Substitui o marcador @nome pelo nome desejado
+# Substitui o marcador @nome pelo nome desejado não funcionou
 '''find = doc.Content.Find essas linhas não fez a troca
 find.Text = "@nome"
 find.Replacement.Text = "Amanda Batista Alves"
 find.MatchCase = False  # Ignora maiúsculas/minúsculas
 find.MatchWholeWord = False  # Permite encontrar @nome junto de outros caracteres
 '''
+#find substituido por for
+# Aqui, como exemplo, altera o texto do parágrafo que contém "@nome"
 for paragrafo in doc.Paragraphs:
     if "@nome" in paragrafo.Range.Text:
         paragrafo.Range.Text = paragrafo.Range.Text.replace("@nome", "Amanda Batista Alves")
@@ -49,24 +51,6 @@ print("Certificado gerado em formato Word 2003 (.doc) com sucesso!")
 
 
 '''
-
-import win32com.client
-
-# Caminho do arquivo .docx
-caminho_docx = r"C:\python_projetos\python_rpa_projetos\python_word\Amanda Batista Alves.docx"
-# Caminho do novo arquivo .doc
-caminho_doc = r"C:\python_projetos\python_rpa_projetos\python_word\Amanda Batista Alves.doc"
-
-# Abre o Word
-word = win32com.client.Dispatch("Word.Application")
-doc = word.Documents.Open(caminho_docx)
-
-# Salva como .doc (formato 0)
-doc.SaveAs(caminho_doc, FileFormat=0)
-doc.Close()
-word.Quit()
-
-print("Arquivo convertido para .doc com sucesso!")
 
 '''
 
