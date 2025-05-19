@@ -17,21 +17,28 @@ doc = word.Documents.Open(caminho_modelo)
 #doc.PageSetup.TopMargin = 0  # ajuste o valor conforme necessário
 
 # Substitui o marcador @nome pelo nome desejado
-find = doc.Content.Find
+'''find = doc.Content.Find essas linhas não fez a troca
 find.Text = "@nome"
 find.Replacement.Text = "Amanda Batista Alves"
 find.MatchCase = False  # Ignora maiúsculas/minúsculas
 find.MatchWholeWord = False  # Permite encontrar @nome junto de outros caracteres
-find.Execute(Replace=2)  # 2 = wdReplaceAll
+'''
+for paragrafo in doc.Paragraphs:
+    if "@nome" in paragrafo.Range.Text:
+        paragrafo.Range.Text = paragrafo.Range.Text.replace("@nome", "Amanda Batista Alves")
 
-# (Opcional) Altera a fonte e o tamanho do texto substituído
-# Isso só funciona se o texto substituído estiver em um parágrafo separado ou for possível selecionar
+
 # Aqui, como exemplo, altera toda a fonte do documento:
 doc.Content.Font.Name = "Calibri"
 doc.Content.Font.Size = 24
 
 # Salva como .doc (Word 2003)
 doc.SaveAs(caminho_saida, FileFormat=0)
+#essas linhas são para exibir o texto de cada linha/parágrafo
+# for paragrafo in doc.Paragraphs:
+#     texto = paragrafo.Range.Text
+#     print(texto)  # Exibe o texto de cada linha/parágrafo
+
 doc.Close()
 word.Quit()
 
