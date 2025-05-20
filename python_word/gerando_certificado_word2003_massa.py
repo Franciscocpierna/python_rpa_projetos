@@ -56,14 +56,14 @@ for linha in range(2, len(sheet_selecionada["A"]) + 1):
         
         
 
-    #caminhoCertificado = "C:\\Users\\55119\\Desktop\\Curso RPA\\Word\\Certificados\\" + nomeAluno + ".docx"
-     caminhoCertificado = r"C:\\python_projetos\\python_rpa_projetos\\python_word\\" + nomeAluno + ".doc"
+    caminhoCertificado = "C:\\Users\\55119\\Desktop\\Curso RPA\\Word\\Certificados\\" + nomeAluno + ".docx"
+    caminhoCertificado = r"C:\\python_projetos\\python_rpa_projetos\\python_word\\" + nomeAluno + ".doc"
     #Salva o certificado com o nome do aluno
     #arquivoWord.save(caminhoCertificado)
     # Salva como .doc (Word 2003)
-     arquivoWord.SaveAs(caminhoCertificado, FileFormat=0)
-     arquivoWord.Close()
-     word.Quit()
+    arquivoWord.SaveAs(caminhoCertificado, FileFormat=0)
+    arquivoWord.Close()
+    word.Quit()
 
 print("Certificados gerados com sucesso!")
 
