@@ -2,9 +2,12 @@
 import win32com.client
 
 # Caminho do arquivo .docx
-caminho_docx = r"C:\python_projetos\python_rpa_projetos\python_word\Certificado2.docx"
+#caminho_docx = r"C:\python_projetos\python_rpa_projetos\python_word\Certificado2.docx"
+caminho_docx = r"C:\python_projetos\python_rpa_projetos\python_word\Claudia Ferreira de Souza.docx"
 # Caminho do novo arquivo .doc
-caminho_doc = r"C:\python_projetos\python_rpa_projetos\python_word\Certificado2.doc"
+#caminho_doc = r"C:\python_projetos\python_rpa_projetos\python_word\Certificado2.doc"
+caminho_doc = r"C:\python_projetos\python_rpa_projetos\python_word\Claudia Ferreira de Souza.doc"
+#Claudia Ferreira de Souza
 
 # Abre o Word
 word = win32com.client.Dispatch("Word.Application")
