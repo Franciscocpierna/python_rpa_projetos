@@ -1,0 +1,7 @@
+ID;Aluno;Média;Faltas;Situação
+;Aline Rosa; Média: 7.25; Faltas: 2; Aprovado(a)
+;Angela Maria; Média: 8.75; Faltas: 5; Reprovado(a) por falta
+;Eliane Moreira; Média: 6.25; Faltas: 3; Aprovado(a)
+;Leonardo Almeida; Média: 8.0; Faltas: 2; Aprovado(a)
+;Paulo Santos; Média: 8.75; Faltas: 0; Aprovado(a)
+;Reinaldo Assis; Média: 7.25; Faltas: 5; Reprovado(a) por falta
