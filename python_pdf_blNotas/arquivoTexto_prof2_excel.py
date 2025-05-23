@@ -18,7 +18,7 @@ nota2 = 0
 nota3 = 0
 nota4 = 0
 faltas = 0
-
+#C:\python_projetos\python_rpa_projetos\python_pdf_blNotas\arquivoTexto_prof2_excel.py
 #Titulo
 arquivoProfessoraCarolina.write('ID;Aluno;Média;Faltas;Situação\n')
 arquivoProfessoraRosiane.write('ID;Aluno;Média;Faltas;Situação\n')
@@ -196,7 +196,8 @@ arquivoProfessoraRosiane.close()
 #enconding = 'ISO-8859-1'
 
 #Lê o arquivo de texto e corrige os acentos com o encoding
-configuracaoIdioma = 'cp1252'
+#configuracaoIdioma = 'cp1252'
+configuracaoIdioma = 'utf-8-sig'
 arquivoDataFrame = pd.read_csv('C:\\python_projetos\\python_rpa_projetos\\python_pdf_blNotas\\ProfessoraCarolina.txt', encoding=configuracaoIdioma )
 df = pd.read_csv('C:\\python_projetos\\python_rpa_projetos\\python_pdf_blNotas\\ProfessoraRosiane.txt', encoding=configuracaoIdioma )
 

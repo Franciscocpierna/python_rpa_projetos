@@ -1,7 +1,7 @@
-﻿,ID;Aluno;MÃ©dia;Faltas;SituaÃ§Ã£o
-0,;Aline Rosa; MÃ©dia: 7.25; Faltas: 2; Aprovado(a)
-1,;Angela Maria; MÃ©dia: 8.75; Faltas: 5; Reprovado(a) por falta
-2,;Eliane Moreira; MÃ©dia: 6.25; Faltas: 3; Aprovado(a)
-3,;Leonardo Almeida; MÃ©dia: 8.0; Faltas: 2; Aprovado(a)
-4,;Paulo Santos; MÃ©dia: 8.75; Faltas: 0; Aprovado(a)
-5,;Reinaldo Assis; MÃ©dia: 7.25; Faltas: 5; Reprovado(a) por falta
+﻿,ID;Aluno;Média;Faltas;Situação
+0,;Aline Rosa; Média: 7.25; Faltas: 2; Aprovado(a)
+1,;Angela Maria; Média: 8.75; Faltas: 5; Reprovado(a) por falta
+2,;Eliane Moreira; Média: 6.25; Faltas: 3; Aprovado(a)
+3,;Leonardo Almeida; Média: 8.0; Faltas: 2; Aprovado(a)
+4,;Paulo Santos; Média: 8.75; Faltas: 0; Aprovado(a)
+5,;Reinaldo Assis; Média: 7.25; Faltas: 5; Reprovado(a) por falta
