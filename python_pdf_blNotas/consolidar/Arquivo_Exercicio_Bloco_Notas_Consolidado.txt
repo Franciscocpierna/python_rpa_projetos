@@ -1,0 +1,1 @@
+Linha;Escola;ID;Aluno;Primeiro Nome;Sobrenome;CPF;Idade
