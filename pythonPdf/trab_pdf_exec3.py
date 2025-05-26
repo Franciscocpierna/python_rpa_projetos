@@ -9,7 +9,7 @@ try:
 
     # Cria um objeto 'arquivoPDF' usando 'PdfReader' para abrir e ler o arquivo "Mercado_Livre.pdf".
     # Isso levanta uma exceção 'FileNotFoundError' se o arquivo não for encontrado.
-    arquivoPDF = PdfReader("Mercado_Livre.pdf")
+    arquivoPDF = PdfReader("C:\python_projetos\python_rpa_projetos\pythonPdf\Mercado_Livre.pdf")
 
     # A variável 'dados' armazena os metadados do arquivo PDF.
     # Os metadados podem incluir informações como autor, criador, produtor, etc.
