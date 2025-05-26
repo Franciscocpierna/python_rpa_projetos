@@ -8,7 +8,7 @@ try:
     
     # Tenta abrir o arquivo PDF especificado usando 'PdfReader'.
     # 'PdfReader' é usado para ler e acessar o conteúdo do arquivo PDF "Arquivo_Alterado_Mercado_Livre.pdf".
-    arquivoPDF = PdfReader("Arquivo_Alterado_Mercado_Livre.pdf")
+    arquivoPDF = PdfReader("C:\\python_projetos\\python_rpa_projetos\\pythonPdf\\Arquivo_Alterado_Mercado_Livre.pdf")
 
     # Cria um objeto 'novoArquivoPDF' usando 'PdfWriter'.
     # 'PdfWriter' será usado para escrever em um novo arquivo PDF.
@@ -27,7 +27,7 @@ try:
     novoArquivoPDF.encrypt("aluno")
 
     # Define o nome do novo arquivo PDF que será criado com senha.
-    novo_arquivo_com_senha = "Senha_Arquivo_Alterado_Mercado_Livre.pdf"
+    novo_arquivo_com_senha = "C:\\python_projetos\\python_rpa_projetos\\pythonPdf\\Senha_Arquivo_Alterado_Mercado_Livre.pdf"
 
     # Abre um novo arquivo para gravação no modo binário ('wb').
     # 'with' é uma palavra-chave em Python que é usada para definir um gerenciador de contexto.
