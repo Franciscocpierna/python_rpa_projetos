@@ -34,14 +34,14 @@ print()
 print()
 print()
 print()
-#Limitando colunas, imprimindo apenas uma coluna
+#Limitando colunas, imprimindo apenas uma coluna e head() limitando a quantidade de linhas em 5
 print(vendas_DataFrame["Vendedor"].head())
 print()
 print()
 print()
 print()
 
-#Limitando colunas, imprimindo apenas duas colunas
+#Limitando colunas, imprimindo apenas duas colunas e head() limitando a quantidade de linhas em 5
 print(vendas_DataFrame[["Vendedor", "Total Vendas"]].head())
 print()
 print()
