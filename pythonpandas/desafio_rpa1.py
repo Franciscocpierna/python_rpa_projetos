@@ -2,7 +2,8 @@ from openpyxl import load_workbook
 import os
 
 #Pegamos o caminho + nome arquivo
-nome_arquivo_Challenge = "C:\\python_projetos\\python_rpa_projetos\\pythonpandas\\desafio\\challenge.xlsx"
+nome_arquivo_Challenge = "C:\\python_projetos\\python_rpa_projetos\\pythonpandas\\desafio\\Arquivo_Challenge.xlsx"
+
 planilhaDadosChallenge = load_workbook(nome_arquivo_Challenge)
 
 #Seleciona a sheet com as informações
@@ -16,6 +17,7 @@ from selenium.webdriver.common.by import By
 
 #Abre o navegador do Google Chrome
 navegador = opcoesSelenium.Chrome()
+navegador.maximize_window()  # Maximiza a janela do navegador
 navegador.get("https://rpachallenge.com/")
 
 #Aguarda 3 segundos para dar tempo do computador processar informações
