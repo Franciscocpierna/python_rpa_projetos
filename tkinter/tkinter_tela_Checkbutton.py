@@ -30,7 +30,11 @@ def amareloClicado():
 def verdeClicado():
     print(varVerde.get())
     
+#  A linha varAzul = StringVar() cria uma variável especial do tipo StringVar, que é usada no Tkinter (biblioteca de interface gráfica do Python) para armazenar e gerenciar valores de texto de widgets, como Entry, Label ou OptionMenu. Ela permite que o valor do widget seja atualizado automaticamente na interface sempre que o valor da variável muda, e vice-versa.   
+    
 #Criando as variáveis que vão armazenar os textos
+# Cria uma variável do tipo StringVar para uso em widgets do Tkinter (interface gráfica)
+# varAzul = StringVar()
 varAzul = StringVar()
 varAmarelo = StringVar()
 varVerde = StringVar()
