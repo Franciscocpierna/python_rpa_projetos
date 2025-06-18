@@ -144,6 +144,7 @@ def deletarItemTreeview():
     #Selection - Pega o item selecionado
     itemSelecionado = treeViewDados.selection()
     
+    
     #for - para
     for item in itemSelecionado:
         

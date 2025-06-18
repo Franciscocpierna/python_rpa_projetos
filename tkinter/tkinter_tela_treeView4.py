@@ -236,3 +236,4 @@ botaoAlterar.grid(row=2, column=4, columnspan=2, stick="NSEW")
 
 #mainloop - Looping infinito, a janela do Python mostra um programa em funcionamento
 janela.mainloop()
+

@@ -139,3 +139,5 @@ botaoDeletar.grid(row=2, column=4, columnspan=4, stick="NSEW")
 
 #mainloop - Looping infinito, a janela do Python mostra um programa em funcionamento
 janela.mainloop()
+
+
