@@ -33,3 +33,51 @@ Resumindo:
 ;subpasta → copia para uma subpasta chamada subpasta
 
 
+no arquivo spec
+
+# ...código existente...
+a = Analysis(
+    ['cep_massa_treeVew_caminho.py'],
+    pathex=['C:\\python_projetos\\python_rpa_projetos\\tkinter\\tk_executavel'],
+    binaries=[('C:\\python_projetos\\executavel\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe', '.')],
+    datas=[],
+    hiddenimports=[],
+    hookspath=[],
+    runtime_hooks=[],
+    excludes=[],
+    win_no_prefer_redirects=False,
+    win_private_assemblies=False,
+    cipher=None,
+    noarchive=False,
+)
+
+Como usar:
+
+Gere o .spec com pyinstaller cep_massa_treeVew_caminho.py.
+Edite o arquivo .spec conforme acima.
+Execute:
+pyinstaller cep_massa_treeVew_caminho.spec
+
+
+
+com mais de uma dependência
+# ...código existente...
+a = Analysis(
+    ['cep_massa_treeVew_caminho.py'],
+    pathex=['C:\\python_projetos\\python_rpa_projetos\\tkinter\\tk_executavel'],
+    binaries=[
+        ('C:\\python_projetos\\executavel\\chromedriver-win64\\chromedriver.exe', '.'),
+        ('C:\\python_projetos\\executavel\\geckodriver.exe', '.'),
+        ('C:\\python_projetos\\executavel\\alguma_dll.dll', '.'),
+    ],
+    datas=[],
+    hiddenimports=[],
+    hookspath=[],
+    runtime_hooks=[],
+    excludes=[],
+    win_no_prefer_redirects=False,
+    win_private_assemblies=False,
+    cipher=None,
+    noarchive=False,
+)
+# ...código existente...
