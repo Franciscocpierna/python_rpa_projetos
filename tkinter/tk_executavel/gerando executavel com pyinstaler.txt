@@ -1,0 +1,35 @@
+comando nalinha terminal depois de instalado auto-py-to-exe
+pip install auto-py-to-exe
+criar executavel no python, pyinstaller -w treeView_listbox.py
+com dependencia
+pyinstaller -w --add-binary "C:\python_projetos\executavel\chromedriver-win64\chromedriver-win64\chromedriver.exe;." cep_massa_treeVew_caminho.py
+
+com mais dependências
+
+O símbolo ^ no Windows é usado para quebrar o comando em várias linhas no terminal (Prompt de Comando).
+
+Assim, você pode escrever comandos longos de forma mais organizada e fácil de ler.
+Quando o terminal encontra o ^ no final de uma linha, ele entende que o comando continua na próxima linha.
+
+Exemplo:
+
+
+pyinstaller -w ^
+  --add-binary "C:\python_projetos\executavel\chromedriver-win64\chromedriver.exe;." ^
+  --add-binary "C:\python_projetos\executavel\geckodriver.exe;." ^
+  --add-binary "C:\python_projetos\executavel\alguma_dll.dll;." ^
+  cep_massa_treeVew_caminho.py
+
+
+Se precisar adicionar pastas inteiras, use o parâmetro --add-data (para arquivos que não são executáveis, como imagens, arquivos de configuração etc):
+
+pyinstaller -w --add-data "C:\python_projetos\imagens\*;imagens" cep_massa_treeVew_caminho.py
+
+
+
+Resumindo:
+
+;. → copia para a raiz do executável
+;subpasta → copia para uma subpasta chamada subpasta
+
+
