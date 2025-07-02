@@ -1,0 +1,269 @@
+ Passo a passo para resolver:
+
+
+
+1. Crie uma função utilitária para "limpar" o nome do produto:
+
+
+
+import os
+import unicodedata
+ 
+def formatar_nome_arquivo(nome_produto):
+    # Remove acentos
+    nome = unicodedata.normalize('NFKD', nome_produto).encode('ASCII', 'ignore').decode('ASCII')
+    
+    # Substitui espaços por +
+    nome = nome.replace(" ", "+")
+ 
+    # Remove outros caracteres problemáticos (opcional)
+    nome = ''.join(c for c in nome if c.isalnum() or c in ['+', '-', '_'])
+ 
+    return f"{nome}.jpg"
+
+
+2. Utilize essa função para montar o caminho da imagem:
+
+
+
+produto = "Tênis Feminino"
+nome_arquivo = formatar_nome_arquivo(produto)  # "Tenis+Feminino.jpg"
+caminho_imagem = os.path.join("imagem", nome_arquivo)
+ 
+if os.path.exists(caminho_imagem):
+    print("Imagem encontrada:", caminho_imagem)
+else:
+    print("Imagem NÃO encontrada:", caminho_imagem)
+
+
+✅ Alternativas:
+
+
+
+🔁 1. Listar arquivos do diretório e procurar por correspondência:
+
+Se os nomes variam (por exemplo, Tênis_Feminino.jpg, Tenis-Feminino.jpg, etc.), você pode fazer algo assim:
+
+
+
+import os
+ 
+produto = "Tênis Feminino"
+diretorio = "imagem"
+ 
+for nome_arquivo in os.listdir(diretorio):
+    if produto.lower().replace(" ", "") in nome_arquivo.lower().replace(" ", "").replace("+", "").replace("-", ""):
+        caminho_imagem = os.path.join(diretorio, nome_arquivo)
+        print("Imagem correspondente encontrada:", caminho_imagem)
+        break
+
+
+✅ Considerações Finais:
+
+- Garanta que os nomes dos arquivos estejam padronizados (ex: todos com + ou _ em vez de espaços).
+
+- Remova acentos e caracteres especiais dos nomes dos arquivos se possível.
+
+- Padronize a forma de salvar e procurar os  arquivos para evitar erros.
+
+
+
+Perfeito! Com base nas duas imagens que você compartilhou, e no comportamento do os.path.exists() retornando False mesmo com o nome de arquivo aparentemente correto, vamos fazer uma análise minuciosa.
+
+
+
+✅ O que já foi verificado:
+
+O caminho gerado é: imagem\Tenis+Feminino.jpg
+
+O nome do arquivo foi manualmente renomeado sem acento.
+
+O caminho está sendo construído corretamente com os.path.join.
+
+
+
+⚠️ Mas os.path.exists(caminho_imagem) continua retornando False.
+
+
+
+🔍 Possíveis causas reais e como corrigir
+
+
+
+1. O arquivo pode estar com uma extensão diferente (como .JPG, .jpeg ou .JPEG)
+
+O Windows é case-insensitive (ignora maiúsculas/minúsculas), mas o Python não.
+
+
+
+✅ Solução:
+
+Liste os arquivos do diretório e veja os nomes reais, com letras exatas, incluindo a extensão:
+
+
+
+import os
+ 
+print("Arquivos na pasta 'imagem':")
+for nome in os.listdir("imagem"):
+    print(nome)
+
+
+Se aparecer por exemplo Tenis+Feminino.JPG e não .jpg, é esse o problema.
+
+
+
+2. Espaços invisíveis ou caracteres ocultos no nome do arquivo
+
+Às vezes o nome do arquivo contém um caractere invisível (ex: espaço no final, caractere especial invisível etc).
+
+
+
+✅ Solução:
+
+
+
+Use este código para comparar diretamente com o conteúdo do diretório:
+
+
+
+import os
+ 
+produto = "Tenis+Feminino.jpg"
+arquivos = os.listdir("imagem")
+ 
+for arquivo in arquivos:
+    print(f"'{arquivo}'")
+ 
+if produto in arquivos:
+    print("Nome EXATO encontrado:", produto)
+else:
+    print("Nome não encontrado. Verifique possíveis diferenças.")
+
+
+
+
+3. Erro de encoding (acento na pasta ou caminho completo)
+
+Mesmo que o nome do arquivo esteja correto, se alguma parte do caminho (incluindo pastas como C:\Usuário\...) tiver caracteres com acento mal interpretados, o Python pode não encontrar.
+
+
+
+✅ Solução:
+
+
+
+Garanta que o terminal e o VSCode estejam em UTF-8.
+
+
+
+Teste com caminho absoluto e sem acento:
+
+
+
+import os
+ 
+# Caminho absoluto para teste
+caminho_absoluto = r"C:\python_projetos\python_rpa_projetos\imagem\Tenis+Feminino.jpg"
+ 
+if os.path.exists(caminho_absoluto):
+    print("Imagem encontrada com caminho absoluto!")
+else:
+    print("Imagem NÃO encontrada nem com caminho absoluto!")
+
+
+
+
+4. Confirmação do diretório de execução (você pode estar em outro diretório)
+
+
+
+Pode ser que o script esteja sendo executado em um diretório diferente daquele que contém a pasta imagem.
+
+
+
+✅ Verifique com:
+
+
+
+print("Diretório atual:", os.getcwd())
+
+
+Se o diretório não for o mesmo onde está a pasta imagem, o caminho relativo falhará.
+
+
+
+✅ Solução alternativa segura:
+
+
+
+import os
+ 
+base_dir = os.path.dirname(__file__)  # Pega o caminho onde o script está salvo
+caminho_imagem = os.path.join(base_dir, "imagem", "Tenis+Feminino.jpg")
+ 
+if os.path.exists(caminho_imagem):
+    print("Imagem encontrada com caminho absoluto relativo ao script!")
+else:
+    print("Ainda não encontrou. Caminho:", caminho_imagem)
+
+
+
+
+✅ Resumo das ações que você deve executar agora:
+
+- Liste os arquivos da pasta imagem com os.listdir() e veja se o nome bate exatamente.
+
+- Verifique a extensão e a caixa (maiúsculas/minúsculas) — .jpg vs .JPG.
+
+- Use o caminho absoluto para eliminar erros de encoding e diretório de trabalho.
+
+- Imprima o diretório atual com os.getcwd() para confirmar que a execução está no local correto.
+
+- (Opcional) Padronize todos os arquivos da pasta imagem com nomes sem acento e em minúsculas.
+
+
+
+
+import os
+from PIL import Image
+ 
+# Suponha que o nome do produto já foi tratado e normalizado
+produto = "Tênis Feminino"
+nome_arquivo = f"{produto.replace(' ', '+').replace('ê', 'e').replace('í', 'i')}.jpg"
+caminho_imagem = os.path.join("imagem", nome_arquivo)
+ 
+try:
+    imagem = Image.open(caminho_imagem)
+    print("Imagem encontrada e carregada:", caminho_imagem)
+except FileNotFoundError:
+    print("Imagem NÃO encontrada:", caminho_imagem)
+
+
+✅ Alternativa ainda mais robusta: buscar pela imagem por similaridade no nome
+
+
+
+Se você não quiser depender de nomes exatamente iguais, pode usar os.listdir() com in para encontrar o arquivo:
+
+
+
+import os
+ 
+def localizar_imagem(produto, pasta="imagem"):
+    produto_base = produto.lower().replace(" ", "").replace("ê", "e").replace("í", "i")
+ 
+    for nome in os.listdir(pasta):
+        nome_base = nome.lower().replace(" ", "").replace("+", "").replace("-", "").replace("ê", "e").replace("í", "i")
+        if produto_base in nome_base:
+            return os.path.join(pasta, nome)
+    return None
+ 
+# Exemplo de uso:
+produto = "Tênis Feminino"
+caminho_imagem = localizar_imagem(produto)
+ 
+if caminho_imagem and os.path.exists(caminho_imagem):
+    print("Imagem localizada:", caminho_imagem)
+else:
+    print("Imagem NÃO encontrada para:", produto)
