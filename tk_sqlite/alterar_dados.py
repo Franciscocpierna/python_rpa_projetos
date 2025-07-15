@@ -210,6 +210,121 @@ treeview.grid(row=3, column=0, columnspan=10, stick="NSEW")
 #Chama a função para listar os valores do banco de dados na treeview
 listar_dados()
 
+def editar_dados(event):
+    
+    #Obtém o item selecionado na Treeview
+    item_selecionado = treeview.selection()[0]
+    
+    #Obtém os valores do item selecionado
+    valores_selecionados = treeview.item(item_selecionado)['values']
+    
+    #Cria uma nova janela para cadastrar o produto
+    janela_edicao = Toplevel(janela)
+    janela_edicao.title("Editar Produto")
+    
+    #bg - background (cor do fundo)
+    #Definindo a cor de fundo da janela
+    janela_edicao.configure(bg="#FFFFFF")
+
+    #Define a largura e altura da janela
+    largura_janela = 500
+    altura_janela = 200
+
+    #Obtem a largura e altura da tela computador
+    largura_tela = janela_edicao.winfo_screenwidth()
+    altura_tela = janela_edicao.winfo_screenheight()
+
+
+    #Calcula a posição da janela para centraliza-la na tela
+    pos_x = (largura_tela // 2) - (largura_janela // 2)
+    pos_y = (altura_tela // 2) - (altura_janela // 2)
+
+    #Define a posição da janela
+    janela_edicao.geometry('{}x{}+{}+{}'.format(largura_janela, altura_janela, pos_x, pos_y ))
+    
+    
+    for i in range(5):
+        janela_edicao.grid_rowconfigure(i, weight=1)
+
+    
+    for i in range(2):
+        janela_edicao.grid_columnconfigure(i, weight=1)
+    
+    #Adiciona bordas para cada campo de entrada
+    estilo_borda = {"borderwidth": 2, "relief": "groove"}
+    
+    #stick - Preenche as laterais NSEW (Norte, Sul, Leste e Oeste)
+    #fg - foreground (cor da letra)
+    #row - linha
+    #column - coluna
+    #pady - espaço
+    Label(janela_edicao, text="Nome do Produto:", font=("Arial", 16), bg="#FFFFFF").grid(row=0, column=0, padx=10, pady=10, stick="W")
+    nome_produto_edicao = Entry(janela_edicao, font=("Arial", 16), **estilo_borda, bg="#FFFFFF", textvariable=StringVar(value=valores_selecionados[1]))
+    nome_produto_edicao.grid(row=0, column=1, padx=10, pady=10)
+    
+    Label(janela_edicao, text="Descrição do Produto:", font=("Arial", 16), bg="#FFFFFF").grid(row=1, column=0, padx=10, pady=10, stick="W")
+    descricao_produto_edicao = Entry(janela_edicao, font=("Arial", 16), **estilo_borda, bg="#FFFFFF", textvariable=StringVar(value=valores_selecionados[2]))
+    descricao_produto_edicao.grid(row=1, column=1, padx=10, pady=10)
+    
+    Label(janela_edicao, text="Preço do Produto:", font=("Arial", 16), bg="#FFFFFF").grid(row=2, column=0, padx=10, pady=10, stick="W")
+    preco_produto_edicao = Entry(janela_edicao, font=("Arial", 16), **estilo_borda, bg="#FFFFFF", textvariable=StringVar(value=valores_selecionados[3]))
+    preco_produto_edicao.grid(row=2, column=1, padx=10, pady=10)
+    
+    #Cria uma função para salvar os dados no banco de dados
+    def salvar_edicao():
+        
+        #Obtém os novos valores do item selecionado no Treeview
+        nome_produto = nome_produto_edicao.get()
+        nova_descricao = descricao_produto_edicao.get()
+        novo_preco = preco_produto_edicao.get()
+        
+        #Atualiza os valores do item selecionado
+        treeview.item(item_selecionado, values=(valores_selecionados[0], nome_produto, nova_descricao, novo_preco))
+        
+        #Executa um comando SQL para inserir os dados na tabela Produtos no banco de dados
+        cursor.execute("UPDATE Produtos SET NomeProduto = ?, Descricao = ?, Preco = ? WHERE ID = ?",
+                      (nome_produto, nova_descricao, novo_preco, valores_selecionados[0]))
+        
+        conexao.commit() #Gravando no BD
+
+        print("Dados alterados com sucesso!")
+                
+        #Fecha a janela de cadastro
+        janela_edicao.destroy()
+        
+        #Chama a função para listar os valores do banco de dados na treeview
+        #listar_dados()        
+        
+    #columnspan - quantas colunas vai ocupar no grid   
+    #stick - Preenche as laterais NSEW (Norte, Sul, Leste e Oeste)
+    botao_salvar_edicao = Button(janela_edicao, text="Alterar", font=("Arial", 12), bg="#008000",fg="#FFFFFF", command=salvar_edicao)
+    botao_salvar_edicao.grid(row=4, column=0, padx=20, pady=20)
+    
+    def deletar_registro():
+        
+        #Recupera o id do registro selecionado na treeview
+        selected_item = treeview.selection()[0]
+        id = treeview.item(selected_item)['values'][0]
+        
+        #Deleta o registro do banco de dados
+        cursor.execute("DELETE FROM Produtos WHERE id = ?", (id))
+        
+        conexao.commit()
+        
+        #fecha a janela de edição
+        janela_edicao.destroy()
+        
+        #Rrecarregar os dados sem o novo resgistro
+        listar_dados()
+    
+    #columnspan - quantas colunas vai ocupar no grid   
+    #stick - Preenche as laterais NSEW (Norte, Sul, Leste e Oeste)
+    botao_deletar_edicao = Button(janela_edicao, text="Deletar", font=("Arial", 16), bg="#FF0000",fg="#FFFFFF", command=deletar_registro)
+    botao_deletar_edicao.grid(row=4, column=1, padx=20, pady=20)
+    
+
+#Adiciona o evento de duplo clique na Treeview para editar os dados do produto
+treeview.bind("<Double-1>", editar_dados)
 
 #Configura a janela para utilizar a barra de menus criada
 menu_barra = Menu(janela)
@@ -233,8 +348,24 @@ menu_arquivo.add_command(label="Cadastrar", command=cadastrar)
 menu_arquivo.add_command(label="Sair", command=janela.destroy)
 
 
+#Deleta o registro
+def deletar():
+        
+        #Recupera o id do registro selecionado na treeview
+        selected_item = treeview.selection()[0]
+        id = treeview.item(selected_item)['values'][0]
+        
+        #Deleta o registro do banco de dados
+        cursor.execute("DELETE FROM Produtos WHERE id = ?", (id))
+        
+        conexao.commit()
+        
+        #Rrecarregar os dados sem o novo resgistro
+        listar_dados()
+
+
 #Cria um botão para gravar os dados na tabela Produtos do banco de dados
-botao_deletar = Button(janela, text="Deletar", command=cadastrar, font="Arial 26")
+botao_deletar = Button(janela, text="Deletar", command=deletar, font="Arial 26")
 botao_deletar.grid(row=4, column=4, columnspan=4, stick="NSEW", padx=20, pady=5)
 
 
