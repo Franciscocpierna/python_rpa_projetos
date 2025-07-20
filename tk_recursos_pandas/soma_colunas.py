@@ -235,7 +235,11 @@ class ExcelEditor:
                 usando a variável "j". Isso garante que a lista "values" seja atualizada com os 
                 valores corrigidos antes de serem usados em outras partes do código.
                 """
+                # Verifica se o valor é do tipo NumPy (np.generic), que pode ocorrer ao manipular dados do DataFrame.
+                # Se for, converte o valor para um tipo nativo do Python usando np.asscalar (essa função está obsoleta, prefira usar value.item()).
+
                 if isinstance(value, np.generic):
+                    #values[j] = value.item() prefere-se essa uma função que converte um objeto NumPy genérico em um tipo nativo do Python.
                     
                     values[j] = np.asscalar(value)
                     
@@ -288,3 +292,15 @@ editor = ExcelEditor(janela)
 
 
 janela.mainloop()
+
+"""
+exemplo de ~np.isnan(valores)
+import numpy as np
+
+valores = np.array([1, 2, np.nan, 4])
+mascara = ~np.isnan(valores)
+# mascara = [True, True, False, True]
+valores_sem_nan = valores[mascara]
+# valores_sem_nan = [1, 2, 4]
+
+"""
