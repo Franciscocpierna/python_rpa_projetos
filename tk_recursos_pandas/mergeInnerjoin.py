@@ -90,7 +90,7 @@ class ExcelEditor:
         #O tearoff=0 é uma configuração de menu que, quando definida como 0, desativa a função de arrastar
         merge_menu = tk.Menu(menu_bar, tearoff=0)
         
-        merge_menu.add_command(label="Inner Join", command=janela.destroy)
+        merge_menu.add_command(label="Inner Join", command=self.merge_inner_join)
         merge_menu.add_command(label="Join Full", command=janela.destroy)
         merge_menu.add_command(label="Left Join", command=janela.destroy)
         merge_menu.add_command(label="Merge Outer", command=janela.destroy)
@@ -711,6 +711,34 @@ class ExcelEditor:
                 
             #Fecha a janela secundária
             janela_group.destroy()
+            
+    def merge_inner_join(self):
+        
+        # Define os tipos de arquivos que podem ser abertos
+        tipo_de_arquivo = (("Excel files", "*.xlsx;*.xls"), ("All files", "*.*"))
+        
+        # Abre a janela para selecionar o arquivo e armazena o caminho na variável
+        nome_arquivo1 = filedialog.askopenfilename(title="Selecione o primeiro arquivo", filetypes=tipo_de_arquivo)
+ 
+        # Abre a janela para selecionar o arquivo e armazena o caminho na variável
+        nome_arquivo2 = filedialog.askopenfilename(title="Selecione o segundo arquivo", filetypes=tipo_de_arquivo)
+
+        
+        #Lê os arquivos em formato de excel
+        arquivo1 = pd.read_excel(nome_arquivo1)
+        arquivo2 = pd.read_excel(nome_arquivo2)
+        
+        #Pergunta ao usuário qual coluna deve ser utilizada no merge
+        coluna_join = simpledialog.askstring("Coluna do Inner Join", "Digite o nome da coluna que será utilizada para o Inner Join:")
+        
+        #on - Qual coluna
+        #how - Como
+        #inner - Faz o merge entre as tabelas
+        #Procura e exibe os vendedores ques estão em ambas as tabelas
+        self.df = pd.merge(arquivo1, arquivo2, on=coluna_join, how="inner")
+        
+        #Atualiza a Treeview com o resultado do merge
+        self.atualiza_treeview()
         
 
 editor = ExcelEditor(janela)
