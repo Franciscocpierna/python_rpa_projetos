@@ -1420,7 +1420,8 @@ class Application(Frame):
         índice, rótulo e valor do próximo item de df_agrupado.
 
         """
-        for i, (indice, valor) in enumerate(df_agrupado.iteritems()):
+        #iteritems() obsoleto use items() instead
+        for i, (indice, valor) in enumerate(df_agrupado.items()):
             
             """
             Essa linha está dentro do loop que itera sobre cada barra do gráfico de 
