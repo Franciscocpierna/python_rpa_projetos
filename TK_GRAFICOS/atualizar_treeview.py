@@ -1667,7 +1667,7 @@ class Application(Frame):
             values = list(row)
             
             #Converter valores do tipo numpy para python
-            for j, value in enumerate(values):
+            '''for j, value in enumerate(values):
                 
                 if isinstance(value, np.generic):
                     
@@ -1675,6 +1675,15 @@ class Application(Frame):
             
             #Adiona valores na treeview
             self.tree.insert("", END, values=values)
+            '''
+            for j, value in enumerate(values):
+              if isinstance(value, np.generic):
+                # Converte o tipo NumPy para um escalar Python nativo
+                values[j] = value.item()
+
+            # Adiciona valores na treeview
+            self.tree.insert("", END, values=values)
+            
         
 #Cria uma instancia da classe tk para criar a janela principal
 tela = Tk()
