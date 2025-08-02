@@ -140,8 +140,8 @@ def verificar_resposta(resposta):
     
     # Permite acessar as variáveis pontuacao e pergunta_atual definidas fora da função
     global pontuacao, pergunta_atual 
-    
     # Verifica se a resposta dada pelo usuário está correta
+    
     if resposta == perguntas[pergunta_atual]["resposta"]:
         
         # Se a resposta estiver correta, exibe uma caixa de diálogo de informação com a mensagem "Resposta correta!"
@@ -193,6 +193,8 @@ def verificar_resposta(resposta):
     else:
         
         exibe_tela_final()
+        pergunta_atual=0
+        respostas_usuarios.clear()
         
 def exibe_tela_final():
     
@@ -360,7 +362,7 @@ def exibe_tela_final():
 def salvar_dados_excel():
     
     #Carrega o arquivo de excel
-    wb = openpyxl.load_workbook(r'C:\Users\55119\Desktop\Teste de Emprego\Dados.xlsx')
+    wb = openpyxl.load_workbook(r'C:\python_projetos\python_rpa_projetos\tk_sistema_simulaTesteEmprego\Dados.xlsx')
     planilha_respostas = wb['Respostas'] #Acessa a planilha 'Respostas'
     
     #Determina a proxima linha disponivel para inserir os dados
@@ -381,7 +383,7 @@ def salvar_dados_excel():
     planilha_respostas.cell(row=linha, column=len(perguntas)+4).value = "Aprovado(a)" if pontuacao_total >= 60 else "Reprovado(a)"
 
     #Salva o arquivo do Excel
-    wb.save(r'C:\Users\55119\Desktop\Teste de Emprego\Dados.xlsx')
+    wb.save(r'C:\python_projetos\python_rpa_projetos\tk_sistema_simulaTesteEmprego\Dados.xlsx')
     wb.close() #Fecha o arquivo do Excel
     
 def criar_email():
