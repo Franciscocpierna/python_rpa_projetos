@@ -66,7 +66,7 @@ class Onibus:
         try:
             
             #Caminho completo do arquivo do excel
-            workbook = load_workbook('C:/Users/55119/Desktop/Reserva Onibus/Dados.xlsx')
+            workbook = load_workbook('C:\\python_projetos\\python_rpa_projetos\\tk_reserva_passagem_onibus\\Dados.xlsx')
             sheet = workbook['Reservas']
             
         except FileNotFoundError:
@@ -89,7 +89,7 @@ class Onibus:
                 sheet.delete_rows(row[0].row)
                 
                 # Salva as alterações no arquivo Excel
-                workbook.save('C:/Users/55119/Desktop/Reserva Onibus/Dados.xlsx')
+                workbook.save('C:\\python_projetos\\python_rpa_projetos\\tk_reserva_passagem_onibus\\Dados.xlsx')
                 
                 #Encerro a execução
                 break
@@ -136,7 +136,7 @@ class Onibus:
         try:
             
             #Caminho completo do arquivo do excel
-            workbook = load_workbook('C:/Users/55119/Desktop/Reserva Onibus/Dados.xlsx')
+            workbook = load_workbook('C:\\python_projetos\\python_rpa_projetos\\tk_reserva_passagem_onibus\\\Dados.xlsx')
             sheet = workbook['Reservas']
             
         except FileNotFoundError:
@@ -147,14 +147,14 @@ class Onibus:
         sheet.append(linha)
         
         #Salva as alterações no arquivo do excel
-        workbook.save('C:/Users/55119/Desktop/Reserva Onibus/Dados.xlsx')
+        workbook.save('C:\\python_projetos\\python_rpa_projetos\\tk_reserva_passagem_onibus\\Dados.xlsx')
         
     def carregar_reservas(self, data):
         
         try:
             
             #Caminho completo do arquivo do excel
-            workbook = load_workbook('C:/Users/55119/Desktop/Reserva Onibus/Dados.xlsx')
+            workbook = load_workbook('C:\\python_projetos\\python_rpa_projetos\\tk_reserva_passagem_onibus\\Dados.xlsx')
             sheet = workbook['Reservas']
             
         except FileNotFoundError:
@@ -229,7 +229,7 @@ def reservar_lugar():
 def ver_reservas():
     
     #Carrego o arquivo do excel
-    workbook = load_workbook('C:/Users/55119/Desktop/Reserva Onibus/Dados.xlsx')
+    workbook = load_workbook('C:\\python_projetos\\python_rpa_projetos\\tk_reserva_passagem_onibus\\Dados.xlsx')
     
     #Seleciono a planilha Reservas
     sheet = workbook['Reservas']
