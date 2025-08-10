@@ -21,6 +21,10 @@ def converter_para_300dpi_com_dialog():
         return
 
     try:
+#Abre o arquivo de imagem localizado no caminho especificado por caminho_imagem_original  usando a biblioteca Pillow (PIL).
+# O método Image.open() retorna um objeto de imagem (img) que permite manipular a imagem (ler, modificar, salvar, etc.).
+# O uso do with garante que o arquivo será fechado automaticamente após o bloco ser executado, evitando vazamentos de memória ou arquivos abertos indevidamente.
+# Dentro do bloco, você pode acessar propriedades da imagem, como tamanho, modo de cor, e realizar operações (como converter DPI, salvar, etc.).
         with Image.open(caminho_imagem_original) as img:
             largura_pixels, altura_pixels = img.size
 
@@ -47,3 +51,14 @@ def converter_para_300dpi_com_dialog():
 # --- Execução do programa ---
 if __name__ == "__main__":
     converter_para_300dpi_com_dialog()
+    
+    
+# O uso do with é obrigatório ou altamente recomendado quando você trabalha com recursos que precisam ser abertos e fechados corretamente, como:
+
+# Arquivos (leitura/escrita): with open('arquivo.txt') as f:
+# Imagens (como no seu código, usando Pillow): with Image.open('imagem.png') as img:
+# Conexões de banco de dados (algumas bibliotecas suportam contexto)
+# Sockets de rede
+# Locks/mutexes (controle de concorrência)
+# Gerenciadores de contexto personalizados (qualquer classe que implemente __enter__ e __exit__)
+# O with garante que o recurso será fechado/liberado corretamente, mesmo se ocorrer erro no bloco. Isso evita vazamentos de memória, arquivos abertos indevidamente ou travamentos.
