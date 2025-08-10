@@ -1,18 +1,18 @@
 from PIL import Image
 import tkinter as tk
 from tkinter import filedialog
-import os # Para manipular caminhos de arquivo
+import os
 
-def redimensionar_para_72dpi_com_dialog():
+def converter_para_300dpi_com_dialog():
     """
     Permite ao usuário selecionar uma imagem via file dialog,
-    converte-a para 72 DPI e salva o arquivo.
+    converte-a para 300 DPI e salva o arquivo.
     """
     root = tk.Tk()
-    root.withdraw() # Esconde a janela principal do Tkinter
+    root.withdraw()
 
     caminho_imagem_original = filedialog.askopenfilename(
-        title="Selecione a imagem para converter para 72 DPI",
+        title="Selecione a imagem para converter para 300 DPI",
         filetypes=[("Arquivos de Imagem", "*.jpg *.jpeg *.png *.bmp *.gif"), ("Todos os arquivos", "*.*")]
     )
 
@@ -22,29 +22,22 @@ def redimensionar_para_72dpi_com_dialog():
 
     try:
         with Image.open(caminho_imagem_original) as img:
-            # Pega as dimensões atuais da imagem em pixels
             largura_pixels, altura_pixels = img.size
 
-            # Define a nova resolução em DPI
-            nova_dpi = (72, 72)
+            # Define a nova resolução em DPI para alta resolução (300 DPI)
+            nova_dpi = (300, 300)
 
-            # Define a informação de DPI na imagem.
-            # O Pillow irá incorporar essa informação no metadado do arquivo ao salvar.
             img.info['dpi'] = nova_dpi
 
-            # Monta o nome do arquivo de saída
             diretorio, nome_arquivo = os.path.split(caminho_imagem_original)
             nome_base, extensao = os.path.splitext(nome_arquivo)
-            caminho_imagem_saida = os.path.join(diretorio, f"{nome_base}_72dpi{extensao}")
+            caminho_imagem_saida = os.path.join(diretorio, f"{nome_base}_300dpi{extensao}")
 
-            # Converte para RGB se tiver transparência para compatibilidade com JPEG
             if img.mode == 'RGBA' and extensao.lower() in ['.jpg', '.jpeg']:
                 img = img.convert('RGB')
 
-            # Salva a imagem com a nova informação de DPI
-            # quality é um parâmetro para JPEG e pode ser ajustado (0-100)
             img.save(caminho_imagem_saida, dpi=nova_dpi, quality=95)
-            print(f"Imagem salva com sucesso em '{caminho_imagem_saida}' com 72 DPI.")
+            print(f"Imagem salva com sucesso em '{caminho_imagem_saida}' com 300 DPI.")
 
     except FileNotFoundError:
         print(f"Erro: Arquivo '{caminho_imagem_original}' não encontrado.")
@@ -53,4 +46,4 @@ def redimensionar_para_72dpi_com_dialog():
 
 # --- Execução do programa ---
 if __name__ == "__main__":
-    redimensionar_para_72dpi_com_dialog()
+    converter_para_300dpi_com_dialog()
