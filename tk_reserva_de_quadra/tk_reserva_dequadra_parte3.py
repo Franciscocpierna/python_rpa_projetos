@@ -514,7 +514,7 @@ def ver_reservas():
         data_filtrada = entry_data.get()  # Obtém a data filtrada do campo de entrada (entry_data)
 
         # Filtrar as reservas com base na data
-        df = pd.read_excel("C:\python_projetos\python_rpa_projetos\tk_reserva_de_quadra\Dados.xlsx")  # Lê o arquivo Excel contendo as reservas
+        df = pd.read_excel(r"C:\python_projetos\python_rpa_projetos\tk_reserva_de_quadra\Dados.xlsx")  # Lê o arquivo Excel contendo as reservas
         reservas_filtradas = df[df["Data"] == data_filtrada]  # Filtra as reservas com base na coluna "Data" igual à data filtrada
 
         reservas = []  # Lista vazia para armazenar as reservas filtradas
