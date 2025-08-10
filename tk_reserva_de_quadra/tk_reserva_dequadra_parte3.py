@@ -16,7 +16,7 @@ reservas = []
 def verificar_conflito_reserva(data, hora_inicial, hora_final):
     
     #Caminho para o arquivo do Excel que contém as reservas
-    caminho = r"C:\Users\55119\Desktop\Reserva Quadra\Dados.xlsx"
+    caminho = r"C:\python_projetos\python_rpa_projetos\tk_reserva_de_quadra\Dados.xlsx"
     
     #Nome da planilha que contém as reservas
     planilha = "Reservas"
@@ -256,7 +256,7 @@ def fazer_reserva(data):
             return
         
         # Caminho do arquivo do Excel e nome da planilha
-        caminho = r"C:\Users\55119\Desktop\Reserva Quadra\Dados.xlsx"
+        caminho = r"C:\python_projetos\python_rpa_projetos\tk_reserva_de_quadra\Dados.xlsx"
         planilha = "Reservas"
         
         try:
@@ -514,7 +514,7 @@ def ver_reservas():
         data_filtrada = entry_data.get()  # Obtém a data filtrada do campo de entrada (entry_data)
 
         # Filtrar as reservas com base na data
-        df = pd.read_excel("C:/Users/55119/Desktop/Reserva Quadra/Dados.xlsx")  # Lê o arquivo Excel contendo as reservas
+        df = pd.read_excel("C:\python_projetos\python_rpa_projetos\tk_reserva_de_quadra\Dados.xlsx")  # Lê o arquivo Excel contendo as reservas
         reservas_filtradas = df[df["Data"] == data_filtrada]  # Filtra as reservas com base na coluna "Data" igual à data filtrada
 
         reservas = []  # Lista vazia para armazenar as reservas filtradas
@@ -689,7 +689,7 @@ def detalhe_reservas():
         tree.column(campo, anchor=tk.CENTER, width=100)
         
     #Obtém o caminho do arquivo
-    caminho = r"C:\Users\55119\Desktop\Reserva Quadra\Dados.xlsx"
+    caminho = r"C:\python_projetos\python_rpa_projetos\tk_reserva_de_quadra\Dados.xlsx"
     planilha = "Reservas"
     
     try:
