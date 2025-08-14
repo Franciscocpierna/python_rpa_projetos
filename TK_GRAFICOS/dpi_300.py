@@ -3,16 +3,16 @@ import tkinter as tk
 from tkinter import filedialog
 import os
 
-def converter_para_300dpi_com_dialog():
+def converter_para_300dpi_rgb():
     """
-    Permite ao usuário selecionar uma imagem via file dialog,
-    converte-a para 300 DPI e salva o arquivo.
+    Permite ao usuário selecionar uma imagem, converte-a para 300 DPI
+    e salva o arquivo de saída no formato JPEG com modo de cor RGB.
     """
     root = tk.Tk()
     root.withdraw()
 
     caminho_imagem_original = filedialog.askopenfilename(
-        title="Selecione a imagem para converter para 300 DPI",
+        title="Selecione a imagem para converter para 300 DPI e RGB",
         filetypes=[("Arquivos de Imagem", "*.jpg *.jpeg *.png *.bmp *.gif"), ("Todos os arquivos", "*.*")]
     )
 
@@ -21,27 +21,23 @@ def converter_para_300dpi_com_dialog():
         return
 
     try:
-#Abre o arquivo de imagem localizado no caminho especificado por caminho_imagem_original  usando a biblioteca Pillow (PIL).
-# O método Image.open() retorna um objeto de imagem (img) que permite manipular a imagem (ler, modificar, salvar, etc.).
-# O uso do with garante que o arquivo será fechado automaticamente após o bloco ser executado, evitando vazamentos de memória ou arquivos abertos indevidamente.
-# Dentro do bloco, você pode acessar propriedades da imagem, como tamanho, modo de cor, e realizar operações (como converter DPI, salvar, etc.).
         with Image.open(caminho_imagem_original) as img:
-            largura_pixels, altura_pixels = img.size
+            # 1. Converte a imagem para o modo de cor RGB
+            img_rgb = img.convert('RGB')
 
-            # Define a nova resolução em DPI para alta resolução (300 DPI)
+            # 2. Define a resolução de alta qualidade para impressão
             nova_dpi = (300, 300)
 
-            img.info['dpi'] = nova_dpi
-
+            # 3. Monta o nome e caminho do arquivo de saída
             diretorio, nome_arquivo = os.path.split(caminho_imagem_original)
-            nome_base, extensao = os.path.splitext(nome_arquivo)
-            caminho_imagem_saida = os.path.join(diretorio, f"{nome_base}_300dpi{extensao}")
+            nome_base, _ = os.path.splitext(nome_arquivo)
+            caminho_imagem_saida = os.path.join(diretorio, f"{nome_base}_300_DPI_RGB.jpg")
 
-            if img.mode == 'RGBA' and extensao.lower() in ['.jpg', '.jpeg']:
-                img = img.convert('RGB')
+            # 4. Salva a imagem no formato JPEG com as novas configurações
+            # quality=95 é um valor alto para garantir boa qualidade de imagem
+            img_rgb.save(caminho_imagem_saida, dpi=nova_dpi, quality=95)
 
-            img.save(caminho_imagem_saida, dpi=nova_dpi, quality=95)
-            print(f"Imagem salva com sucesso em '{caminho_imagem_saida}' com 300 DPI.")
+            print(f"Imagem salva com sucesso em '{caminho_imagem_saida}' com 300 DPI e modo de cor RGB.")
 
     except FileNotFoundError:
         print(f"Erro: Arquivo '{caminho_imagem_original}' não encontrado.")
@@ -50,9 +46,8 @@ def converter_para_300dpi_com_dialog():
 
 # --- Execução do programa ---
 if __name__ == "__main__":
-    converter_para_300dpi_com_dialog()
-    
-    
+    converter_para_300dpi_rgb()
+        
 # O uso do with é obrigatório ou altamente recomendado quando você trabalha com recursos que precisam ser abertos e fechados corretamente, como:
 
 # Arquivos (leitura/escrita): with open('arquivo.txt') as f:
