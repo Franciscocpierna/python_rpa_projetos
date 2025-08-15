@@ -1,7 +1,7 @@
 # Importa o módulo ttk do tkinter, que oferece acesso a 
 # widgets com um visual melhorado e aprimorado.
 from tkinter import ttk
-
+import tkinter as tk
 # Importa a biblioteca openpyxl, usada para ler e escrever em arquivos do Excel.
 import openpyxl
 
