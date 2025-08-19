@@ -2,6 +2,7 @@
 #Cria conexão com o Excel e Loga
 #Criando Tela de Transações
 #Depósito parte 1
+#Depósito parte 2 e Saque
 import tkinter as tk #Importa a biblioteca para criar a interface gráfica
 from tkinter import ttk #Importa o módulo ttk do Tkinter para obter estilos ou intens mais avançados
 import tkinter.font as font #Para personalizar as fontes
@@ -58,6 +59,39 @@ def abrir_janela_operacoes(nome, conta, cpf):
         #Fecho a tela de Operações
         janela_operacoes.destroy()
         
+    def calcular_saldo(conta):
+        
+        arquivo_excel = r"C:\python_projetos\python_rpa_projetos\tk_caixaEletronico\Base_Dados.xlsx"
+        
+        #Verifica se o arquivo Excel existe
+        if os.path.exists(arquivo_excel):
+            
+            try:
+                
+                #Lê o arquivo Excel e carrega a planilha "Transações" em um DataFrame
+                df_transacoes = pd.read_excel(arquivo_excel, sheet_name="Transações")
+                
+                #Calcula o saldo da conta somando os valores das transações da conta fornecida
+                saldo = df_transacoes.loc[df_transacoes['Conta'] == int(conta), 'Valor'].sum()
+                   
+                
+            except Exception as e:
+                
+                messagebox.showerror("Erro", "Erro ao ler a planilha!")
+                
+        else:
+            
+            print("Arquivo não encontrado!")
+            
+        
+        return saldo
+        
+    #Calcula o saldo da conta
+    saldo = calcular_saldo(conta)
+    
+    #Imprimo o saldo atual que o cliente tem na conta
+    saldo_label.config(text="Saldo: R$ {:.2f}".format(saldo))
+            
     def depositar():
         
         nonlocal saldo #Permite o acesso a variável da função externa
@@ -80,7 +114,8 @@ def abrir_janela_operacoes(nome, conta, cpf):
         dados_transacao = {
             'Conta' : int(conta),
             'Nome' : str(nome),
-            'CPF' : "Depósito",
+            'CPF' : cpf,
+            'Tipo' : "Depósito",
             'Valor' : valor,
             'Data' : data_atual
         }
@@ -95,6 +130,7 @@ def abrir_janela_operacoes(nome, conta, cpf):
             
             if 'Transações' in workbook.sheetnames:
                 
+                #Seleciona a sheet de Transações
                 sheet_transacoes = workbook['Transações']
                 
             else:
@@ -104,7 +140,90 @@ def abrir_janela_operacoes(nome, conta, cpf):
         else:
             
             print("Arquivo não encontrado!")
+            
+        #Adiciona a nova linha a sheet transações
+        nova_linha = [dados_transacao['Conta'], dados_transacao['Nome'], dados_transacao['CPF'],
+                      dados_transacao['Tipo'], dados_transacao['Valor'], dados_transacao['Data']]
+        sheet_transacoes.append(nova_linha)
         
+        #Salva o arquivo do excel com as alterações
+        workbook.save(arquivo_excel)
+        
+        #Exibe a mensagem
+        messagebox.showinfo("Déposito", "Depósito realizado com sucesso!")
+        
+    def sacar():
+        
+        nonlocal saldo #Permite o acesso a variável da função externa
+        
+        #strip - remove os espaços branco
+        valor = float(textbox.get().strip())
+        
+        #verifica se o valor do saque está dentro do limite
+        #e se há saldo suficiente na conta
+        if valor <= 2000 and valor <= saldo:
+            
+            #Atualiza o saldo adicionando o valor do depósito
+            saldo -= valor
+
+            #Limpa o conteúdo
+            textbox.delete(0, "end")
+
+            saldo_label.config(text="Saldo: R$ {:.2f}".format(saldo))
+
+            #Obtem a data atual
+            data_atual = datetime.now().strftime("%d/%m/%Y")
+
+            #nome, conta, cpf
+            dados_transacao = {
+                'Conta' : int(conta),
+                'Nome' : str(nome),
+                'CPF' : cpf,
+                'Tipo' : "Saque",
+                'Valor' : valor,
+                'Data' : data_atual
+            }
+
+            arquivo_excel = r"C:\python_projetos\python_rpa_projetos\tk_caixaEletronico\Base_Dados.xlsx"
+
+            #Verifica se o arquivo Excel existe
+            if os.path.exists(arquivo_excel):
+
+                #Carrega o arquivo de excel existente
+                workbook = load_workbook(arquivo_excel)
+
+                if 'Transações' in workbook.sheetnames:
+
+                    #Seleciona a sheet de Transações
+                    sheet_transacoes = workbook['Transações']
+
+                else:
+
+                    sheet_transacoes = workbook.create_sheet('Transações')
+
+            else:
+
+                print("Arquivo não encontrado!")
+
+            #Adiciona a nova linha a sheet transações
+            nova_linha = [dados_transacao['Conta'], dados_transacao['Nome'], dados_transacao['CPF'],
+                          dados_transacao['Tipo'], dados_transacao['Valor'], dados_transacao['Data']]
+            sheet_transacoes.append(nova_linha)
+
+            #Salva o arquivo do excel com as alterações
+            workbook.save(arquivo_excel)
+
+            #Exibe a mensagem
+            messagebox.showinfo("Saque", "Saque realizado com sucesso!")
+            
+        elif valor > 2000:
+            
+            messagebox.showinfo("Limite Excedido", "O valor máximo de saque é R$ 2.000")
+            
+        else:
+            
+            messagebox.showinfo("Saldo Insuficiente", "Saldo Insuficiente para realizar o saque")
+            
     
     #Adicionando os botões na tela
     depositar_button = tk.Button(janela_operacoes, 
@@ -118,7 +237,8 @@ def abrir_janela_operacoes(nome, conta, cpf):
     sacar_button = tk.Button(janela_operacoes, 
                          text="Sacar",
                          font="Arial 20", 
-                         bg="#FFFFFF")
+                         bg="#FFFFFF", 
+                         command=sacar)
     sacar_button.pack(pady=10) #Adicional o botão à janela com um espaçamento vertical de 10
 
     
