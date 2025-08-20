@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from openpyxl import load_workbook
 
-ARQUIVO_CAMINHO = r"C:\Users\55119\Desktop\Eleições\Urna.xlsx"
+ARQUIVO_CAMINHO = r"C:\python_projetos\python_rpa_projetos\tk_eleicoes\Urna.xlsx"
 NOME_PLANILHA = "Dados"
 
 
