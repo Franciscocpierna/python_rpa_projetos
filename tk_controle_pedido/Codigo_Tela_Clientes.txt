@@ -1,0 +1,440 @@
+def tela_produtos():
+    
+    # Cria a janela de cadastro de cliente
+    janela_cadastrar_produtos = tk.Toplevel()
+    janela_cadastrar_produtos.title("Produtos")
+    janela_cadastrar_produtos.configure(bg="white")
+    
+    #Dicionário para armazenar os dados dos clientes
+    Produtos = {}
+    
+    # Cria um Frame para o filtro
+    filtro_frame = tk.Frame(janela_cadastrar_produtos, bg="white")
+    filtro_frame.pack(pady = 10)
+
+    # Cria um rótulo para o campo de nome
+    filtro_label = tk.Label(filtro_frame,
+                       text = "Filtrar por produto:",
+                       font="Arial 14",
+                       bg="white")
+    filtro_label.grid(row = 0, column = 0, padx = 5, pady = 3)
+    
+    # Cria uma entrada de texto para o nome
+    filtro_entry = Entry(filtro_frame, font="Arial 14")
+    filtro_entry.grid(row = 0, column = 1, padx = 5, pady = 3)
+    
+    # Cria um Frame para a treeview e a barra de rolagem
+    frame_treeview = tk.Frame(janela_cadastrar_produtos, bg="white")
+    frame_treeview.pack(fill = tk.BOTH, expand = True)
+    
+    #Cria a treeview
+    produtos_treeview = ttk.Treeview(frame_treeview, height=7) #Define a altura deseja da Treeview
+    
+    #Define o estilo da fonte para todas as colunas
+    style = ttk.Style()
+    style.configure("Treeview", font=("Arial", 14), rowheight=28) #Altera o valor de rowheight conforme necessário
+    
+    #Define as colunas da treeview
+    produtos_treeview['columns'] = ('Codigo', 'Categoria', 'Nome', 'Preco')
+
+    # Define os cabeçalhos das colunas
+    produtos_treeview.heading('#0', text='', anchor='w')  # Cabeçalho vazio na primeira coluna
+    produtos_treeview.column('#0', width=0, stretch='NO')  # Define a largura da primeira coluna como zero
+    
+    produtos_treeview.heading('Codigo', text='Codigo', anchor='w')  # Define o cabeçalho da coluna Codigo
+    produtos_treeview.column('Codigo', anchor='w')  # Define a âncora da coluna Codigo como 'w' (oeste) 
+    
+    produtos_treeview.heading('Categoria', text='Categoria', anchor='w')  # Define o cabeçalho da coluna Sexo
+    produtos_treeview.column('Categoria', anchor='w')  # Define a âncora da coluna Sexo como 'w' (oeste)
+
+    produtos_treeview.heading('Nome', text='Nome', anchor='w')  # Define o cabeçalho da coluna Nome
+    produtos_treeview.column('Nome', anchor='w')  # Define a âncora da coluna Nome como 'w' (oeste)
+
+    produtos_treeview.heading('Preco', text='Preco', anchor='w')  # Define o cabeçalho da coluna Aniversário
+    produtos_treeview.column('Preco', anchor='w')  # Define a âncora da coluna Aniversário como 'w' (oeste)
+
+    
+    produtos_treeview.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)  # Empacota e posiciona a treeview
+
+    # Cria uma barra de rolagem vertical
+    scrollbar = ttk.Scrollbar(frame_treeview, orient="vertical", command=produtos_treeview.yview)
+    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+    
+    # Configura a barra de rolagem na treeview
+    produtos_treeview.configure(yscrollcommand=scrollbar.set)
+    
+    #Frame para os campos de cadastro/alteração
+    cadastro_frame = tk.Frame(janela_cadastrar_produtos)
+    cadastro_frame.pack(pady=10)
+    
+    codigo_label = tk.Label(cadastro_frame, text="Código do Produto", font="Arial 14")
+    codigo_label.grid(row=0, column=0, padx=5, pady=3)
+    codigo_entry = tk.Entry(cadastro_frame, font="Arial 14", width=30) # Definindo largura de 30 caracteres (aproximadamente 200 pixels) 
+    codigo_entry.grid(row=0, column=1, padx=5, pady=3)
+    
+    categoria_label = tk.Label(cadastro_frame, text="Categoria Produto", font="Arial 14")
+    categoria_label.grid(row=1, column=0, padx=5, pady=3)
+    categoria_combobox = ttk.Combobox(cadastro_frame, font="Arial 14", values=["Alimentos", "Bebidas"], width=27) # Definindo largura de 30 caracteres (aproximadamente 200 pixels) 
+    categoria_combobox.grid(row=1, column=1, padx=5, pady=3)
+    
+    nome_label = tk.Label(cadastro_frame, text="Nome", font="Arial 14")
+    nome_label.grid(row=2, column=0, padx=5, pady=3)
+    nome_entry = tk.Entry(cadastro_frame, font="Arial 14", width=30) # Definindo largura de 30 caracteres (aproximadamente 200 pixels) 
+    nome_entry.grid(row=2, column=1, padx=5, pady=3)
+    
+    preco_label = tk.Label(cadastro_frame, text="Preço", font="Arial 14")
+    preco_label.grid(row=3, column=0, padx=5, pady=3)
+    preco_entry = tk.Entry(cadastro_frame, font="Arial 14", width=30) # Definindo largura de 30 caracteres (aproximadamente 200 pixels) 
+    preco_entry.grid(row=3, column=1, padx=5, pady=3)
+    
+       
+    def filtrar_produtos():
+        
+        # Obtém o texto do filtro e converte para minúsculas
+        filtro = filtro_entry.get().lower()
+        
+        #Limpa os dados da treeview removendo todos os itens
+        produtos_treeview.delete(*produtos_treeview.get_children())
+        
+        # Itera sobre os produtos armazenados no dicionário
+        for produto in Produtos.values():
+            
+            # Obtém o nome do cliente atual e converte para minúsculas
+            nome = produto['Nome'].lower()
+            
+            #Verifica se o filtro está contido no nome do cliente
+            if filtro in nome:
+                
+                codigo = produto['Codigo']
+                categoria = produto['Categoria']
+                nome_planilha = produto['Nome']
+                preco = produto['Preço']
+                
+                # Insere os valores do produto na treeview
+                produtos_treeview.insert('', 'end', values=(codigo, categoria, nome_planilha, preco))
+              
+    #Associa o evento KeyRelease ao campo filtro, para acionar a função filtrar_produtos
+    filtro_entry.bind("<KeyRelease>", lambda event: filtrar_produtos())
+    
+    def carregar_produtos_do_excel():
+        
+        #Limpa os dados da treeview removendo todos os itens
+        produtos_treeview.delete(*produtos_treeview.get_children())
+        
+        #Caminho do arquivo Excel
+        caminho_arquivo = "C:/Users/55119/Desktop/Controle Pedidos Lanchonete/Base Dados.xlsx"
+        
+        #Nome da planilha
+        planilha_nome = "Produtos"
+        
+        try:
+            
+            # Carrega o arquivo Excel
+            workbook = load_workbook(filename=caminho_arquivo)
+            sheet = workbook[planilha_nome]
+            
+            # Itera sobre as linhas da planilha (excluindo a primeira linha de cabeçalho)
+            for row in sheet.iter_rows(min_row=2, values_only=True):
+                
+                # Obtém os valores de cada coluna da linha
+                codigo, categoria, nome, preco = row
+                
+                # Adiciona o cliente ao dicionário de Clientes
+                Produtos[codigo] = {'Codigo': codigo, 'Categoria': categoria, 'Nome': nome, 'Preço': preco}
+                
+                # Insere os valores do produto na treeview
+                produtos_treeview.insert('', 'end', values=(codigo, categoria, nome, preco))              
+            
+        except FileNotFoundError:
+            
+            # Exibe uma mensagem de aviso se o arquivo não for encontrado
+            messagebox.showwarning("Carregar Produtos", "Base Dados.xlsx não encontrado!", parent=janela_cadastrar_produtos)
+            
+    #Preencher a treeview com os clientes existentes
+    carregar_produtos_do_excel()
+    
+    
+    def preencher_campos(event):
+        
+        #Obtém o item selecionado na treeview
+        item_selecionado = produtos_treeview.focus()
+        
+        if item_selecionado:
+            
+            #Obtém os valores das colunas do item selecionado
+            codigo = produtos_treeview.item(item_selecionado)['values'][0]
+            categoria = produtos_treeview.item(item_selecionado)['values'][1]
+            nome = produtos_treeview.item(item_selecionado)['values'][2]
+            preco = produtos_treeview.item(item_selecionado)['values'][3]
+            
+            #Preenche os campos de entrada com os valores do cliente selecionado
+            codigo_entry.delete(0, tk.END)
+            codigo_entry.insert(tk.END, codigo)
+            
+            categoria_combobox.set(categoria)
+            
+            nome_entry.delete(0, tk.END)
+            nome_entry.insert(tk.END, nome)
+            
+            preco_entry.delete(0, tk.END)
+            preco_entry.insert(tk.END, preco)
+            
+                
+    produtos_treeview.bind("<Double-1>", preencher_campos)
+            
+    def cadastrar_produto():
+        
+        # Obtém os valores dos campos de entrada
+        codigo = codigo_entry.get()
+        categoria = categoria_combobox.get()
+        nome = nome_entry.get()
+        preco = preco_entry.get()
+        
+        if codigo and categoria and nome and preco:
+            
+            if codigo not in Produtos:
+                
+                # Adiciona o cliente ao dicionário de Clientes
+                Produtos[codigo] = {'Codigo': codigo, 'Categoria': categoria, 'Nome': nome, 'Preço': preco}
+                
+                # Insere os valores do produto na treeview
+                produtos_treeview.insert('', 'end', values=(codigo, categoria, nome, preco))             
+            
+                # Exibe uma mensagem de sucesso
+                messagebox.showinfo("Cadastro de Produto", "Produto cadastrado com sucesso!", parent=janela_cadastrar_produtos)
+                
+                limpa_campos()
+                
+                salvar_produtos_excel()
+            
+        else:
+            
+            messagebox.showerror("Cadastro de Produto", "Preencha todos os campos!", parent=janela_cadastrar_produtos)
+    
+    # Cria o botão de cadastrar cliente
+    cadastrar_botao = tk.Button(janela_cadastrar_produtos,
+                               text="Cadastrar",
+                               command=cadastrar_produto,
+                               font="Arial 14")
+    cadastrar_botao.pack(side=tk.LEFT, padx=5, pady=3)
+    
+    def alterar_produto():
+        
+        # Obtém os valores dos campos de entrada
+        codigo = codigo_entry.get()
+        categoria = categoria_combobox.get()
+        nome = nome_entry.get()
+        preco = preco_entry.get()
+        
+        if codigo and categoria and nome and preco:
+            
+            #Caminho do arquivo Excel
+            caminho_arquivo = "C:/Users/55119/Desktop/Controle Pedidos Lanchonete/Base Dados.xlsx"
+
+            #Nome da planilha
+            planilha_nome = "Produtos"
+
+            try:
+
+                # Carrega o arquivo Excel
+                workbook = load_workbook(filename=caminho_arquivo)
+                sheet = workbook[planilha_nome]
+
+                # Itera sobre as linhas da planilha (excluindo a primeira linha de cabeçalho)
+                for row in sheet.iter_rows(min_row=2):
+
+                    if row[0].value == codigo:
+                        
+                        #Atualiza os valores do cliente na planilha do Excel
+                        row[1].value = categoria
+                        row[2].value = nome
+                        row[3].value = preco
+                        
+                        break
+                        
+                workbook.save(caminho_arquivo)
+                
+                
+                
+                # Exibe uma mensagem de aviso se o arquivo não for encontrado
+                messagebox.showinfo("Alterar Produtos", "Produto alterado com sucesso!", parent=janela_cadastrar_produtos)
+                
+                #Limpa os campos de entrada
+                limpa_campos()
+                
+                #Preenche o Treeview com os clientes existentes e alterados
+                carregar_produtos_do_excel()
+
+                    
+
+            except FileNotFoundError:
+
+                # Exibe uma mensagem de aviso se o arquivo não for encontrado
+                messagebox.showwarning("Alterar Produto", "Base Dados.xlsx não encontrado!", parent=janela_cadastrar_produtos)
+
+        
+            
+        else:
+            
+            # Exibe uma mensagem de aviso se o arquivo não for encontrado
+            messagebox.showwarning("Alterar Produto", "Preencha o campo Codigo!", parent=janela_cadastrar_produtos)
+
+    
+    # Cria o botão de alterar cliente
+    alterar_botao = tk.Button(janela_cadastrar_produtos,
+                               text="Alterar",
+                               command=alterar_produto,
+                               font="Arial 14")
+    alterar_botao.pack(side=tk.LEFT, padx=5, pady=3)
+    
+    def excluir_produto():
+        
+        #Obtém o valor do campo CPF
+        codigo = codigo_entry.get()
+        
+        if codigo:
+            
+            #Caminho do arquivo Excel
+            caminho_arquivo = "C:/Users/55119/Desktop/Controle Pedidos Lanchonete/Base Dados.xlsx"
+
+            #Nome da planilha
+            planilha_nome = "Produtos"
+
+            try:
+
+                # Carrega o arquivo Excel
+                workbook = load_workbook(filename=caminho_arquivo)
+                sheet = workbook[planilha_nome]
+
+                # Itera sobre as linhas da planilha (excluindo a primeira linha de cabeçalho)
+                for row in sheet.iter_rows(min_row=2):
+
+                    if row[0].value == codigo:
+                        
+                        #Exclui a linha correspondente ao CPF do cliente na planilha do Excel
+                        sheet.delete_rows(row[0].row)
+                        
+                        break
+                        
+                workbook.save(caminho_arquivo)
+                
+                
+                
+                # Exibe uma mensagem de sucesso
+                messagebox.showinfo("Excluir Produto", "Produto excluido com sucesso!", parent=janela_cadastrar_produtos)
+                
+                #Limpa os campos de entrada
+                limpa_campos()
+                
+                #Preenche o Treeview com os clientes existentes e alterados
+                carregar_produtos_do_excel()
+
+                    
+
+            except FileNotFoundError:
+
+                # Exibe uma mensagem de aviso se o arquivo não for encontrado
+                messagebox.showwarning("Excluir Produto", "Base Dados.xlsx não encontrado!", parent=janela_cadastrar_produtos)
+
+        
+        
+        else:
+            
+            # Exibe uma mensagem de aviso se o arquivo não for encontrado
+            messagebox.showwarning("Excluir Produto", "Preencha o campo Codigo!", parent=janela_cadastrar_produtos)
+
+    
+    # Cria o botão de alterar cliente
+    excluir_botao = tk.Button(janela_cadastrar_produtos,
+                               text="Excluir",
+                               command=excluir_produto,
+                               font="Arial 14")
+    excluir_botao.pack(side=tk.LEFT, padx=5, pady=3)
+    
+    def limpa_campos():
+        
+        codigo_entry.delete(0, tk.END)
+        categoria_combobox.delete(0, tk.END)
+        nome_entry.delete(0, tk.END)
+        preco_entry.delete(0, tk.END)
+                
+    def salvar_produtos_excel():
+        
+        #Caminho do arquivo Excel
+        caminho_arquivo = "C:/Users/55119/Desktop/Controle Pedidos Lanchonete/Base Dados.xlsx"
+        
+        #Nome da planilha
+        planilha_nome = "Produtos"
+        
+        try:
+            
+            #Tenta carregar o arquivo existente
+            workbook = load_workbook(filename=caminho_arquivo)
+            
+        except FileNotFoundError:
+            
+            print("Arquivo não existe")
+            
+        #Verifica se a planilha Produtos já existe no arquivo
+        if planilha_nome not in workbook.sheetnames:
+            
+            #Cria a planilha Produtos
+            workbook.create_sheet(planilha_nome)
+            
+        #Obtém a referência para a planilha
+        sheet = workbook[planilha_nome]
+            
+        #Percorre os Produtos no dicionário
+        for produto in Produtos.values():
+            
+            codigo = produto['Codigo']
+            categoria = produto['Categoria']
+            nome = produto['Nome']
+            preco = produto['Preço']
+            
+            #Verifica se o cliente já existe na planilha
+            produto_existe = False
+            
+            for row in sheet.iter_rows(min_row=2, values_only=True):
+            
+                if row[0] == codigo:
+                    
+                    # Se o produto já existe, marca como encontrado e interrompe o loop
+                    produto_existe = True
+                    
+                    break
+                    
+            # Se o produto não existe, adiciona na planilha
+            if not produto_existe:
+
+                # Obtém a próxima linha disponível na planilha
+                max_row = sheet.max_row + 1
+                
+                #Insere os dados do cliente nas colunas correspondentes
+                sheet.cell(row=max_row, column=1, value=codigo)
+                sheet.cell(row=max_row, column=2, value=categoria)
+                sheet.cell(row=max_row, column=3, value=nome)
+                sheet.cell(row=max_row, column=4, value=preco)
+                
+        
+        # Salva as alterações no arquivo
+        workbook.save(filename=caminho_arquivo)
+            
+    
+    # Atualiza a interface gráfica para processar todos os eventos pendentes
+    janela_cadastrar_produtos.update_idletasks()
+
+    # Obtém a largura atual da janela
+    largura = janela_cadastrar_produtos.winfo_width()
+
+    # Obtém a altura atual da janela
+    altura = janela_cadastrar_produtos.winfo_height()
+
+    # Calcula a posição x para centralizar a janela na tela
+    posicao_x = (janela_cadastrar_produtos.winfo_screenwidth() // 2) - (largura // 2)
+
+    # Calcula a posição y para centralizar a janela na tela
+    posicao_y = (janela_cadastrar_produtos.winfo_screenheight() // 2) - (altura // 2)
+
+    # Define a geometria da janela com a largura, altura, posição x e posição y
+    janela_cadastrar_produtos.geometry('{}x{}+{}+{}'.format(largura, altura, posicao_x, posicao_y))
