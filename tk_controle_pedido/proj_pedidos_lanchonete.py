@@ -1493,7 +1493,7 @@ def exibir_menu_produtos(cliente):
     janela_menu_produtos.geometry('{}x{}+{}+{}'.format(largura, altura, posicao_x, posicao_y))
     
 
-def ler_pedidos_excel():
+def ler_pedidos_excel(): #insere uma treeview de dois níveis
     
     # Cria a janela para exibir os pedidos
     janela_pedidos = tk.Toplevel(root)
