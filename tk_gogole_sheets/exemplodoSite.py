@@ -7,13 +7,13 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 # If modifying these scopes, delete the file token.json.
-SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
 # The ID and range of a sample spreadsheet.
-SAMPLE_SPREADSHEET_ID = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
-SAMPLE_RANGE_NAME = "Class Data!A2:E"
+SAMPLE_SPREADSHEET_ID = "1bPgh1USQTuFHRuI9M4VW9Xe_N-G3GkyTGfQ6csI67Z4"
+SAMPLE_RANGE_NAME = "Dados!A1:E"
 
-
+#https://docs.google.com/spreadsheets/d/1bPgh1USQTuFHRuI9M4VW9Xe_N-G3GkyTGfQ6csI67Z4/edit?usp=sharing
 def main():
   """Shows basic usage of the Sheets API.
   Prints values from a sample spreadsheet.
@@ -30,11 +30,11 @@ def main():
       creds.refresh(Request())
     else:
       flow = InstalledAppFlow.from_client_secrets_file(
-          "credentials.json", SCOPES
+          r"C:\python_projetos\google_sheets\credentials.json", SCOPES
       )
       creds = flow.run_local_server(port=0)
     # Save the credentials for the next run
-    with open("token.json", "w") as token:
+    with open(r"C:\python_projetos\google_sheets\token.json", "w") as token:
       token.write(creds.to_json())
 
   try:
@@ -47,8 +47,9 @@ def main():
         .get(spreadsheetId=SAMPLE_SPREADSHEET_ID, range=SAMPLE_RANGE_NAME)
         .execute()
     )
+    #le os dados da planilha google sheets
     values = result.get("values", [])
-
+    print(values)
     if not values:
       print("No data found.")
       return
@@ -62,4 +63,4 @@ def main():
 
 
 if __name__ == "__main__":
-  main()
+      main()
