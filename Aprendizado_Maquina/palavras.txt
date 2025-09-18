@@ -1,0 +1,15 @@
+laranja,0
+pepino,0
+banana,1
+pera,1
+uva,1
+carro,0
+cão,0
+casa,0
+tomate,1
+goiaba,1
+abacaxi,1
+manga,1
+macarrão,0
+limão,1
+alface,0
