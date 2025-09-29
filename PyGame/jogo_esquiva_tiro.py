@@ -33,7 +33,7 @@ imagem_inimigo = pygame.transform.scale(imagem_inimigo, (50, 50))
 
 # Carrega a imagem da explosão do arquivo 'explosao.png', que é 
 # usada para mostrar a destruição de um inimigo.
-imagem_explosao = pygame.image.load('explosao.png')
+imagem_explosao = pygame.image.load('explosao.jpg')
 
 # Redimensiona a imagem da explosão para 50x50 pixels para manter a 
 # consistência no tamanho das imagens do jogo.
