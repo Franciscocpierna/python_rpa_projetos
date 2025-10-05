@@ -85,4 +85,4 @@ def atualizar_informacao(fruta_escolhida):
 
 # O método 'run_server' inicia o servidor web para executar o aplicativo Dash.
 # O argumento 'debug=True' permite o modo de depuração, e 'port=8055' define a porta onde o aplicativo será hospedado.
-aplicativo.run_server(debug=True, port=8055)
+aplicativo.run(debug=True, port=8055)
