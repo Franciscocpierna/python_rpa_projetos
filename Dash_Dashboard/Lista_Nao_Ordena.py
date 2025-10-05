@@ -132,4 +132,4 @@ def adicionar_item_a_lista(n_cliques, item_entrada):
 # Inicializa e roda o servidor do Dash
 # debug=True permite que o servidor recarregue automaticamente sempre que o código for alterado
 # port=8070 define a porta onde o servidor estará escutando
-aplicativo.run_server(debug=True, port=8070)
+aplicativo.run(debug=True, port=8070)
