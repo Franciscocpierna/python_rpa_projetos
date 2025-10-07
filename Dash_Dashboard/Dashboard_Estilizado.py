@@ -166,6 +166,7 @@ def atualizar_grafico(cor_selecionada):
     # A função 'update_traces' é usada para atualizar atributos específicos das barras.
     grafico_barra.update_traces(marker_color=cor_selecionada)
 
+
     # Define o estilo do título do Dashboard, que inclui a cor selecionada.
     # Isso vai alinhar o texto ao centro e aplicar uma margem superior e inferior de 50 pixels.
     # A cor do texto será a mesma que o usuário selecionou.
