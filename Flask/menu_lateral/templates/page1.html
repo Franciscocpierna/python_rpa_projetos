@@ -1,0 +1,21 @@
+{# Extende o layout base do arquivo 'layout.html'.
+   Todos os blocos definidos aqui substituirão os blocos correspondentes no 'layout.html'. #}
+{% extends 'layout.html' %}
+
+{# Define o bloco 'title' que será usado no template base.
+   Este bloco será substituído pelo título 'Página 1'. #}
+{% block title %}Página 1{% endblock %}
+
+{# Início do bloco 'content' que substituirá o bloco correspondente no 'layout.html'.
+   Aqui você insere o conteúdo específico desta página. #}
+{% block content %}
+
+    <!-- Título principal da página -->
+    <h1>Página 1</h1>
+
+    <!-- Parágrafos com o conteúdo da página.
+         Esses podem ser alterados para refletir o conteúdo específico da 'Página 1'. -->
+    <p>Este é o conteúdo da Página 1. Aqui você pode adicionar informações específicas relativas a esta seção do site.</p>
+    <p>Por exemplo, esta página pode conter informações sobre um dos seus serviços ou uma introdução detalhada a um tópico específico.</p>
+
+{% endblock %}

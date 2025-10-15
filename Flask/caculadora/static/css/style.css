@@ -1,0 +1,133 @@
+/* Seleciona o elemento <body> do HTML. Este estilo afeta toda a página. */
+body {
+
+    /* 'display: flex' estabelece um contexto de Flexbox
+    para este elemento e seus filhos diretos.
+       Flexbox é um modelo de layout que permite alinhar e
+       organizar espaçamento entre itens de maneira eficiente. */
+    display: flex;
+
+    /* 'justify-content: center' alinha horizontalmente os
+    itens filhos (no caso, a calculadora) ao centro. */
+    justify-content: center;
+
+    /* 'align-items: center' alinha verticalmente os itens filhos ao centro. */
+    align-items: center;
+
+    /* 'height: 100vh' define a altura do <body> para
+    ser 100% da altura da viewport do navegador.
+       'vh' é uma unidade relativa que se refere à
+       "viewport height" (altura da área de visualização). */
+    height: 100vh;
+
+    /* 'margin: 0' remove todas as margens externas
+    do <body>, garantindo que não haja espaço extra nas bordas da página. */
+    margin: 0;
+
+    /* 'background-color: #ececec' define a cor de fundo de
+    toda a página para um cinza claro. */
+    background-color: #ececec;
+}
+
+/* Seleciona elementos com a classe .calculator. Esta é
+a div principal da calculadora. */
+.calculator {
+
+    /* 'width: 250px' define a largura da calculadora para 250 pixels. */
+    width: 250px;
+
+    /* 'background-color: #fff' define a cor de fundo da
+    calculadora para branco. */
+    background-color: #fff;
+
+    /* 'border-radius: 10px' arredonda os cantos da
+    calculadora com um raio de 10 pixels. */
+    border-radius: 10px;
+
+    /* 'box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1)' adiciona
+     uma sombra ao redor da calculadora.
+       A sombra é sutil, com um desfoque de 10px e uma cor
+        preta com 10% de opacidade. */
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+
+}
+
+/* Seleciona elementos com a classe .display. Esta classe é
+usada para a área onde o resultado ou entrada é exibida. */
+.display {
+
+    /* 'background-color: #222' define a cor de fundo da área
+    de exibição para um cinza quase preto. */
+    background-color: #222;
+
+    /* 'color: #fff' define a cor do texto dentro da área
+    de exibição para branco. */
+    color: #fff;
+
+    /* 'padding: 20px' adiciona um espaçamento interno
+    de 20 pixels em todos os lados dentro da área de exibição. */
+    padding: 20px;
+
+    /* 'font-size: 2em' aumenta o tamanho da fonte para o
+    dobro do tamanho padrão do texto. 'em' é uma unidade relativa ao
+     tamanho da fonte do elemento pai. */
+    font-size: 2em;
+
+    /* 'border-top-left-radius' e 'border-top-right-radius' arredondam
+     os cantos superiores esquerdo e direito da área de exibição, respectivamente. */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* Seleciona elementos com a classe .buttons. Esta classe é
+usada para a área que contém os botões da calculadora. */
+.buttons {
+
+    /* 'padding: 20px' adiciona um espaçamento interno
+    de 20 pixels em todos os lados dentro da área dos botões. */
+    padding: 20px;
+
+    /* Estabelece um layout de grade para os botões. */
+    display: grid;
+
+    /* 'grid-template-columns: repeat(4, 1fr)' divide a
+    grade em 4 colunas de igual largura.
+       '1fr' é uma fração do espaço disponível. */
+    grid-template-columns: repeat(4, 1fr);
+
+    /* 'gap: 10px' define um espaço de 10 pixels entre os elementos da grade. */
+    gap: 10px;
+}
+
+/* Seleciona os botões dentro da área .buttons. */
+.buttons button {
+
+    /* 'padding: 20px' adiciona um espaçamento interno
+    de 20 pixels em todos os lados dentro de cada botão. */
+    padding: 20px;
+
+    /* 'border: none' remove a borda padrão dos botões. */
+    border: none;
+
+    /* 'border-radius: 5px' arredonda os cantos dos botões. */
+    border-radius: 5px;
+
+    /* 'background-color: #f2f2f2' define a cor de fundo dos
+     botões para um cinza claro. */
+    background-color: #f2f2f2;
+
+    /* 'font-size: 1em' define o tamanho da fonte dos botões para
+     ser o mesmo do tamanho padrão do texto. */
+    font-size: 1em;
+
+    /* 'cursor: pointer' muda o cursor para indicar que os botões são clicáveis. */
+    cursor: pointer;
+}
+
+/* Estiliza os botões quando estão sendo clicados ('active' ou ativos). */
+.buttons button:active {
+
+    /* 'background-color: #ddd' muda a cor de fundo dos botões
+    para um cinza um pouco mais escuro quando são pressionados. */
+    background-color: #ddd;
+}

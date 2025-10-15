@@ -1,0 +1,141 @@
+<!-- Declaração do tipo de documento. Aqui, especifica que o documento é HTML5.
+     Isso ajuda os navegadores a renderizar a página corretamente conforme os padrões modernos da web. -->
+
+<!DOCTYPE html>
+
+<!-- A tag <html> marca o início do documento HTML. -->
+<html>
+
+<!-- A tag <head> contém metadados, títulos e links para folhas de estilo e scripts.
+         Não é exibida diretamente na página, mas contém informações importantes sobre o documento. -->
+<head>
+
+    <!-- Define a codificação de caracteres para UTF-8.
+         UTF-8 é uma codificação padrão que suporta a maioria dos caracteres e símbolos usados globalmente. -->
+    <meta charset="UTF-8">
+
+    <!-- Define o título da página.
+         O título pode ser personalizado em templates que estendem este, usando o bloco 'title'.
+         Se o bloco 'title' não for substituído, "Sua Empresa" será usado como título padrão. -->
+    <title>{% block title %}Sua Empresa{% endblock %}</title>
+
+    <!-- Inclui o CSS do Bootstrap.
+         Bootstrap é um framework de front-end popular para desenvolvimento web rápido e responsivo.
+         Esta linha importa a versão 4.5.2 do Bootstrap de um CDN (Content Delivery Network). -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Link para um arquivo CSS local.
+         'url_for' é uma função do Flask usada para encontrar o endereço de um arquivo estático.
+         Neste caso, está vinculando o arquivo 'styles.css' localizado na pasta 'css' dentro da pasta 'static'. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+
+<!-- A tag <body> contém todo o conteúdo visível da página web. -->
+
+    <!-- Barra de navegação -->
+    <!-- Esta é uma barra de navegação do Bootstrap, que é um framework de
+     front-end para desenvolvimento web. -->
+<body>
+
+    <!-- A classe 'navbar' cria a barra de navegação.
+             'navbar-expand-lg' faz com que a barra de navegação se expanda em telas grandes e se torne um menu hambúrguer em telas menores.
+             'navbar-light bg-light' aplica um tema claro à barra de navegação. -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <!-- A classe 'container' é usada para centralizar e alinhar o conteúdo da barra de navegação. -->
+        <div class="container">
+
+            <!-- O logotipo ou nome da marca. 'href="/"' redireciona para a página inicial. -->
+            <a class="navbar-brand" href="/">Sua Empresa</a>
+
+
+            <!-- Botão de alternância para telas menores (menu hambúrguer). -->
+            <!-- A classe 'navbar-toggler' é usada para aplicar o estilo padrão do botão de alternância do Bootstrap.
+                     'type="button"' especifica que este é um botão, mas não um botão de submissão de formulário.
+                     'data-toggle="collapse"' é um atributo de dados do Bootstrap que indica que este botão é usado para alternar a visibilidade de um conteúdo colapsável.
+                     'data-target="#navbarNav"' especifica o ID do conteúdo que será alternado (colapsado ou expandido) quando este botão for clicado.
+                     'aria-controls="navbarNav"' indica que este botão controla o elemento com o ID 'navbarNav'.
+                     'aria-expanded="false"' indica que o conteúdo colapsável está inicialmente fechado.
+                     'aria-label="Toggle navigation"' fornece uma descrição acessível do botão, indicando que ele é usado para alternar a navegação. -->
+            <button class="navbar-toggler" type="button"
+                    data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+
+                <!-- A tag <span> com a classe 'navbar-toggler-icon' cria o ícone do menu hambúrguer.
+                     Este ícone é uma representação visual padrão para menus de navegação em dispositivos móveis.
+                     Ele indica que existe um menu que pode ser expandido ou colapsado. -->
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <!-- Conteúdo da barra de navegação, que será colapsado em um menu
+             hambúrguer em telas menores. -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <!-- Lista de itens de navegação. -->
+                <!-- A classe 'navbar-nav' é uma classe do Bootstrap que estiliza a lista para a navegação.
+                         'ml-auto' é uma classe de utilidade do Bootstrap que automaticamente define a margem esquerda para 'auto',
+                         empurrando toda a lista de navegação para a direita da barra de navegação. -->
+                <ul class="navbar-nav ml-auto">
+
+                    <!-- 'nav-item' é uma classe do Bootstrap usada para itens individuais em uma lista de navegação. -->
+                    <li class="nav-item">
+
+                        <!-- 'nav-link' é uma classe do Bootstrap para links dentro de 'nav-item'.
+                             'href="/"' direciona o link para a raiz do site, geralmente a página inicial.
+                             Este é o link para a "Página Inicial". -->
+                        <a class="nav-link" href="/">Página Inicial</a>
+
+                    </li>
+
+                    <!-- Outro item na lista de navegação. -->
+                    <li class="nav-item">
+
+                        <!-- Link para a página 'Sobre Nós'.
+                             'href="/sobre"' direciona o link para a rota '/sobre' do aplicativo web. -->
+                        <a class="nav-link" href="/sobre">Sobre Nós</a>
+
+                    </li>
+
+                    <!-- Mais um item na lista de navegação. -->
+                    <li class="nav-item">
+
+                        <!-- Link para a página de 'Contato'.
+                             'href="/contato"' direciona o link para a rota '/contato' do aplicativo web. -->
+                        <a class="nav-link" href="/contato">Contato</a>
+
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo principal da página -->
+    <!-- 'container' centraliza o conteúdo e 'mt-5' adiciona uma margem superior. -->
+    <div class="container mt-5">
+
+         <!-- Este bloco de conteúdo pode ser substituído por conteúdo
+          específico nas páginas que estendem este template. -->
+        {% block content %}{% endblock %}
+
+    </div>
+
+    <!-- Scripts do Bootstrap para funcionalidade interativa -->
+    <!-- jQuery, Popper.js e Bootstrap JS são frameworks e bibliotecas JavaScript usados para adicionar interatividade à página. -->
+
+    <!-- Link para a versão mínima do jQuery. jQuery é uma biblioteca JavaScript rápida e rica em recursos. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Link para a versão mínima do Popper.js. Popper.js é uma biblioteca usada para gerenciar poppers em aplicações web. -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Link para a versão mínima do JavaScript do Bootstrap.
+         Bootstrap JS adiciona vários componentes interativos, como o menu hambúrguer. -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

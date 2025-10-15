@@ -1,0 +1,37 @@
+<!-- Herda a estrutura do template 'base.html', permitindo
+ reutilizar layouts e outros elementos comuns em várias páginas. -->
+{% extends "base.html" %}
+
+<!-- Define o conteúdo do bloco 'title'. Neste caso, o título da página é 'Página Inicial'.
+     Este título será exibido na aba do navegador e em outros lugares relevantes. -->
+{% block title %}Página Inicial{% endblock %}
+
+<!-- Inicia a definição do bloco 'content'.
+     Este bloco substituirá o bloco correspondente em 'base.html' com o conteúdo definido aqui. -->
+{% block content %}
+
+    <!-- Cria um cabeçalho de nível um (<h1>) com o estilo 'display-4' do Bootstrap.
+         'display-4' é uma classe do Bootstrap para títulos grandes e impactantes.
+         O texto 'Bem-vindo à Sua Empresa' serve como a introdução principal da página. -->
+    <h1 class="display-4">Bem-vindo à Sua Empresa</h1>
+
+    <!-- Cria um parágrafo introdutório (<p>) com a classe 'lead' do Bootstrap.
+         A classe 'lead' destaca este parágrafo, tornando-o mais proeminente.
+         O texto introduz a empresa e sua missão. -->
+    <p class="lead">Somos uma pequena empresa dedicada a fornecer soluções inovadoras para nossos clientes.</p>
+
+    <!-- Um parágrafo adicional fornecendo mais informações sobre a filosofia ou os valores da empresa. -->
+    <p>Nosso compromisso com a qualidade e a excelência nos tornou líderes em nosso setor.</p>
+
+    <!-- Cria um link estilizado como um botão do Bootstrap (classes 'btn' e 'btn-primary').
+         O link leva à página 'Sobre Nós', permitindo que os usuários saibam mais sobre a empresa. -->
+    <a class="btn btn-primary" href="/sobre">Saiba mais sobre nós</a>
+
+    <!-- Outro link estilizado como um botão (classes 'btn' e 'btn-info').
+         Este link leva à página de 'Contato', incentivando os usuários a se comunicarem com a empresa. -->
+    <a class="btn btn-info" href="/contato">Entre em contato</a>
+
+<!-- Encerra a definição do bloco 'content'. -->
+{% endblock %}
+
+

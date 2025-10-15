@@ -1,0 +1,33 @@
+<!-- A palavra-chave 'extends' é usada em Jinja2, um motor de template para Python, para indicar que este template herda de outro template, neste caso, 'base.html'.
+     Isso significa que ele vai incluir todo o layout e os blocos de conteúdo de 'base.html', mas você pode substituir certos blocos com conteúdo novo, conforme necessário.
+     'extends' é um recurso poderoso para reutilização de código em templates, evitando repetição e mantendo a consistência do layout. -->
+{% extends "base.html" %}
+
+<!-- O bloco 'title' permite personalizar o título da página.
+     Neste caso, define-se o título da página como 'Sobre Nós'.
+     Esse título é importante para os mecanismos de busca e ajuda os usuários a entender o conteúdo da página. -->
+
+{% block title %}Sobre Nós{% endblock %}
+
+<!-- Inicia um novo bloco chamado 'content'.
+     Este é outro exemplo de bloco que será substituído no template base.
+     O conteúdo colocado aqui será exibido onde o bloco 'content' é definido em 'base.html'. -->
+{% block content %}
+
+    <!-- Dentro do bloco 'content', adicionamos elementos HTML como um cabeçalho <h1>.
+         A classe 'display-4' é uma classe de estilo do Bootstrap para
+         um tamanho grande e impactante de cabeçalho. -->
+    <h1 class="display-4">Quem somos</h1>
+
+    <!-- Outro elemento HTML, um parágrafo <p>, com a classe 'lead' do Bootstrap para destacar este texto como introdutório ou importante. -->
+    <p class="lead">Nossa empresa tem uma história rica e um compromisso duradouro com nossos clientes.</p>
+
+    <!-- Links estilizados como botões usando classes do Bootstrap.
+    'btn' é a classe base para botões, 'btn-primary' e 'btn-info' são variações de cores. -->
+    <a class="btn btn-primary" href="/">Voltar para a página inicial</a>
+    <a class="btn btn-info" href="/contato">Entre em contato</a>
+
+<!-- Fecha o bloco 'content'. Todo o conteúdo dentro deste bloco
+ será renderizado na posição correspondente do template base. -->
+{% endblock %}
+

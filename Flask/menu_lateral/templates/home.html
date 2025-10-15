@@ -1,0 +1,31 @@
+<!-- Esta linha indica que este templates estende (ou herda) de
+ um templates base chamado 'layout.html'.
+     O 'layout.html' normalmente contém elementos comuns a
+     todas as páginas, como cabeçalho, rodapé, e estruturas básicas de layout. -->
+{% extends 'layout.html' %}
+
+<!-- Aqui começa um bloco 'title'. Blocos são usados em
+templates Jinja2 para inserir conteúdo que pode variar entre diferentes templates. -->
+{% block title %}
+
+    <!-- O conteúdo colocado aqui será inserido no bloco 'title' do templates 'layout.html'.
+         Neste caso, estamos definindo o título da página como 'Home'. -->
+    Home
+
+<!-- Aqui termina o bloco 'title'. -->
+{% endblock %}
+
+<!-- Aqui começa um bloco 'content'. Este é um bloco padrão usado em
+ muitos templates base para definir onde o conteúdo específico da página deve ser colocado. -->
+{% block content %}
+
+    <!-- Dentro deste bloco, estamos definindo o conteúdo HTML
+     que será específico para esta página. -->
+    <!-- A tag <h1> define um cabeçalho principal para a página. -->
+    <h1>Página Inicial</h1>
+
+    <!-- A tag <p> é usada para definir um parágrafo de texto. -->
+    <p>Conteúdo da página inicial.</p>
+
+<!-- Aqui termina o bloco 'content'. -->
+{% endblock %}

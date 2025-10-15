@@ -1,0 +1,45 @@
+/* styles.css */
+
+/* Seleciona o elemento <body> do HTML. */
+body {
+    font-family: Arial, sans-serif; /* Define a família da fonte como Arial. Se Arial não estiver disponível, usa uma fonte sans-serif genérica. */
+    background-color: #f0f0f0; /* Define a cor de fundo do corpo da página para um cinza claro. */
+    margin: 0; /* Remove a margem padrão ao redor do <body>, garantindo que o conteúdo se estenda até as bordas da página. */
+    padding: 0; /* Remove o espaçamento interno padrão do <body>. */
+}
+
+/* Seleciona elementos com a classe .container. */
+.container {
+    max-width: 800px; /* Define a largura máxima do contêiner para 800 pixels. Isso ajuda a garantir que o conteúdo não fique muito largo em telas grandes. */
+    margin: 0 auto; /* Centraliza o contêiner na página. '0 auto' define a margem superior e inferior como 0 e ajusta automaticamente as margens laterais. */
+    padding: 20px; /* Adiciona um espaçamento interno de 20 pixels em todas as direções dentro do contêiner. Isso separa o conteúdo das bordas do contêiner. */
+    background-color: #fff; /* Define a cor de fundo do contêiner para branco. */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra ao redor do contêiner. A sombra tem um desfoque de 10 pixels e uma cor preta com 20% de opacidade. */
+}
+
+./* Seleciona múltiplas classes de título. Estas classes podem ser usadas para títulos em diferentes páginas. */
+.pagina-inicial-title, .sobre-nos-title, .contato-title {
+    color: #333; /* Define a cor do texto para um cinza escuro. Isso melhora a legibilidade e dá um tom sóbrio e profissional. */
+    text-align: center; /* Centraliza o texto. Isso é usado para alinhar os títulos ao centro, o que é comum em cabeçalhos de páginas. */
+    margin-top: 20px; /* Adiciona uma margem superior de 20 pixels. Isso cria um espaço entre o topo da página ou o elemento anterior e o título. */
+}
+
+/* Seleciona todos os elementos <p> (parágrafos). */
+p {
+    font-size: 16px; /* Define o tamanho da fonte para 16 pixels. Este é um tamanho de fonte confortável para leitura de textos longos. */
+    line-height: 1.5; /* Define a altura da linha como 1.5 vezes o tamanho da fonte. Isso determina o espaçamento vertical entre as linhas de texto, melhorando a legibilidade. */
+    color: #555; /* Define a cor do texto para um cinza médio. Esta cor é mais suave do que o preto puro e é confortável para leitura em telas. */
+}
+
+/* Seleciona elementos com a classe .link. */
+.link {
+    text-decoration: none; /* Remove o sublinhado dos links. Esta é uma prática comum para estilizar links de forma mais limpa e moderna. */
+    color: #0077cc; /* Define a cor dos links para um azul (#0077cc). O azul é frequentemente usado para links, pois é uma cor que indica interatividade e é facilmente reconhecível como um link. */
+    font-weight: bold; /* Torna o texto dos links em negrito. Isso ajuda a destacar os links no conteúdo e pode melhorar a acessibilidade. */
+}
+
+/* Seleciona elementos com a classe .link quando o mouse passa sobre eles (hover). */
+.link:hover {
+    text-decoration: underline; /* Adiciona um sublinhado aos links quando o mouse passa sobre eles.
+                                   O sublinhado em estado de hover é um indicador visual claro de que o elemento é um link clicável. */
+}

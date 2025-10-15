@@ -1,0 +1,72 @@
+/* Esta seção define o estilo para o elemento <body> do HTML. */
+body {
+
+    /* Define a fonte padrão para o corpo do documento.
+       Primeiro tenta usar Arial, se não estiver disponível, usa
+        uma fonte sans-serif genérica. */
+    font-family: Arial, sans-serif;
+
+    /* Configura o layout do corpo para usar 'flexbox', um modelo de layout que permite
+       alinhar e distribuir espaço entre itens em um contêiner de forma eficiente. */
+    display: flex;
+}
+
+/* Define estilos para elementos com a classe 'menu-lateral'. */
+.menu-lateral {
+
+    /* Define a largura do menu lateral para 200 pixels. */
+    width: 200px;
+
+    /* Define a cor de fundo do menu lateral. */
+    background-color: #f0f0f0;
+
+    /* Adiciona um padding (espaçamento interno) de 20 pixels em
+    todos os lados do menu lateral. */
+    padding: 20px;
+
+    /* Define a altura do menu lateral. 100vh significa 100% da
+    altura da viewport (área visível do navegador). */
+    height: 100vh;
+}
+
+/* Define estilos para elementos com a classe 'conteudo'. */
+.conteudo {
+
+    /* A propriedade 'flex-grow' controla a capacidade de um item flexível crescer se necessário.
+       Um valor de 1 indica que o elemento 'conteudo' pode crescer para ocupar o espaço extra. */
+    flex-grow: 1;
+
+    /* Adiciona um padding de 20 pixels em todos os lados do conteúdo. */
+    padding: 20px;
+}
+
+/* Define estilos para elementos <ul> dentro de elementos
+ com a classe 'menu-lateral'. */
+.menu-lateral ul {
+
+    /* Remove os estilos padrão de lista, como marcadores. */
+    list-style-type: none;
+
+    /* Remove o padding padrão do elemento <ul> para alinhá-lo
+    corretamente dentro do menu lateral. */
+    padding: 0;
+}
+
+/* Define estilos para links (<a>) dentro de itens de lista (<li>) em
+um <ul> dentro de elementos com a classe 'menu-lateral'. */
+.menu-lateral ul li a {
+
+    /* Remove o sublinhado padrão dos links. */
+    text-decoration: none;
+
+    /* Define a cor do texto dos links para preto. */
+    color: black;
+
+    /* Faz com que o link ocupe o espaço inteiro do bloco,
+    tornando toda a área clicável. */
+    display: block;
+
+    /* Adiciona um padding vertical de 10 pixels e nenhum padding horizontal para cada link.
+       Isso ajuda a separar visualmente os links um do outro. */
+    padding: 10px 0;
+}

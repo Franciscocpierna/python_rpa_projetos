@@ -1,0 +1,21 @@
+{# Este template estende 'layout.html', herdando sua estrutura
+básica e permitindo sobrescrever blocos específicos. #}
+{% extends 'layout.html' %}
+
+{# Define o conteúdo do bloco 'title'. Este título é específico
+para a 'Página 2' e será mostrado na aba do navegador. #}
+{% block title %}Página 2{% endblock %}
+
+{# Início do bloco 'content', que substituirá o bloco correspondente no 'layout.html'.
+   Aqui é definido o conteúdo específico da 'Página 2'. #}
+{% block content %}
+
+    <!-- Título principal da 'Página 2' -->
+    <h1>Página 2</h1>
+
+    <!-- Primeiro parágrafo da 'Página 2', introduzindo o conteúdo ou propósito da página. -->
+    <p>Este é o conteúdo da Página 2. Esta seção pode conter informações diferentes ou complementares em relação à Página 1.</p>
+
+    <!-- Segundo parágrafo, possivelmente expandindo sobre o conteúdo ou oferecendo mais detalhes. -->
+    <p>Aqui, você pode explorar outros aspectos do seu projeto ou site, oferecendo ao usuário informações variadas ou conteúdo interativo.</p>
+{% endblock %}

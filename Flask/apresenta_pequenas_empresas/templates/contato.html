@@ -1,0 +1,41 @@
+<!-- A linha abaixo estende um template base chamado 'base.html'.
+     Isso significa que este template herda toda a estrutura e os blocos de conteúdo de 'base.html'.
+     Podemos substituir ou adicionar ao conteúdo desses blocos conforme necessário. -->
+{% extends "base.html" %}
+
+<!-- Define o título da página como 'Contato'.
+     Este título é inserido no bloco 'title' definido em 'base.html'.
+     O bloco 'title' é geralmente usado na tag <title> no <head> do documento HTML. -->
+{% block title %}Contato{% endblock %}
+
+<!-- Início do bloco de conteúdo.
+     Este bloco substituirá o bloco 'content' correspondente em 'base.html' com o conteúdo definido aqui. -->
+{% block content %}
+
+    <!-- Cria um cabeçalho de nível um (<h1>) com a classe 'display-4' do Bootstrap para um estilo mais destacado.
+         O texto 'Entre em contato conosco' é exibido como um título grande na página. -->
+    <h1 class="display-4">Entre em contato conosco</h1>
+
+    <!-- Cria um parágrafo (<p>) com a classe 'lead' do Bootstrap, que é usada para destacar um parágrafo introdutório.
+         Este parágrafo fornece uma mensagem de boas-vindas ou introdução à seção de contato. -->
+    <p class="lead">Estamos aqui para atender às suas necessidades. Entre em contato conosco a qualquer momento.</p>
+
+    <!-- Exibe o endereço da empresa. -->
+    <p>Endereço: Rua da Empresa, 123</p>
+
+    <!-- Exibe o número de telefone para contato. -->
+    <p>Telefone: (11) 1234-5678</p>
+
+    <!-- Exibe o endereço de e-mail para contato. -->
+    <p>Email: contato@suaempresa.com</p>
+
+    <!-- Cria um link estilizado como um botão (com as classes do Bootstrap 'btn' e 'btn-primary')
+         que leva o usuário de volta para a página inicial. 'href="/"' especifica o caminho para a página inicial. -->
+    <a class="btn btn-primary" href="/">Voltar para a página inicial</a>
+
+    <!-- Similar ao link anterior, mas este leva o usuário para a página 'Sobre Nós'.
+         'href="/sobre"' especifica o caminho para a página 'Sobre Nós'. -->
+    <a class="btn btn-info" href="/sobre">Saiba mais sobre nós</a>
+
+<!-- Fim do bloco de conteúdo. -->
+{% endblock %}

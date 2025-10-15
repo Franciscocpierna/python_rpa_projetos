@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!-- A linha acima declara que o documento é um HTML5. -->
+<!-- A tag <html> marca o início do documento HTML. -->
+<!-- A tag <head> contém informações que não são exibidas diretamente na página,
+         como metadados, links para folhas de estilo e scripts. -->
+<html>
+<head>
+
+    <!-- Início da seção head do documento HTML. -->
+
+    <!-- A tag <link> é usada para incluir uma folha de estilo externa.
+         'href="{{ url_for('static', filename='css/style.css') }}"' é um exemplo de utilização do Jinja2
+         para gerar dinamicamente o caminho para um arquivo estático, neste caso, uma folha de estilo CSS.
+         A função 'url_for' do Flask é usada para construir URLs para rotas específicas ou arquivos estáticos. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Título da página, com um bloco de título dinâmico e texto estático. -->
+    <title>{% block title %}{% endblock %} - Meu Projeto Flask</title>
+</head>
+<body>
+    <!-- Início da seção body do documento HTML. -->
+
+    <!-- Divisão para o menu lateral. -->
+    <div class="menu-lateral">
+
+        <!-- A tag <body> contém todo o conteúdo da página que é visível para o usuário. -->
+
+        <!-- Divisão para o menu lateral. A classe 'menu-lateral' é utilizada para
+        aplicar estilos específicos a esta seção. -->
+        <!-- Lista não ordenada para os itens do menu. -->
+        <ul>
+
+            <!-- Cada item da lista (<li>) contém um link (<a>).
+                 A função 'url_for' do Flask gera URLs dinâmicas para as rotas do Flask.
+                 Isso facilita a manutenção e adaptação do código a mudanças nas rotas. -->
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('page1') }}">Página 1</a></li>
+            <li><a href="{{ url_for('page2') }}">Página 2</a></li>
+        </ul>
+    </div>
+
+    <!-- Divisão para o conteúdo principal da página.
+         A classe 'conteudo' é usada para aplicar estilos específicos a esta seção. -->
+    <div class="conteudo">
+
+        <!-- Bloco 'content' definido pelo Jinja2.
+             Este bloco pode ser substituído com conteúdo específico em templates que estendem este.
+             Permite a inserção de conteúdo variável mantendo a estrutura geral do layout. -->
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
