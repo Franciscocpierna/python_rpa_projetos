@@ -1,0 +1,161 @@
+<!-- Declaração do tipo de documento. Aqui, especifica que o documento é HTML5.
+     Isso ajuda os navegadores a interpretar e renderizar a página
+     corretamente de acordo com os padrões modernos da web. -->
+<!DOCTYPE html>
+
+<!-- A tag <html> marca o início do documento HTML.
+     O atributo 'lang="pt-BR"' especifica que o idioma do documento é o
+     português do Brasil, o que é importante para acessibilidade e SEO. -->
+
+<html lang="pt-BR">
+
+<!-- A tag <head> contém metadados, links para folhas de estilo e scripts
+    que não são exibidos diretamente na página,
+     mas contêm informações importantes sobre o documento. -->
+<head>
+
+    <!-- Define a codificação de caracteres para UTF-8, que
+    é uma codificação padrão que suporta a maioria dos caracteres e símbolos usados globalmente. -->
+    <meta charset="UTF-8">
+
+    <!-- Define o título da página. Este título é exibido na
+     aba do navegador e é importante para SEO e acessibilidade. -->
+    <title>Álbum de Fotos</title>
+
+    <!-- Link para a folha de estilo do Bootstrap.
+         Bootstrap é um framework de CSS popular para desenvolvimento de interfaces de usuário responsivas e modernas.
+         Este link carrega a versão 4.5.2 do Bootstrap de um CDN (Content Delivery Network). -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+    <style>
+
+        /* Estilos CSS internos para elementos específicos da página. */
+
+        /* Defina a altura fixa e a largura automática para as imagens */
+        .album-image {
+            width: auto; /* Mantém a largura da imagem automática, permitindo que ela se ajuste à altura especificada. */
+            height: 200px; /* Define a altura fixa das imagens como 200 pixels.
+                              Isso garante que todas as imagens nesta classe tenham uma altura consistente. */
+            object-fit: cover; /* Ajusta a imagem para cobrir o espaço definido, mantendo suas proporções e cortando se necessário.
+                                  Isso evita que as imagens fiquem distorcidas ou esticadas. */
+        }
+    </style>
+</head>
+
+<!-- A tag <body> contém todo o conteúdo visível da página web. -->
+<body>
+
+    <!-- A tag <header> é usada para definir o cabeçalho da página.
+         Geralmente contém elementos de navegação e branding, como logotipos. -->
+    <header>
+
+        <!-- A tag <nav> define uma seção de navegação.
+             'navbar' é uma classe do Bootstrap que estiliza a barra de navegação.
+             'navbar-dark' e 'bg-dark' são classes do Bootstrap que aplicam um
+              esquema de cores escuro à barra de navegação. -->
+        <nav class="navbar navbar-dark bg-dark">
+
+            <!-- A classe 'container' do Bootstrap é usada para centralizar e
+             alinhar o conteúdo dentro da barra de navegação. -->
+            <div class="container">
+
+                <!-- O elemento <a> com a classe 'navbar-brand' é tipicamente usado para o logotipo ou título do site.
+                     'href="/"' indica que este link redireciona para a página inicial do site.
+                     O texto 'Álbum de Fotos' é exibido como o nome da marca ou título do site. -->
+                <a class="navbar-brand" href="/">Álbum de Fotos</a>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-- A tag <main> é usada para o conteúdo principal da página web.
+         Ela deve conter o conteúdo exclusivamente relevante à centralidade temática da página. -->
+    <main>
+
+        <!-- 'container' é uma classe do Bootstrap que centraliza o conteúdo e aplica uma largura máxima. -->
+        <div class="container">
+
+            <!-- Cria um cabeçalho de nível um (<h1>) para o título da página.
+                 'mt-4' adiciona uma margem superior para separar o título do conteúdo acima. -->
+            <h1 class="mt-4">Álbum de Fotos</h1>
+
+            <!-- 'row' é uma classe do Bootstrap que define uma linha para um sistema de grade.
+                 'row-cols-3' especifica que cada linha terá até três colunas. -->
+            <div class="row row-cols-3">
+
+                <!-- Início de um loop Jinja2. Itera sobre cada 'foto' na lista 'fotos'. -->
+                {% for foto in fotos %}
+
+                    <!-- 'col-md-4' define que cada item de foto ocupará 4 de 12 colunas
+                    possíveis em telas médias (md) e maiores, resultando em três itens por linha. -->
+                    <div class="col-md-4">
+
+                        <!-- 'card' é uma classe do Bootstrap para containers de conteúdo semelhantes a cartões.
+                             'mb-4' adiciona uma margem inferior para separar os cartões uns dos outros. -->
+                        <div class="card mb-4">
+
+                            <!-- Cria uma tag <img> para a imagem.
+                                 'src="{{ url_for('static', filename=foto.url) }}"' gera dinamicamente o caminho para a imagem.
+                                 'alt="{{ foto.titulo }}"' fornece um texto alternativo para a imagem.
+                                 'class="card-img-top album-image"' aplica estilos do Bootstrap e estilos personalizados para a imagem. -->
+                            <img src="{{ url_for('static', filename=foto.url) }}" alt="{{ foto.titulo }}" class="card-img-top album-image">
+
+                            <!-- 'card-body' é uma classe do Bootstrap para o conteúdo principal de um cartão. -->
+                            <div class="card-body">
+
+                                <!-- Mostra o título da foto. 'card-title' é uma classe do Bootstrap para títulos dentro de cartões. -->
+                                <h5 class="card-title">{{ foto.titulo }}</h5>
+
+                                <!-- Mostra a descrição da foto. 'card-text' é uma classe do Bootstrap para texto dentro de cartões. -->
+                                <p class="card-text">{{ foto.descricao }}</p>
+
+                                <!-- Cria um link para a página de detalhes da foto.
+                                     'class="btn btn-primary"' aplica estilos de botão do Bootstrap. -->
+                                <a href="/foto/{{ foto.id }}" class="btn btn-primary">Detalhes</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+                <!-- Fim do loop Jinja2. -->
+
+            </div>
+        </div>
+    </main>
+
+    <!-- A tag <footer> define o rodapé da página.
+         'class="bg-dark text-white py-3"' aplica estilos do Bootstrap:
+         'bg-dark' para um fundo escuro, 'text-white' para texto em branco e
+          'py-3' para um espaçamento vertical interno (padding) de tamanho 3. -->
+    <footer class="bg-dark text-white py-3">
+
+        <!-- 'container' é uma classe do Bootstrap que centraliza o conteúdo e aplica uma largura máxima.
+             'text-center' alinha o texto ao centro do contêiner. -->
+        <div class="container text-center">
+
+            <!-- '&copy;' é o símbolo de direitos autorais.
+                 '2023 Álbum de Fotos' é um texto simples indicando os direitos autorais do conteúdo da página. -->
+            &copy; 2023 Álbum de Fotos
+
+        </div>
+    </footer>
+    <!-- Fim da tag <footer>. -->
+
+    <!-- Inclusão da biblioteca jQuery.
+         'src="https://code.jquery.com/jquery-3.6.0.min.js"' especifica o caminho para a versão mínima do jQuery 3.6.0.
+         jQuery é uma biblioteca JavaScript rápida e rica em recursos usada para simplificar
+          tarefas como manipulação de HTML, manipulação de eventos, animação e Ajax. -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Inclusão do JavaScript do Bootstrap.
+         'src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"' especifica o
+          caminho para a versão mínima do JavaScript do Bootstrap 4.5.2.
+         Esta inclusão é essencial para habilitar as funcionalidades interativas do
+         Bootstrap, como modais, dropdowns e colapsos. -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

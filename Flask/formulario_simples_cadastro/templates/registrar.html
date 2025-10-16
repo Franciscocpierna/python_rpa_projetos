@@ -1,0 +1,108 @@
+<!-- Declaração do tipo do documento. Informa ao navegador que este é um documento HTML5. -->
+<!DOCTYPE html>
+
+<!-- Elemento raiz de um documento HTML. O atributo 'lang' define o
+ idioma do conteúdo do documento, neste caso, inglês ('en'). -->
+<html lang="en">
+
+<!-- Seção 'head' do documento, contém metadados e links para
+ scripts ou folhas de estilo. -->
+<head>
+
+    <!-- Define a codificação de caracteres para o documento, neste caso,
+    UTF-8, que inclui a maioria dos caracteres de todos os idiomas escritos. -->
+    <meta charset="UTF-8">
+
+    <!--
+    A tag 'meta' com 'viewport' é importante para a responsividade em dispositivos móveis.
+    - 'width=device-width' define a largura da área de visualização para seguir a largura do dispositivo.
+    - 'initial-scale=1.0' estabelece o nível inicial de zoom quando a página é carregada pela primeira vez. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Define o título do documento, que é exibido na aba do navegador ou
+     no título da janela. Aqui, é 'Formulário de Cadastro'. -->
+    <title>Formulário de Cadastro</title>
+
+    <!-- A seguir, um link externo para a folha de estilo CSS do Bootstrap. -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> <!--
+    - 'href' especifica o URL da folha de estilo.
+    - 'rel="stylesheet"' indica que o tipo de documento referenciado é uma folha de estilo CSS.
+    - Este link é para a versão 4.5.2 do Bootstrap, um framework de CSS amplamente usado para design responsivo e componentes de interface.
+    - O uso do Bootstrap facilita o desenvolvimento de um layout atraente com comportamento responsivo. -->
+
+</head> <!-- Fim da seção 'head'. -->
+
+<!-- Abre a tag 'body', que contém o conteúdo principal da página. -->
+<body>
+
+    <!-- 'div' com a classe 'container' do Bootstrap, usada
+    para alinhamento central e responsivo do conteúdo. -->
+    <div class="container">
+
+        <!-- Cria um cabeçalho (h2) com um texto. 'class="mt-5"'
+        adiciona uma margem superior (top margin) de 5 espaços (Bootstrap). -->
+        <h2 class="mt-5">Formulário de Cadastro</h2>
+
+        <!-- Abre a tag 'form' com o método 'post', usado para
+        enviar dados do formulário para o servidor. -->
+        <form method="post">
+
+            <!-- Cria um grupo de formulário, uma prática comum para organização e estilização. -->
+            <div class="form-group">
+
+                <!-- 'label' para o campo de nome, associado ao input
+                abaixo pelo atributo 'for'. -->
+                <label for="nome">Nome</label>
+
+                <!-- Campo de entrada para o nome.
+                - 'type="text"' indica que é para entrada de texto.
+                - 'class="form-control"' aplica estilos do Bootstrap.
+                - 'name="nome"' define o nome do campo para referência no backend.
+                - 'id="nome"' para associar com o rótulo.
+                - 'placeholder' fornece um texto de exemplo dentro do campo. -->
+                <input type="text" class="form-control" name="nome" id="nome" placeholder="Digite seu nome">
+
+            </div>
+
+            <!-- Outro grupo de formulário para o campo de email. -->
+            <div class="form-group">
+
+                <!-- 'label' para o campo de email. -->
+                <label for="email">Email</label>
+
+                <!-- Campo de email, com validações automáticas para o formato de email. -->
+                <input type="email" class="form-control" name="email" id="email" placeholder="Digite seu email">
+
+            </div>
+
+            <!-- Grupo de formulário para o campo de senha. -->
+            <div class="form-group">
+
+                <!-- 'label' para o campo de senha. -->
+                <label for="senha">Senha</label>
+
+                <!-- Campo de senha, que oculta os caracteres digitados. -->
+                <input type="password" class="form-control" name="senha" id="senha" placeholder="Digite sua senha">
+
+            </div>
+
+            <!-- Botão para enviar o formulário. 'class="btn btn-primary"'
+            estiliza o botão com o estilo primário do Bootstrap. -->
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+
+        </form> <!-- Fecha a tag 'form'. -->
+
+    </div> <!-- Fecha a 'div' com a classe 'container'. -->
+
+    <!-- Inclusão de scripts JavaScript, necessários para funcionalidades do Bootstrap. -->
+    <!-- Carrega a versão 'slim' do jQuery, uma dependência para alguns componentes do Bootstrap. -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <!-- Carrega o Popper.js, necessário para dicas de ferramentas e popovers do Bootstrap. -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
+
+    <!-- Carrega o JavaScript do Bootstrap, que ativa diversos componentes interativos do framework. -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body> <!-- Fim do corpo do documento HTML. -->
+</html> <!-- Fim do documento HTML. -->

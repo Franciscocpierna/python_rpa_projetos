@@ -1,0 +1,73 @@
+<!DOCTYPE html> <!-- A linha doctype declara o tipo do documento ao navegador. Aqui, especifica que o documento é HTML5. -->
+
+<html lang="pt-br"> <!-- O elemento 'html' é a raiz do documento HTML. O atributo 'lang' especifica o idioma do documento, neste caso, português do Brasil ('pt-br'). -->
+
+<head> <!-- O elemento 'head' contém metadados sobre o documento, como título, links para folhas de estilo e outros. -->
+
+    <meta charset="UTF-8"> <!-- A tag 'meta' com o atributo 'charset' define a codificação de caracteres do documento para UTF-8, que suporta a maioria dos caracteres de diferentes idiomas. -->
+
+    <!-- Outra tag 'meta', mas essa é para configurar a visualização da página em dispositivos móveis.
+    - 'width=device-width' faz com que a largura da página corresponda à largura da tela do dispositivo.
+    - 'initial-scale=1.0' estabelece o nível de zoom inicial da página. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- A tag 'title' define o título do documento, que é
+    exibido na aba od navegador. Aqui, é 'Cadastro Realizado'. -->
+    <title>Cadastro Realizado</title>
+
+    <!-- Inclui o CSS do Bootstrap, um framework de front-end para design responsivo e estilização. -->
+    <!-- - 'href' especifica o URL da folha de estilo.
+    - 'rel="stylesheet"' define o tipo de link como uma folha de estilo CSS.
+    - Este link é para a versão 4.5.2 do Bootstrap, que fornece uma variedade de classes CSS para estilizar facilmente elementos HTML. -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head> <!-- Fim do elemento 'head'. -->
+
+<!-- Início do corpo do documento HTML, onde todo o conteúdo visível da página é colocado. -->
+<body>
+
+    <!-- 'div' com a classe 'container' do Bootstrap, que centraliza e alinha o conteúdo.
+    'mt-5' adiciona uma margem superior de 3 rem (unidades do Bootstrap) para espaçar do topo da página. -->
+    <div class="container mt-5">
+
+        <!-- 'div' para uma mensagem de alerta.
+        'alert' e 'alert-success' são classes do Bootstrap para estilizar a mensagem como um alerta de sucesso (normalmente verde).
+        'role="alert"' é um atributo de ARIA para acessibilidade, indicando que este é um elemento de alerta. -->
+        <div class="alert alert-success" role="alert">
+
+            <!-- Cabeçalho do alerta. 'alert-heading' é uma classe do Bootstrap para dar estilo ao título de um alerta. -->
+            <h4 class="alert-heading">Cadastro realizado com sucesso!</h4>
+
+            <!-- Parágrafo dentro do alerta. -->
+            <p>Seu cadastro foi completado com êxito.</p>
+
+            <!-- Linha horizontal para separar o conteúdo dentro do alerta. -->
+            <hr>
+
+            <!-- Outro parágrafo, com 'mb-0' para remover a margem inferior. -->
+            <p class="mb-0">Clique no botão abaixo para realizar um novo cadastro.</p>
+
+        </div> <!-- Fim do 'div' do alerta. -->
+
+        <!-- Link estilizado como botão.
+        - 'href="{{ url_for('registrar') }}"' é uma sintaxe de template do Flask,
+        que gera dinamicamente o URL para a rota 'registrar'.
+
+        - 'class="btn btn-primary"' aplica os estilos de botão do Bootstrap.
+        'btn-primary' dá uma cor azul padrão do Bootstrap ao botão. -->
+        <a href="{{ url_for('registrar') }}" class="btn btn-primary">Novo Cadastro</a>
+
+    </div> <!-- Fim do 'div' container. -->
+
+    <!-- Inclusão de scripts JavaScript, necessários para funcionalidades do Bootstrap. -->
+    <!-- Carrega a versão 'slim' do jQuery, uma dependência para alguns componentes do Bootstrap. -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <!-- Carrega o Popper.js, necessário para dicas de ferramentas e popovers do Bootstrap. -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.11/dist/umd/popper.min.js"></script>
+
+    <!-- Carrega o JavaScript do Bootstrap, que ativa diversos componentes interativos do framework. -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body> <!-- Fim do corpo do documento HTML. -->
+</html> <!-- Fim do documento HTML. -->

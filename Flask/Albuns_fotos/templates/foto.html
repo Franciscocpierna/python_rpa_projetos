@@ -1,0 +1,129 @@
+<!-- Declaração do tipo de documento. Aqui, especifica que o documento é HTML5.
+     Isso ajuda os navegadores a interpretar e renderizar a página corretamente de acordo com os padrões modernos da web. -->
+<!DOCTYPE html>
+
+<!-- A tag <html> marca o início do documento HTML.
+     O atributo 'lang="pt-BR"' especifica que o idioma do documento é o português do Brasil, o que é importante para acessibilidade e SEO. -->
+<html lang="pt-BR">
+
+<!-- A tag <head> contém metadados, links para folhas de estilo e scripts que não são exibidos diretamente na página,
+     mas contêm informações importantes sobre o documento. -->
+<head>
+
+    <!-- Define a codificação de caracteres para UTF-8, que é uma
+    codificação padrão que suporta a maioria dos caracteres e símbolos usados globalmente. -->
+    <meta charset="UTF-8">
+
+    <!-- Define o título da página. Este título é exibido na aba
+    do navegador e é importante para SEO e acessibilidade. -->
+    <title>Detalhes da Foto</title>
+
+    <!-- Link para a folha de estilo do Bootstrap.
+         Bootstrap é um framework de CSS popular para desenvolvimento de interfaces de usuário responsivas e modernas.
+         Este link carrega a versão 4.5.2 do Bootstrap de um CDN (Content Delivery Network). -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+    <style>
+
+        /* Estilos CSS internos para elementos específicos da página. */
+        .card-img-top {
+            width: 500px; /* Define a largura fixa da imagem como 500 pixels. */
+            height: 300px; /* Define a altura fixa da imagem como 300 pixels. */
+            object-fit: cover; /* Garante que a imagem cubra toda a área definida, cortando-a se necessário para manter suas proporções. */
+        }
+    </style>
+</head>
+
+<!-- A tag <body> contém todo o conteúdo visível da página web. -->
+<body>
+
+    <!-- A tag <header> é usada para definir o cabeçalho da página.
+         Geralmente contém elementos de navegação e branding, como logotipos. -->
+    <header>
+
+        <!-- A tag <nav> define uma seção de navegação.
+             'navbar' é uma classe do Bootstrap que estiliza a barra de navegação.
+             'navbar-dark' e 'bg-dark' são classes do Bootstrap que aplicam um esquema de cores escuro à barra de navegação. -->
+        <nav class="navbar navbar-dark bg-dark">
+
+            <!-- A classe 'container' do Bootstrap é usada para centralizar e alinhar o conteúdo dentro da barra de navegação. -->
+            <div class="container">
+
+                <!-- O elemento <a> com a classe 'navbar-brand' é tipicamente usado para o logotipo ou título do site.
+                     'href="/"' indica que este link redireciona para a página inicial do site.
+                     O texto 'Álbum de Fotos' é exibido como o nome da marca ou título do site. -->
+                <a class="navbar-brand" href="/">Álbum de Fotos</a>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-- A tag <main> é usada para o conteúdo principal da página web.
+         Ela deve conter o conteúdo exclusivamente relevante à centralidade temática da página. -->
+    <main>
+
+        <!-- 'container' é uma classe do Bootstrap que centraliza o conteúdo e aplica uma largura máxima.
+             'mt-4' adiciona uma margem superior de tamanho 4 (espaço) para separar visualmente o contêiner do conteúdo acima. -->
+        <div class="container mt-4">
+
+            <!-- 'card' é uma classe do Bootstrap que cria um container com bordas e sombras, semelhante a um cartão, para destacar o conteúdo dentro dele. -->
+            <div class="card">
+
+                <!-- A tag <img> é usada para incluir uma imagem no cartão.
+                     'src="{{ url_for('static', filename=foto.url) }}"' utiliza a função 'url_for' do Flask para gerar dinamicamente o caminho para a imagem estática.
+                     'alt="{{ foto.titulo }}"' fornece um texto alternativo para a imagem, importante para acessibilidade e SEO.
+                     'class="card-img-top"' aplica estilos do Bootstrap especificamente para imagens no topo de um cartão. -->
+                <img src="{{ url_for('static', filename=foto.url) }}" alt="{{ foto.titulo }}" class="card-img-top">
+
+                <!-- 'card-body' é uma classe do Bootstrap usada para envolver o conteúdo do cartão. -->
+                <div class="card-body">
+
+                    <!-- 'card-title' é uma classe do Bootstrap para títulos dentro de um cartão.
+                         O título da foto é inserido aqui. -->
+                    <h5 class="card-title">{{ foto.titulo }}</h5>
+
+                    <!-- 'card-text' é uma classe do Bootstrap para texto dentro de um cartão.
+                         A descrição da foto é inserida aqui. -->
+                    <p class="card-text">{{ foto.descricao }}</p>
+
+                    <!-- Cria um link estilizado como um botão do Bootstrap que leva o usuário de volta à página inicial.
+                         'btn' é a classe básica para botões no Bootstrap, e 'btn-primary' aplica o esquema de cores primário. -->
+                    <a href="/" class="btn btn-primary">Voltar</a>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- A tag <footer> define o rodapé da página.
+         'class="bg-dark text-white py-3"' aplica estilos do Bootstrap:
+         'bg-dark' para um fundo escuro, 'text-white' para texto em branco e 'py-3' para um espaçamento vertical interno (padding) de tamanho 3. -->
+    <footer class="bg-dark text-white py-3">
+
+        <!-- 'container' é uma classe do Bootstrap que centraliza o conteúdo e aplica uma largura máxima.
+             'text-center' alinha o texto ao centro do contêiner. -->
+        <div class="container text-center">
+
+            <!-- '&copy;' é o símbolo de direitos autorais.
+                 '2023 Álbum de Fotos' é um texto simples indicando os direitos autorais do conteúdo da página. -->
+            &copy; 2023 Álbum de Fotos
+
+        </div>
+    </footer>
+    <!-- Fim da tag <footer>. -->
+
+    <!-- Inclusão da biblioteca jQuery.
+         'src="https://code.jquery.com/jquery-3.6.0.min.js"' especifica o caminho para a versão mínima do jQuery 3.6.0.
+         jQuery é uma biblioteca JavaScript rápida e rica em recursos usada para
+         simplificar tarefas como manipulação de HTML, manipulação de eventos, animação e Ajax. -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Inclusão do JavaScript do Bootstrap.
+         'src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"' especifica o caminho para a versão mínima do JavaScript do Bootstrap 4.5.2.
+         Esta inclusão é essencial para habilitar as funcionalidades interativas do Bootstrap, como modais, dropdowns e colapsos. -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
