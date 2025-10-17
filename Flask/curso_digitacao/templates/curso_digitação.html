@@ -1,0 +1,97 @@
+<!-- A declaração <!DOCTYPE html> especifica que este documento é um documento HTML5.
+     Ela é importante para garantir que o navegador interprete e renderize a
+      página corretamente de acordo com os padrões do HTML5. -->
+<!DOCTYPE html>
+
+<!-- A tag <html> indica o início do documento HTML.
+     O atributo 'lang="pt-BR"' especifica o idioma do documento como português do Brasil.
+     Isso é importante para acessibilidade, SEO e para indicar aos navegadores
+      como renderizar conteúdo específico do idioma. -->
+<html lang="pt-BR">
+
+<!-- A tag <head> contém metadados e links para recursos externos.
+     Metadados não são exibidos na página, mas fornecem informações sobre o documento. -->
+<head>
+
+    <!-- A tag <meta> com o atributo 'charset="UTF-8"' define a codificação de caracteres do documento para UTF-8.
+         UTF-8 é uma codificação de caracteres que inclui praticamente todos os caracteres e símbolos usados em todas as línguas escritas.
+         Isso garante que qualquer texto no documento seja exibido corretamente. -->
+    <meta charset="UTF-8">
+
+    <!-- A tag <title> define o título da página.
+         Esse título aparece na aba do navegador e é usado por mecanismos de busca.
+         Aqui, ele é definido como 'Curso de Digitação'. -->
+    <title>Curso de Digitação</title>
+
+    <!-- A tag <link> é usada para vincular folhas de estilo externas.
+         Este link específico carrega a versão mínima (minificada) do CSS do Bootstrap 4.5.2 de um CDN (Content Delivery Network).
+         O Bootstrap é um framework de front-end para desenvolvimento de páginas web responsivas e estilizadas. -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+
+<!-- A tag <body> engloba todo o conteúdo visível da página. -->
+<body>
+
+    <!-- 'container' é uma classe do Bootstrap que define um contêiner
+    centralizado para o conteúdo, com uma largura máxima. -->
+    <div class="container">
+
+        <!-- 'row' é uma classe do Bootstrap que cria uma linha no sistema
+         de grade (grid) para dispor colunas.
+             'mt-4' adiciona uma margem superior com tamanho 4 para
+             criar espaço entre o conteúdo e elementos acima. -->
+        <div class="row mt-4">
+
+            <!-- 'col-md-3' define que esta coluna deve ocupar 3 de 12 partes
+            possíveis do contêiner em telas médias (md) ou maiores. -->
+            <div class="col-md-3">
+
+                <!-- Cria um cabeçalho de nível três para o título da seção. -->
+                <h3>Escolha um Nível:</h3>
+
+                <!-- 'list-group' é uma classe do Bootstrap que estiliza a lista. -->
+                <ul class="list-group">
+
+                    <!-- Inicia um loop Jinja2 que itera sobre cada item na lista 'niveis'. -->
+                    {% for nivel in niveis %}
+
+                        <!-- 'list-group-item' é uma classe do Bootstrap que estiliza os itens da lista. -->
+                        <li class="list-group-item">
+
+                            <!-- Cria um link para cada nível do jogo.
+                                 'href="/jogo/{{ loop.index0 }}"' cria um link dinâmico para o jogo com o índice atual do loop (começando do 0).
+                                 '{{ nivel.nome }}' exibe o nome do nível. -->
+                            <a href="/jogo/{{ loop.index0 }}">{{ nivel.nome }}</a>
+
+                        </li>
+
+                                        <!-- Finaliza o loop Jinja2. -->
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- 'col-md-9' define que esta coluna deve ocupar 9 de 12 partes
+             possíveis do contêiner em telas médias ou maiores. -->
+            <div class="col-md-9">
+
+                <!-- Cria um cabeçalho de nível um para o título principal da página. -->
+                <h1>Curso de Digitação</h1>
+
+                <!-- Parágrafo com instruções sobre como iniciar o jogo. -->
+                <p>Selecione um nível à esquerda para começar o jogo.</p>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Inclui a biblioteca jQuery via CDN.
+         jQuery é uma biblioteca JavaScript que simplifica a manipulação do DOM, eventos e animações. -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Inclui o JavaScript do Bootstrap via CDN.
+         Essencial para ativar funcionalidades interativas do Bootstrap, como dropdowns, modais, etc. -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

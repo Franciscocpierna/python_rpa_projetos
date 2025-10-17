@@ -1,0 +1,321 @@
+<!-- A declaração <!DOCTYPE html> especifica que este documento é um documento HTML5.
+     Ela é importante para garantir que o navegador interprete e renderize
+     a página corretamente de acordo com os padrões do HTML5. -->
+<!DOCTYPE html>
+
+<!-- A tag <html> indica o início do documento HTML.
+     O atributo 'lang="pt-BR"' especifica o idioma do documento como português do Brasil.
+     Isso é importante para acessibilidade, SEO e para indicar aos navegadores como
+      renderizar conteúdo específico do idioma. -->
+<html lang="pt-BR">
+
+<!-- A tag <head> contém metadados e links para recursos externos.
+         Metadados não são exibidos na página, mas fornecem informações sobre o documento. -->
+<head>
+
+    <!-- A tag <meta> com o atributo 'charset="UTF-8"' define a codificação de caracteres do documento para UTF-8.
+         UTF-8 é uma codificação de caracteres que inclui praticamente todos os caracteres e símbolos usados em todas as línguas escritas.
+         Isso garante que qualquer texto no documento seja exibido corretamente. -->
+    <meta charset="UTF-8">
+
+    <!-- A tag <title> define o título da página.
+         Esse título aparece na aba do navegador e é usado por mecanismos de busca.
+         Aqui, ele é definido como 'Jogo de Digitação'. -->
+    <title>Jogo de Digitação</title>
+
+    <!-- A tag <link> é usada para vincular folhas de estilo externas.
+         Este link específico carrega a versão mínima (minificada) do CSS do Bootstrap 4.5.2 de um CDN (Content Delivery Network).
+         O Bootstrap é um framework de front-end para desenvolvimento de páginas web responsivas e estilizadas. -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+
+<!-- A tag <body> contém todo o conteúdo principal e visível da página web. -->
+<body>
+
+    <!-- 'container' é uma classe do Bootstrap que centraliza e
+     define a largura máxima do conteúdo.
+         'mt-4' adiciona uma margem superior de tamanho 4, criando
+         espaço entre o conteúdo e quaisquer elementos acima. -->
+    <div class="container mt-4">
+
+        <!-- 'row' é uma classe do Bootstrap que cria uma linha
+        flexível no sistema de grade, permitindo a inclusão de colunas. -->
+        <div class="row">
+
+            <!-- 'col-md-3' define que esta coluna ocupará 3 de 12 partes
+             possíveis do contêiner em telas médias (md) ou maiores. -->
+            <div class="col-md-3">
+
+                <!-- Exibe o nome do nível atual em um cabeçalho de nível um.
+                     '{{ nivel.nome }}' é uma variável do Flask/Jinja2 que será substituída pelo nome do nível. -->
+                <h1>{{ nivel.nome }}</h1>
+
+                <!-- Contador de tempo logo abaixo do nome do nível -->
+                <!-- Esta é uma 'div' com o ID 'contador-tempo', que será usada para exibir o contador de tempo do jogo.
+                     O ID é único e é utilizado para referenciar este elemento específico no seu JavaScript.
+                     Inicialmente, esta 'div' está vazia, mas seu conteúdo será dinamicamente atualizado pelo JavaScript. -->
+                <div id="contador-tempo"></div>
+
+
+                <!-- Este é um parágrafo ('<p>') que exibe o texto do nível atual do jogo.
+                     O atributo 'id="texto"' serve como um identificador único para este elemento, permitindo manipulá-lo com JavaScript.
+                     '{{ nivel.texto }}' é uma expressão do template engine Flask/Jinja2, que será substituída pelo
+                     texto correspondente ao nível do jogo quando a página for renderizada. -->
+                <p id="texto">{{ nivel.texto }}</p>
+
+
+            </div>
+
+            <!-- 'col-md-9' define que esta coluna ocupará 9 de 12 partes
+            possíveis do contêiner em telas médias ou maiores. -->
+            <div class="col-md-9">
+
+                <!-- Substitui o campo de entrada por um <textarea> para suportar múltiplas linhas.
+                     'id="entrada"' identifica o campo para uso com JavaScript.
+                     'class="form-control"' aplica estilos do Bootstrap ao campo de entrada.
+                     'style' adiciona estilos CSS inline para aumentar o tamanho da fonte e ajustar outras propriedades. -->
+                <textarea id="entrada" class="form-control" style="font-size: 26px; height: 260px;"></textarea>
+
+                <!-- Um parágrafo para exibir o texto formatado com base na entrada do usuário.
+                     'id="texto-formatado"' permite a manipulação desse elemento com JavaScript. -->
+                <p id="texto-formatado"></p>
+
+
+                <!-- Cria outra linha dentro da coluna para organizar os contadores. -->
+                <div class="row">
+
+                    <!-- Exibe o número de letras corretas digitadas pelo usuário.
+                             'id="letras-corretas"' é usado para atualizar este número com JavaScript. -->
+                    <div class="col-md-6">
+                        <div>Letras Corretas: <span id="letras-corretas">0</span></div>
+                    </div>
+
+                    <!-- Exibe o número de letras incorretas digitadas pelo usuário.
+                             'id="letras-incorretas"' é usado para atualizar este número com JavaScript. -->
+                    <div class="col-md-6">
+                        <div>Letras Incorretas: <span id="letras-incorretas">0</span></div>
+                    </div>
+                </div>
+
+                <!-- Cria um botão para terminar o jogo.
+                     'id="terminar"' é usado para identificar o botão no JavaScript.
+                     'class="btn btn-danger mt-3"' aplica estilos do Bootstrap ao botão e adiciona uma margem superior. -->
+                <button id="terminar" class="btn btn-danger mt-3">Terminar</button>
+
+
+                <!-- Cria um link estilizado como botão para voltar à página inicial.
+                     'href="/"' redireciona para a rota raiz.
+                     'class="btn btn-primary mt-3"' aplica estilos do Bootstrap ao link e adiciona uma margem superior. -->
+                <a href="/" class="btn btn-primary mt-3">Voltar ao Menu Principal</a>
+
+            </div>
+        </div>
+
+
+    </div>
+</body>
+
+    <!-- Importa a biblioteca jQuery da versão 3.6.0, minificada, de um CDN (Content Delivery Network).
+         jQuery é uma biblioteca JavaScript amplamente utilizada que simplifica a
+          manipulação do DOM, o manuseio de eventos e a realização de chamadas AJAX. -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Importa o JavaScript do Bootstrap, versão 4.5.2, minificada, de um CDN.
+         Este script é necessário para ativar componentes interativos do
+          Bootstrap, como modais, tooltips e colapsos. -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <script>
+
+        // Define variáveis e inicializa o estado do jogo.
+
+        // Armazena o texto do nível atual. '{{ nivel.texto }}' é uma variável do Flask/Jinja2.
+        var texto = "{{ nivel.texto }}";
+
+        // Seleciona o campo de entrada do documento HTML e armazena em 'entrada'.
+        var entrada = $('#entrada');
+
+        // Seleciona o elemento que exibirá o texto formatado e armazena em 'textoFormatado'.
+        var textoFormatado = $('#texto-formatado');
+
+        // Seleciona o elemento que exibirá o contador de tempo e armazena em 'contadorTempo'.
+        var contadorTempo = $('#contador-tempo');
+
+        // Armazena o tempo restante para o jogo. '{{ nivel.tempo }}' é uma variável do Flask/Jinja2.
+        var tempoRestante = {{ nivel.tempo }};
+
+        // Inicializa as variáveis de contagem de letras corretas e incorretas como zero.
+        var letrasCorretas = 0;
+        var letrasIncorretas = 0;
+
+        // Define a função 'atualizarContadorTempo'.
+        function atualizarContadorTempo() {
+
+            // Atualiza o texto do elemento 'contadorTempo' para mostrar o tempo restante em segundos.
+            contadorTempo.text('Tempo Restante: ' + tempoRestante + ' segundos');
+        }
+
+
+        // Define a função 'atualizarTextoFormatado'.
+        function atualizarTextoFormatado() {
+
+            // Obtém o texto atual inserido pelo usuário no campo de entrada e
+            // armazena na variável 'entradaTexto'.
+            var entradaTexto = entrada.val();
+
+            // Inicializa uma string vazia para armazenar o HTML formatado do texto.
+            var textoFormatadoHTML = '';
+
+            // Itera sobre cada caractere do texto do nível.
+            for (var i = 0; i < texto.length; i++) {
+
+                // Verifica se o índice atual é menor que o comprimento do texto inserido pelo usuário.
+                if (i < entradaTexto.length) {
+
+                    // Compara o caractere no texto original com o caractere
+                    // inserido pelo usuário no mesmo índice.
+                    if (entradaTexto[i] === texto[i]) {
+
+                        // Se os caracteres coincidirem, adiciona o caractere com formatação de sucesso (verde).
+                        textoFormatadoHTML += '<span class="text-success">' + texto[i] + '</span>';
+
+                    } else {
+
+                        // Se não coincidirem, adiciona o caractere com formatação de erro (vermelho).
+                        textoFormatadoHTML += '<span class="text-danger">' + texto[i] + '</span>';
+
+                    }
+
+                } else {
+
+                    // Se o usuário ainda não digitou até este índice, adiciona o caractere sem formatação.
+                    textoFormatadoHTML += texto[i];
+
+                }
+            }
+
+            // Atualiza o conteúdo HTML do elemento 'textoFormatado' com o texto formatado construído.
+            textoFormatado.html(textoFormatadoHTML);
+
+        }
+
+
+        // Define a função 'atualizarJogo'.
+        function atualizarJogo() {
+
+            // Chama a função 'atualizarTextoFormatado' para atualizar a exibição do texto com base na entrada do usuário.
+            atualizarTextoFormatado();
+
+            // Oculta o elemento que exibe o texto do nível.
+            $('#texto').hide();
+
+            // Verifica se o tempo restante para o jogo chegou a zero.
+            if (tempoRestante <= 0) {
+
+                // Desabilita o campo de entrada para evitar mais digitações.
+                entrada.attr('disabled', 'disabled');
+
+                // Limpa o valor do campo de entrada.
+                entrada.val('');
+
+                // Atualiza o texto do contador de tempo para indicar que o tempo acabou.
+                contadorTempo.text('Tempo Encerrado');
+
+                // Desabilita o botão de terminar o jogo.
+                $('#terminar').attr('disabled', 'disabled');
+
+                // Exibe um alerta com o resultado final do jogo, mostrando o número de letras corretas e incorretas.
+                alert('Tempo encerrado. Letras corretas: ' + letrasCorretas + ', Letras incorretas: ' + letrasIncorretas);
+
+            } else {
+
+                // Se ainda houver tempo restante, executa este bloco.
+
+                // Define um temporizador para chamar esta função novamente após 1 segundo.
+                setTimeout(function () {
+
+                    // Decrementa o contador de tempo restante.
+                    tempoRestante--;
+
+                    // Chama a função 'atualizarContadorTempo' para atualizar a exibição do tempo restante.
+                    atualizarContadorTempo();
+
+                    // Chama a função 'atualizarJogo' novamente para continuar o loop do jogo.
+                    atualizarJogo();
+
+                }, 1000); // 1000 milissegundos = 1 segundo
+            }
+        }
+
+
+        // Adiciona um ouvinte de evento 'input' ao campo de entrada.
+        // Este evento é acionado sempre que o usuário digita algo no campo.
+        entrada.on('input', function () {
+
+            // Obtém o texto atual inserido pelo usuário e armazena na variável 'entradaTexto'.
+            var entradaTexto = entrada.val();
+
+            // Reinicia as contagens de letras corretas e incorretas a cada entrada do usuário.
+            letrasCorretas = 0;
+            letrasIncorretas = 0;
+
+            // Itera sobre cada caractere do texto inserido pelo usuário.
+            for (var i = 0; i < entradaTexto.length; i++) {
+
+                // Verifica se o índice atual é menor que o comprimento do texto original.
+                if (i < texto.length) {
+
+                    // Compara o caractere digitado pelo usuário com o caractere correspondente no texto original.
+                    if (entradaTexto[i] === texto[i]) {
+
+                        // Se os caracteres forem iguais, incrementa o contador de letras corretas.
+                        letrasCorretas++;
+
+                    } else {
+
+                        // Se os caracteres forem diferentes, incrementa o contador de letras incorretas.
+                        letrasIncorretas++;
+                    }
+                }
+            }
+
+            // Atualiza o texto do elemento HTML que mostra o número de letras corretas.
+            $('#letras-corretas').text(letrasCorretas);
+
+            // Atualiza o texto do elemento HTML que mostra o número de letras incorretas.
+            $('#letras-incorretas').text(letrasIncorretas);
+
+            // Chama a função 'atualizarTextoFormatado' para atualizar a formatação do texto exibido.
+            atualizarTextoFormatado();
+
+        });
+
+
+        // Adiciona um ouvinte de evento 'click' ao botão com ID 'terminar'.
+        $('#terminar').on('click', function () {
+
+            // Desabilita o campo de entrada, impedindo o usuário de digitar mais.
+            entrada.attr('disabled', 'disabled');
+
+            // Atualiza o texto do contador de tempo para indicar que o teste foi encerrado.
+            contadorTempo.text('Teste Encerrado');
+
+            // Desabilita o botão de terminar para evitar mais cliques.
+            $('#terminar').attr('disabled', 'disabled');
+
+            // Exibe um alerta com o resultado do teste, incluindo o número de letras corretas e incorretas.
+            alert('Teste encerrado. Letras corretas: ' + letrasCorretas + ', Letras incorretas: ' + letrasIncorretas);
+
+        });
+
+        // Chama a função 'atualizarContadorTempo' para inicializar a exibição do tempo restante.
+        atualizarContadorTempo();
+
+        // Chama a função 'atualizarJogo' para iniciar o loop do jogo.
+        atualizarJogo();
+
+    </script>
+</body>
+</html>

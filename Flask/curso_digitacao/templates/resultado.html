@@ -1,0 +1,56 @@
+<!-- Esta declaração define o documento como HTML5.
+É importante para garantir que o navegador processe a página como HTML5. -->
+<!DOCTYPE html>
+
+<!-- Início do documento HTML. Todo o conteúdo da página
+ será colocado entre as tags <html> e </html>. -->
+<html>
+
+<!-- A seção <head> contém metadados, que são informações
+sobre o documento que não são exibidas diretamente na página da web. -->
+<head>
+
+    <!-- Define o conjunto de caracteres utilizado no documento
+    como UTF-8, que inclui a maioria dos caracteres de todos os idiomas
+    conhecidos. Isso garante que o texto seja exibido corretamente. -->
+    <meta charset="utf-8">
+
+    <!-- Define o título da página. Este título é exibido na aba do
+    navegador e é usado pelos mecanismos de busca. -->
+    <title>Resultado</title>
+
+    <!-- Fim da seção <head>. Após esta seção, começa a parte do
+    documento que será visível para os usuários. -->
+</head>
+
+<!-- A tag <body> marca o início do conteúdo visível da página. Tudo
+dentro desta tag é exibido no navegador. -->
+<body>
+
+    <!-- <h1> é uma tag de cabeçalho que cria um título grande. Usado
+    aqui para destacar o título "Resultado" na página. -->
+    <h1>Resultado</h1>
+
+    <!-- <p> define um parágrafo. "{{ letras_corretas }}" é uma
+    variável de template que será substituída pelo valor correspondente
+     quando a página for renderizada. -->
+    <p>Letras Corretas: {{ letras_corretas }}</p>
+
+    <!-- Outro parágrafo mostrando as "Letras Incorretas".
+    Novamente, "{{ letras_incorretas }}" é uma variável de template. -->
+    <p>Letras Incorretas: {{ letras_incorretas }}</p>
+
+    <!-- Mais um parágrafo, desta vez exibindo o "Tempo Total".
+    "{{ tempo_total }}" será substituído pelo valor de tempo total. -->
+    <p>Tempo Total: {{ tempo_total }} segundos</p>
+
+    <!-- A tag <a> cria um hiperlink. "href" é um atributo que
+    define o destino do link. "{{ url_for('menu_principal') }}" é uma
+    função de template para gerar a URL para 'menu_principal'. -->
+    <a href="{{ url_for('menu_principal') }}">Voltar ao Menu Principal</a>
+
+<!-- Fim da tag <body>, indicando o fim do conteúdo visível da página. -->
+</body>
+
+<!-- Fim da tag <html>, indicando o fim do documento HTML. -->
+</html>
