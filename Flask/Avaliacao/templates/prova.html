@@ -1,0 +1,111 @@
+<!-- Esta linha declara o tipo do documento ao navegador. Neste caso,
+informa que é um documento HTML5, que é a versão mais recente do HTML. -->
+<!DOCTYPE html>
+
+<!-- Elemento raiz de um documento HTML.
+'lang="pt-br"' especifica que o idioma principal do documento é o
+português do Brasil. Isso é útil para acessibilidade e mecanismos de busca. -->
+<html lang="pt-br">
+
+<!-- O elemento 'head' contém metadados sobre o documento, que não
+ são exibidos diretamente na página, mas são importantes para o navegador. -->
+<head>
+
+    <!-- Define a codificação de caracteres para o documento como UTF-8, uma
+    codificação que suporta quase todos os caracteres e símbolos do mundo. -->
+    <meta charset="UTF-8">
+
+    <!-- Esta 'meta tag' configura o comportamento da visualização em dispositivos móveis.
+    - 'width=device-width' faz com que a largura da página corresponda à largura do dispositivo.
+    - 'initial-scale=1.0' configura o nível inicial de zoom quando a página é carregada pela primeira vez. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Define o título do documento, que é exibido na aba
+    do navegador. Neste caso, o título é 'Prova de Python'. -->
+    <title>Prova de Python</title>
+
+    <!-- Link para a folha de estilo CSS do Bootstrap.
+    - 'href' especifica o URL do arquivo CSS do Bootstrap.
+    - 'rel="stylesheet"' indica que o link se refere a uma folha de estilo.
+    - O Bootstrap é um framework de CSS que facilita o design responsivo e a estilização. -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Estilo personalizado para as perguntas */
+        .pergunta {
+            font-size: 24px; /* Define o tamanho da fonte para as perguntas como 24 pixels. */
+            margin-bottom: 20px; /* Adiciona uma margem inferior de 20 pixels para separar as perguntas das alternativas. */
+        }
+
+        /* Estilo personalizado para as alternativas */
+        .alternativa {
+            font-size: 18px; /* Define o tamanho da fonte para as alternativas como 18 pixels. */
+        }
+    </style> <!-- Estilos CSS personalizados para elementos com as classes 'pergunta' e 'alternativa'.
+    - Este bloco de estilo permite personalizar partes específicas da página além do que o Bootstrap oferece. -->
+
+</head> <!-- Fim do elemento 'head'. -->
+
+<!-- Início do corpo do documento HTML, onde todo o
+conteúdo visível da página é colocado. -->
+<body>
+
+    <!-- 'div' com classes do Bootstrap.
+        - 'container' cria um contêiner centralizado para o conteúdo.
+        - 'mt-4' adiciona uma margem superior de tamanho 4 (espaçamento padrão do Bootstrap). -->
+    <div class="container mt-4">
+
+        <!-- Cabeçalho exibindo o número da pergunta atual.
+        - '{{ numero_pergunta }}' é uma variável de templates que
+        será substituída pelo número atual da pergunta. -->
+        <h1>Pergunta {{ numero_pergunta }}</h1>
+
+        <!-- Início do formulário.
+            - 'action' define para onde os dados do formulário serão enviados.
+            Neste caso, a função 'url_for' do Flask gera a URL para a rota 'prova'.
+            - 'method="post"' especifica que o formulário usará o método POST para enviar os dados. -->
+        <form action="{{ url_for('prova', numero_pergunta=numero_pergunta) }}" method="post">
+
+            <!-- Exibe o texto da pergunta.
+            - 'class="pergunta"' aplica o estilo personalizado definido anteriormente no cabeçalho.
+            - '{{ pergunta.texto }}' é uma variável de templates que será substituída pelo texto da pergunta. -->
+            <div class="pergunta">{{ pergunta.texto }}</div>
+
+            <!-- Início de um loop que iterará sobre cada alternativa da pergunta. -->
+            {% for alternativa in pergunta.alternativas %}
+
+            <!-- 'div' para cada alternativa.
+                - 'class="form-check alternativa"' aplica estilos do Bootstrap e
+                o estilo personalizado para alternativas. -->
+            <div class="form-check alternativa">
+
+                <!-- Campo de entrada tipo 'radio'.
+                - 'name="resposta"' garante que todos os botões radio pertençam ao mesmo grupo.
+                - 'value="{{ alternativa }}"' será o valor enviado quando esta alternativa for selecionada.
+                - 'id="alt{{ loop.index0 }}"' cria um ID único para cada botão radio.
+                - 'class="form-check-input"' aplica o estilo de input do Bootstrap. -->
+                <input type="radio" name="resposta" value="{{ alternativa }}" id="alt{{ loop.index0 }}" class="form-check-input">
+
+                <!-- Rótulo para o botão radio.
+                - 'for="alt{{ loop.index0 }}"' associa o rótulo ao botão radio correspondente.
+                - '{{ alternativa }}' é a alternativa atual do loop. -->
+                <label for="alt{{ loop.index0 }}" class="form-check-label">{{ alternativa }}</label>
+            </div>
+            {% endfor %} <!-- Fim do loop. -->
+
+            <!-- Botão para enviar o formulário.
+            - 'class="btn btn-primary mt-3"' aplica estilos de botão primário do
+            Bootstrap e adiciona uma margem superior. -->
+            <button type="submit" class="btn btn-primary mt-3">Próxima</button>
+
+        </form> <!-- Fim do formulário. -->
+
+    </div> <!-- Fim do 'container'. -->
+
+    <!-- Inclusão de scripts JavaScript necessários para algumas funcionalidades do Bootstrap. -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> <!-- Carrega o jQuery, necessário para o Bootstrap. 'slim' é uma versão mais leve do jQuery. -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.11/dist/umd/popper.min.js"></script> <!-- Carrega o Popper.js, usado para tooltips e popovers no Bootstrap. -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> <!-- Carrega o JavaScript do Bootstrap. -->
+
+</body> <!-- Fim do corpo do documento HTML. -->
+</html> <!-- Fim do documento HTML. -->

@@ -1,0 +1,85 @@
+<!-- A linha doctype informa ao navegador que este documento é um documento HTML5. -->
+<!DOCTYPE html>
+
+<!-- O elemento 'html' é a raiz do documento HTML.
+O atributo 'lang' especifica o idioma do documento, neste caso, português do Brasil. -->
+<html lang="pt-br">
+
+<!-- O elemento 'head' contém metadados (informações sobre os dados)
+que não são exibidos diretamente na página web, mas são úteis para o navegador. -->
+<head>
+
+    <!-- Define a codificação de caracteres para o documento. UTF-8 inclui a
+    maioria dos caracteres de todos os idiomas escritos. -->
+    <meta charset="UTF-8">
+
+    <!-- Define configurações de visualização para dispositivos móveis:
+        - 'width=device-width' faz a largura da área de visualização igual à largura do dispositivo.
+        - 'initial-scale=1.0' estabelece o nível inicial de zoom quando a página é carregada. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Define o título do documento, que é exibido na aba do navegador. -->
+    <title>Resultado da Prova</title>
+
+    <!-- Inclui o CSS do Bootstrap, um framework de front-end para design responsivo e estilização.
+        - 'href' especifica o URL da folha de estilo do Bootstrap.
+        - 'rel="stylesheet"' define o tipo do link como uma folha de estilo CSS. -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head> <!-- Fim do elemento 'head'. -->
+
+<!-- Início do corpo do documento HTML, onde todo o
+conteúdo visível da página é colocado. -->
+<body>
+
+    <!-- Um 'div' com classes do Bootstrap:
+         - 'container' é usado para centralizar e alinhar o conteúdo dentro de uma largura máxima fixa.
+         - 'mt-4' adiciona uma margem superior (margin-top) de tamanho 4 (espaçamento padrão do Bootstrap). -->
+    <div class="container mt-4">
+
+        <!-- Título da página, representado por um cabeçalho de nível 1. -->
+        <h1>Resultado da Prova</h1>
+
+        <!-- Parágrafo mostrando o nome do usuário.
+        - '{{ usuario }}' é uma variável do templates que será
+        substituída pelo nome do usuário no momento da renderização. -->
+        <p>Usuário: {{ usuario }}</p>
+
+        <!-- Parágrafo destacando a pontuação e a porcentagem de acertos do usuário.
+        - 'class="lead"' dá um destaque ao texto, tornando-o um pouco maior.
+        - '{{ pontuacao }}' e '{{ porcentagem_acertos }}' são variáveis do
+        templates que serão substituídas pelos respectivos valores. -->
+        <p class="lead">Você acertou {{ pontuacao }} perguntas e teve {{ porcentagem_acertos }}% de acertos.</p>
+
+        <!-- Parágrafo mostrando a mensagem de aprovação ou reprovação.
+        - '{{ mensagem_aprovacao }}' é uma variável do templates
+         substituída pela mensagem de aprovação ou reprovação. -->
+        <p>{{ mensagem_aprovacao }}</p>
+
+        <!-- Link estilizado como botão para tentar a prova novamente.
+        - 'href="{{ url_for('login') }}"' usa a função 'url_for' do Flask
+        para gerar a URL para a rota de login.
+        - 'class="btn btn-primary"' aplica os estilos de botão do Bootstrap. -->
+        <a href="{{ url_for('login') }}" class="btn btn-primary">Tentar Novamente</a>
+
+        <!-- Link estilizado como botão para salvar o resultado.
+        - 'href="{{ url_for('salvar_resultado') }}"' usa a função 'url_for' para
+         gerar a URL para a rota de salvar resultado.
+        - 'class="btn btn-success"' aplica estilos de botão de sucesso
+         (geralmente verde) do Bootstrap. -->
+        <a href="{{ url_for('salvar_resultado') }}" class="btn btn-success">Salvar</a>
+
+    </div> <!-- Fim do 'div' container. -->
+
+    <!-- Inclusão de scripts JavaScript necessários para algumas funcionalidades do Bootstrap. -->
+    <!-- Carrega o jQuery, necessário para o Bootstrap. 'slim' é uma versão mais leve do jQuery. -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <!-- Carrega o Popper.js, usado para tooltips e popovers no Bootstrap. -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.11/dist/umd/popper.min.js"></script>
+
+    <!-- Carrega o JavaScript do Bootstrap. -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body> <!-- Fim do corpo do documento HTML. -->
+</html> <!-- Fim do documento HTML. -->

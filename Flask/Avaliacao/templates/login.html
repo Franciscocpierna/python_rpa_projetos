@@ -1,0 +1,148 @@
+<!-- templates/login.html -->
+<!-- Declaração do tipo do documento. Informa ao navegador
+que este é um documento HTML5, que é a versão atual do HTML. -->
+<!DOCTYPE html>
+
+<!-- Elemento raiz de um documento HTML.
+'lang="pt-br"' especifica que o idioma principal do documento é o português do Brasil.
+Isso ajuda os navegadores e leitores de tela a processar o idioma corretamente. -->
+<html lang="pt-br">
+
+<!-- O elemento 'head' contém metadados sobre o documento.
+Esses metadados não são exibidos na página, mas fornecem informações
+ importantes sobre o documento. -->
+<head>
+
+    <!-- Define a codificação de caracteres para o documento.
+    'UTF-8' é uma codificação de caracteres universal que inclui praticamente
+     todos os caracteres e símbolos usados nas línguas escritas. -->
+    <meta charset="UTF-8">
+
+    <!-- A 'meta tag' com o nome 'viewport' é usada para controlar o layout em navegadores móveis.
+    - 'width=device-width' faz com que a largura da página corresponda à largura da tela do dispositivo.
+    - 'initial-scale=1.0' configura o nível inicial de zoom quando a página é carregada. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Define o título da página, que é exibido na aba do
+    navegador. Neste caso, o título é 'Login da Prova'. -->
+    <title>Login da Prova</title>
+
+    <!-- Inclui o CSS do Bootstrap, um framework de front-end para design responsivo e estilização.
+    - 'href' especifica o URL da folha de estilo do Bootstrap.
+    - 'rel="stylesheet"' indica que o link se refere a uma folha de estilo CSS. -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head> <!-- Fim do elemento 'head'. -->
+
+<!-- Início do corpo do documento HTML.
+    - 'class="d-flex align-items-center justify-content-center"' são classes do Bootstrap:
+        - 'd-flex' ativa o display flex, um modelo de layout flexível.
+        - 'align-items-center' alinha os itens verticalmente ao centro.
+        - 'justify-content-center' alinha os itens horizontalmente ao centro.
+    - 'style="min-height: 100vh;"' define a altura mínima do corpo para 100vh (viewport height),
+    fazendo com que o corpo ocupe pelo menos a altura total da tela do dispositivo. -->
+<body class="d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+
+    <!-- 'div' com a classe 'container' do Bootstrap, criando um
+    contêiner com margem automática e largura responsiva. -->
+    <div class="container">
+
+        <!-- 'div' com a classe 'row' do Bootstrap, usada para
+        criar uma linha no sistema de grid. -->
+        <div class="row">
+
+            <!-- 'div' com classes do sistema de grid do Bootstrap:
+                - 'col-md-6' define a largura da coluna para ocupar 6 das 12 colunas
+                 possíveis em dispositivos médios (tablets e telas maiores).
+                - 'offset-md-3' adiciona um deslocamento de 3 colunas, centralizando a
+                 coluna no espaço horizontal. -->
+            <div class="col-md-6 offset-md-3">
+
+                <!-- 'div' com a classe 'card' do Bootstrap, cria uma
+                 caixa estilizada para conteúdo. -->
+                <div class="card">
+
+                    <!-- 'div' com a classe 'card-body' para o conteúdo interno do card. -->
+                    <div class="card-body">
+
+                        <!-- Cabeçalho do card. 'text-center' alinha o texto ao centro. -->
+                        <h2 class="card-title text-center">Login da Prova</h2>
+
+                        <!-- Início de um bloco de templates condicional (linguagem de templates
+                        do Flask). Verifica se a variável 'erro' existe. -->
+                        {% if erro %}
+
+                            <!-- Se 'erro' existir, exibe uma mensagem de erro.
+                                - 'alert alert-danger' são classes do Bootstrap para
+                                estilizar a mensagem como um alerta de erro. -->
+                            <div class="alert alert-danger" role="alert">
+                                {{ erro }} <!-- Exibe o conteúdo da variável 'erro'. -->
+                            </div>
+                        {% endif %} <!-- Fim do bloco condicional. -->
+
+                        <!-- Início do formulário.
+                            - 'action="/"' define o endpoint (URL) para onde os dados do formulário serão enviados.
+                            - 'method="post"' especifica que o formulário usará o método POST para enviar dados. -->
+                        <form action="/" method="post">
+
+                            <!-- Agrupa o rótulo e o campo de entrada do 'login'. -->
+                            <div class="form-group">
+
+                                <!-- Rótulo para o campo de entrada 'login'. -->
+                                <label for="login">Login</label>
+
+                                <!-- Campo de entrada para 'login'.
+                                - 'class="form-control"' aplica estilos de formulário do Bootstrap.
+                                - 'required' torna o campo obrigatório.
+                                - 'autofocus' foca automaticamente neste campo quando a página é carregada. -->
+                                <input type="text" class="form-control" id="login" name="login" required autofocus>
+                            </div>
+
+                            <!-- Similar ao acima, mas para o campo 'senha'. -->
+                            <div class="form-group">
+                                <label for="senha">Senha</label>
+
+                                <!-- Campo de entrada para 'senha'. 'type="password"' oculta os caracteres digitados. -->
+                                <input type="password" class="form-control" id="senha" name="senha" required>
+                            </div>
+
+                            <!-- Botão para enviar o formulário.
+                            - 'class="btn btn-primary btn-block"' aplica estilos de botão do Bootstrap
+                             e expande o botão para ocupar toda a largura do container. -->
+                            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+
+                        </form> <!-- Fim do formulário. -->
+
+                    </div> <!-- Fim do 'card-body'. -->
+
+                </div> <!-- Fim do 'card'. -->
+
+            </div> <!-- Fim da 'col-md-6 offset-md-3'. -->
+
+        </div> <!-- Fim da 'row'. -->
+
+    </div> <!-- Fim do 'container'. -->
+
+    <!-- Bootstrap JS e dependências -->
+    <!-- Inclusão do jQuery:
+        - 'script' é a tag usada para incorporar um script, como JavaScript, na página.
+        - 'src' especifica o local do script a ser incluído. Neste caso, é o jQuery, uma biblioteca JavaScript rápida e rica em recursos.
+        - 'jquery-3.5.1.slim.min.js' é a versão 'slim' do jQuery, que é uma versão mais leve, contendo apenas recursos mais utilizados.
+        - 'min' indica que é uma versão minificada, o que significa que o código foi compactado para reduzir o tamanho, acelerando assim o carregamento da página. -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <!-- Inclusão do Popper.js:
+        - Popper.js é uma biblioteca utilizada para posicionar 'tooltips' e 'popovers' de maneira eficiente e dinâmica.
+        - É uma dependência do Bootstrap para alguns de seus componentes como dicas de ferramentas e caixas de diálogo.
+        - Semelhante ao jQuery, esta também é uma versão minificada. -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.11/dist/umd/popper.min.js"></script>
+
+    <!-- Inclusão do JavaScript do Bootstrap:
+        - Este script é o núcleo do Bootstrap e é necessário para ativar suas diversas funcionalidades interativas, como menus suspensos, modais, abas, etc.
+        - O Bootstrap depende do jQuery e do Popper.js, por isso eles precisam ser incluídos antes do script do Bootstrap.
+        - Assim como os outros scripts, é uma versão minificada. -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body> <!-- Fim do corpo do documento HTML. -->
+</html> <!-- Fim do documento HTML. -->
+
