@@ -1,0 +1,197 @@
+<!-- A declaração DOCTYPE é uma instrução para o navegador
+ sobre a versão do HTML que a página está usando.
+     Neste caso, especifica HTML5, que é a versão atual padrão do HTML. -->
+<!DOCTYPE html>
+
+<!-- A tag <html> define o início do documento HTML.
+     O atributo 'lang="en"' especifica que o idioma principal do documento é o inglês. -->
+<html lang="en">
+
+<!-- A tag <head> contém metadados, links para folhas de estilo, scripts, e
+outras informações importantes que não são exibidas na parte visível (body) da página. -->
+<head>
+
+    <!-- A tag <meta> com o atributo 'charset="UTF-8"' define a codificação de caracteres para o documento.
+         UTF-8 é uma codificação de caracteres universal que inclui quase todos os caracteres e símbolos do mundo. -->
+    <meta charset="UTF-8">
+
+    <!-- Outra tag <meta>, que configura a visualização da página para ser responsiva.
+         'content="width=device-width"' ajusta a largura da página à largura do dispositivo.
+         'initial-scale=1.0' define o nível de zoom inicial quando a página é carregada. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- A tag <title> define o título da página, que é exibido na aba do navegador.
+         Aqui, o título é 'Resultado do Jogo'. -->
+    <title>Resultado do Jogo</title>
+
+    <!-- A tag <style> é usada para incluir estilos CSS diretamente no documento HTML. -->
+    <style>
+
+        <!-- Estilos para a tag <body>.
+             'background-color: #f7f7f7;' define a cor de fundo da página para um cinza claro.
+             'font-family: Arial, sans-serif;' define a família de fontes para o texto na página. -->
+        body {
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+        }
+
+        <!-- Estilos para elementos com a classe 'container'.
+             'margin-top: 50px;' adiciona uma margem superior,
+             separando o conteúdo do topo da página. -->
+        .container {
+            margin-top: 50px;
+        }
+
+        /* Estilos para elementos com a classe 'card'. */
+        .card {
+
+
+            /* Adiciona uma borda sólida de 1 pixel de espessura com a cor cinza claro (#ccc). */
+            border: 1px solid #ccc;
+
+            /* Arredonda os cantos da borda do elemento com um raio de
+            10 pixels. Isso dá um aspecto mais suave e moderno ao cartão. */
+            border-radius: 10px;
+
+            /* Aplica uma sombra ao redor do cartão.
+               A sombra é deslocada 0 pixels para a direita, 4 pixels para baixo,
+               com um desfoque de 6 pixels e uma cor preta com 10% de opacidade (rgba(0, 0, 0, 0.1)). */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        }
+
+        /* Estilos para elementos com a classe 'alert', usados
+        para mensagens de aviso ou feedback. */
+        .alert {
+
+            /* Adiciona um preenchimento (espaço interno) de 20 pixels em todos os lados do alerta. */
+            padding: 20px;
+
+            /* Arredonda os cantos da borda do alerta, consistente com o estilo do '.card'. */
+            border-radius: 10px;
+
+            /* Centraliza o texto dentro do alerta. */
+            text-align: center;
+
+            /* Aumenta o tamanho da fonte para 24 pixels, tornando o texto mais legível. */
+            font-size: 24px;
+
+            /* Torna o texto em negrito, destacando a mensagem do alerta. */
+            font-weight: bold;
+
+            /* Adiciona uma margem inferior de 20 pixels, separando o
+            alerta de outros conteúdos abaixo dele. */
+            margin-bottom: 20px;
+
+        }
+
+        /* Estilos específicos para alertas de sucesso (com a classe 'alert-success'). */
+        .alert-success {
+
+            /* Define a cor de fundo para um verde (#28a745),
+            geralmente associado a ações bem-sucedidas. */
+            background-color: #28a745;
+
+            /* Define a cor do texto para branco, criando um
+             contraste alto com o fundo verde. */
+            color: white;
+
+        }
+
+        /* Estilos específicos para alertas de erro (com a classe 'alert-danger'). */
+        .alert-danger {
+
+            /* Define a cor de fundo para um vermelho (#dc3545), geralmente
+            associado a erros ou problemas. */
+            background-color: #dc3545;
+
+            /* Define a cor do texto para branco, criando um contraste alto com o fundo vermelho. */
+            color: white;
+
+        }
+
+        /* Estilos para botões com a classe 'btn-primary'. */
+        .btn-primary {
+
+            /* Define a cor de fundo para um azul brilhante (#007BFF), uma
+            cor comum para botões de ação principal. */
+            background-color: #007BFF;
+
+            /* Remove a borda do botão, dando um visual mais limpo. */
+            border: none;
+
+            /* Define um raio de borda de 20 pixels, criando botões
+             com bordas mais arredondadas do que os cartões. */
+            border-radius: 20px;
+
+            /* Aumenta o tamanho da fonte para 24 pixels, tornando o
+            texto do botão mais visível. */
+            font-size: 24px;
+
+        }
+
+        /* Estilos para o estado 'hover' (quando o cursor está
+         sobre o botão) dos botões 'btn-primary'. */
+        .btn-primary:hover {
+
+            /* Altera a cor de fundo para um azul mais escuro (#0056b3)
+            quando o botão é passado pelo mouse, indicando interatividade. */
+            background-color: #0056b3;
+
+        }
+
+    </style>
+</head>
+
+<!-- A tag <body> contém todo o conteúdo visível da página web. -->
+<body>
+
+
+    <!-- 'container' é uma classe comum em frameworks de CSS como Bootstrap.
+             Ela fornece uma largura máxima para o conteúdo central e alinha-o adequadamente no centro da página. -->
+    <div class="container">
+
+
+        <!-- 'row' é uma classe de grid do Bootstrap que cria uma nova linha para colunas.
+                 'justify-content-center' é uma classe de alinhamento do Bootstrap que centraliza as colunas na linha. -->
+        <div class="row justify-content-center">
+
+            <!-- 'col-md-6' define uma coluna que ocupa metade da largura do
+            container em dispositivos de tamanho médio (md) e maiores.
+                     Isso é parte do sistema de grid responsivo do Bootstrap. -->
+            <div class="col-md-6">
+
+                <!-- 'card' é uma classe de Bootstrap usada para criar um container estilo cartão,
+                         com bordas e sombras para destacar o conteúdo que ele contém. -->
+                <div class="card">
+
+                    <!-- Esta div é usada para exibir mensagens de alerta.
+                             '{{ alert_class }}' é um placeholder que será substituído por
+                             uma classe de alerta específica ('alert-success' ou 'alert-danger'),
+                             dependendo do resultado do jogo ou ação. -->
+                    <div class="alert {{ alert_class }}">
+
+                        <!-- '{{ mensagem }}' é um placeholder para uma mensagem dinâmica que
+                        será passada pelo backend (como Flask).
+                             Esta mensagem pode ser um feedback sobre o resultado de uma ação ou jogo. -->
+                        {{ mensagem }}
+
+                    </div>
+
+                    <!-- Este é um link estilizado como um botão.
+                             'btn', 'btn-primary', e 'btn-block' são classes do Bootstrap.
+                             'btn-primary' dá ao botão uma cor azul característica, e 'btn-block'
+                             faz com que ele ocupe toda a largura do container. -->
+                    <a href="/" class="btn btn-primary btn-block">
+
+                        <!-- O texto do botão, oferecendo ao usuário a opção de
+                        iniciar uma nova partida ou ação. -->
+                        Jogar Novamente
+
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

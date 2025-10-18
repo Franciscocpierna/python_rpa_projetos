@@ -1,0 +1,281 @@
+<!-- A linha abaixo especifica o tipo de documento (DOCTYPE) como HTML.
+     Isso é uma instrução para o navegador entender que o documento
+     está usando HTML5, a versão mais recente do HTML. -->
+<!DOCTYPE html>
+
+<!-- A tag <html> é a raiz do documento HTML. O atributo 'lang="en"'
+     especifica que o idioma principal do documento é o inglês. -->
+<html lang="en">
+
+
+<!-- A tag <head> contém metadados, links para folhas de estilo, scripts
+         e outras informações que não são exibidas diretamente na página web. -->
+<head>
+
+
+    <!-- A tag <meta> com o atributo 'charset="UTF-8"' define a codificação
+         de caracteres para o documento, garantindo que todos os caracteres
+         sejam exibidos corretamente. UTF-8 é uma codificação que abrange
+         quase todos os caracteres e símbolos do mundo. -->
+    <meta charset="UTF-8">
+
+    <!-- Outra tag <meta>, que configura a visualização da página para
+         ser responsiva. O atributo 'content="width=device-width"' faz
+         com que a largura da página corresponda à largura do dispositivo
+         (como um celular ou tablet). 'initial-scale=1.0' define o nível
+         de zoom inicial quando a página é carregada. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- A tag <title> define o título da página, que é exibido na aba
+         do navegador. Aqui, ele está definido como 'Jogo de Anagramas'. -->
+    <title>Jogo de Anagramas</title>
+
+
+    <!-- A tag <style> é usada para incluir estilos CSS diretamente
+             no documento HTML. Estes estilos são aplicados à página. -->
+    <style>
+
+       /* Estilos para a tag <body>.
+           'background-color: #f7f7f7;' define a cor de fundo da página.
+           'font-family: Arial, sans-serif;' define a família de fontes
+           para o texto da página, com Arial como a fonte principal
+           e sans-serif como a fonte alternativa. */
+           body {
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Estilos para elementos com a classe 'container'.
+           'margin-top: 50px;' adiciona uma margem superior de 50 pixels,
+           o que separa o conteúdo do topo da página. */
+        
+        .container {
+            margin-top: 50px;
+        }
+
+
+         /* Estilos para elementos com a classe 'card'. */
+        .card {
+
+            /* Define uma borda sólida de 1 pixel de espessura com a cor cinza claro (#ccc). */
+            border: 1px solid #ccc;
+
+            /* Arredonda os cantos da borda do elemento com um raio de 10 pixels. */
+            border-radius: 10px;
+
+            /* Adiciona uma sombra ao redor do elemento.
+               A sombra é deslocada 0 pixels para a direita, 4 pixels para baixo,
+               tem um desfoque de 6 pixels e uma cor preta com 10% de opacidade (rgba(0, 0, 0, 0.1)). */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        }
+
+        /* Estilos para elementos com a classe 'card-header',
+               normalmente usados para cabeçalhos de seções ou painéis. */
+        .card-header {
+
+            /* Define a cor de fundo como um azul forte (#007BFF). */
+            background-color: #007BFF;
+
+            /* Define a cor do texto para branco, proporcionando contraste com o fundo azul. */
+            color: white;
+
+            /* Centraliza o texto dentro do elemento. */
+            text-align: center;
+
+            /* Define o tamanho da fonte para 28 pixels. */
+            font-size: 28px;
+
+            /* Adiciona um preenchimento (espaço interno) de 20 pixels em todos os lados do elemento. */
+            padding: 20px;
+
+            /* Arredonda os cantos superiores esquerdo e direito da borda do elemento
+               para se alinhar com o estilo 'border-radius' do '.card'. */
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+
+        }
+
+        /* Estilos para elementos com a classe 'card-body',
+               frequentemente usados para o conteúdo principal de uma seção ou painel. */
+        .card-body {
+
+            /* Centraliza o texto dentro do elemento. */
+            text-align: center;
+
+        }
+
+         /* Estilos específicos para elementos <h2> dentro de um '.card-body'. */
+        .card-body h2 {
+
+            /* Define o tamanho da fonte para 48 pixels, tornando o texto grande e proeminente. */
+            font-size: 48px;
+
+            /* Torna o texto em negrito. */
+            font-weight: bold;
+
+            /* Adiciona uma margem de 20 pixels abaixo do elemento <h2> para separá-lo
+               de outros conteúdos abaixo dele. */
+            margin-bottom: 20px;
+
+        }
+
+        /* Estilos para elementos com a classe 'form-group',
+               geralmente usada para agrupar elementos de formulário e suas labels. */
+        .form-group {
+
+            /* Adiciona uma margem de 20 pixels na parte inferior de cada 'form-group',
+               ajudando a separar visualmente os grupos de campos de formulário. */
+            margin-bottom: 20px;
+
+        }
+
+        /* Estilos para elementos com a classe 'form-control',
+               comumente usada em inputs de formulários para estilização padrão. */
+        .form-control {
+
+            /* Define um raio de borda de 20 pixels, criando inputs com bordas arredondadas. */
+            border-radius: 20px;
+
+            /* Aumenta o tamanho da fonte para 24 pixels, melhorando a legibilidade dos inputs. */
+            font-size: 24px;
+
+        }
+
+        /* Estilos para botões com a classe 'btn-primary',
+               que são estilizados com a cor principal (normalmente para ações primárias). */
+        .btn-primary {
+
+            /* Define a cor de fundo para um azul escuro (#0056b3). */
+            background-color: #0056b3;
+
+            /* Remove a borda do botão para um visual mais limpo. */
+            border: none;
+
+
+            /* Comentário indicando para remover a propriedade 'border-radius'
+               se desejar botões com cantos quadrados. */
+
+            /* Aumenta o tamanho da fonte para 24 pixels para tornar o texto do botão mais visível. */
+            font-size: 24px;
+
+
+            color: white;
+            /* Define a cor do texto para branco, proporcionando contraste com o fundo azul. */
+        }
+
+        /* Estilos para o estado 'hover' (quando o mouse está sobre o botão)
+               dos botões com a classe 'btn-primary'. */
+        .btn-primary:hover {
+
+            /* Muda a cor de fundo para um azul mais claro (#007BFF) quando o botão é passado pelo mouse. */
+            background-color: #007BFF;
+
+        }
+
+        /* Estilos para botões com a classe 'btn-secondary',
+               que são estilizados com uma cor secundária (geralmente para ações menos importantes). */
+        .btn-secondary {
+
+            /* Define a cor de fundo para um cinza escuro (#6c757d). */
+            background-color: #6c757d;
+
+            /* Remove a borda do botão. */
+            border: none;
+
+
+            /* Define o tamanho da fonte do botão para 24 pixels. */
+            font-size: 24px;
+
+            /* Define a cor do texto para branco, proporcionando contraste com o fundo cinza. */
+            color: white;
+
+        }
+
+        /* Estilos para o estado 'hover' dos botões com a classe 'btn-secondary'. */
+        .btn-secondary:hover {
+
+            /* Muda a cor de fundo para um cinza um pouco mais escuro (#555e66) quando o mouse está sobre o botão. */
+            background-color: #555e66;
+
+        }
+
+        /* Estilo específico para botões com as classes 'btn-secondary' e 'btn-block'. */
+        .btn-secondary.btn-block {
+            border-radius: 0; /* Define o raio da borda como 0, criando botões com cantos quadrados. */
+        }
+
+    </style>
+</head>
+
+<!-- A tag <body> contém o conteúdo principal da página web. -->
+<body>
+
+    <!-- A classe 'container' é frequentemente usada em frameworks como Bootstrap
+             para centralizar e alinhar o conteúdo principal da página. -->
+    <div class="container">
+
+        <!-- 'row' é uma classe Bootstrap para definir uma linha em um sistema de grid.
+                 'justify-content-center' é usada para centralizar os elementos (colunas) dentro desta linha. -->
+        <div class="row justify-content-center">
+
+            <!-- 'col-md-6' define uma coluna que ocupa metade da largura do
+            container em dispositivos médios (md) e maiores. -->
+            <div class="col-md-6">
+
+                <!-- A classe 'card' é usada para criar um painel como um
+                container para conteúdo e ações. -->
+                <div class="card">
+
+                    <!-- 'card-header' é usado para o cabeçalho do cartão. Aqui,
+                    ele contém o título do jogo. -->
+                    <div class="card-header">
+
+                        Jogo de Anagramas
+
+                    </div>
+
+                    <!-- 'card-body' contém o corpo principal do cartão. -->
+                    <div class="card-body">
+
+                        <!-- 'lead' é uma classe Bootstrap para destacar um parágrafo importante. -->
+                        <p class="lead">Desembaralhe a palavra:</p>
+
+                        <!-- Exibe o anagrama gerado pela aplicação Flask.
+                             '{{ anagrama }}' é um placeholder para a variável 'anagrama' passada pelo Flask. -->
+                        <h2>{{ anagrama }}</h2>
+
+                        <!-- Um formulário que usa o método POST para enviar dados
+                        para o servidor no endpoint '/verificar'. -->
+                        <form method="POST" action="/verificar">
+
+                            <!-- 'form-group' melhora a estrutura visual do formulário. -->
+                            <div class="form-group">
+
+                                <!-- Campo de entrada para o usuário digitar a resposta.
+                                     'form-control' é uma classe Bootstrap que estiliza o input. -->
+                                <input type="text" class="form-control" id="resposta" name="resposta" placeholder="Sua Resposta">
+
+                            </div>
+
+                            <!-- Um botão para submeter o formulário.
+                                 'btn', 'btn-primary', e 'btn-block' são classes Bootstrap para estilizar o botão. -->
+                            <button type="submit" class="btn btn-primary btn-block">Verificar</button>
+
+                        </form>
+                    </div>
+
+                    <!-- 'card-footer' é usado para o rodapé do cartão. -->
+                    <div class="card-footer">
+
+                        <!-- Um link estilizado como um botão para reiniciar o jogo.
+                             'btn', 'btn-secondary', e 'btn-block' são classes Bootstrap para estilizar o link como um botão. -->
+                        <a href="/" class="btn btn-secondary btn-block">Jogar Novamente</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
