@@ -1,0 +1,67 @@
+vendas = colecao_vendas.find({
+    "$and": [
+        {"campo1": valor1},
+        {"campo2": valor2},
+        {"campo3": valor3},
+        {"campo4": {"$ne": valor4}},
+        {"campo5": {"$ne": valor5}}
+    ]
+})
+
+# Procura no banco de dados do produto pelo código fornecido.
+  produto = colecao_produtos.find_one({"codigo": cod})
+  
+  # Busca o cliente pelo CPF/CNPJ fornecido no banco de dados.
+            cliente = colecao_clientes.find_one({"cpf_cnpj": cpf_cliente})
+
+   # Utiliza o método 'find' para buscar todos os documentos na
+    #       coleção 'funcionarios' sem nenhum filtro específico.
+    return list(colecao_funcionarios.find({}))
+
+
+     # Usa o método 'find' para buscar documentos na coleção 'produtos' onde a
+    #       quantidade está abaixo do limite especificado.
+    # O operador '$lt' significa "menor que".
+    return list(colecao_produtos.find({"quantidade": {"$lt": limite}}))
+    # Converte o resultado (cursor) em uma lista antes de retornar.
+
+# =======================
+        # Filtros adicionais
+        # =======================
+
+        # Se o campo produto estiver preenchido, adiciona um filtro de busca no
+        #       dicionário de consultas 'query'.
+        # Utiliza uma expressão regular ('$regex') para buscar por qualquer registro que
+        #       contenha a string fornecida, ignorando diferenças entre maiúsculas e
+        #       minúsculas ('$options': 'i').
+        if produto:
+            query["produto_nome"] = {"$regex": produto, "$options": "i"}
+
+        # Se o campo fornecedor estiver preenchido, adiciona um filtro semelhante ao de produto.
+        # Busca por registros que contenham a string de fornecedor, também utilizando
+        #       expressão regular para ignorar maiúsculas e minúsculas.
+        if fornecedor:
+            query["fornecedor"] = {"$regex": fornecedor, "$options": "i"}
+
+        # Se o campo método de pagamento estiver preenchido, adiciona outro filtro
+        #       usando expressão regular.
+        # Permite buscar por registros que contenham a string do método de pagamento
+        #       especificado, também de forma insensível a maiúsculas.
+        if pagamento:
+            query["pagamento"] = {"$regex": pagamento, "$options": "i"}
+
+        # Executa a consulta no banco de dados com os filtros aplicados, se houver, e
+        #       armazena os resultados em 'vendas_filtradas'.
+        # 'colecao_vendas.find(query)' retorna todos os documentos que correspondem ao
+        #       critério de pesquisa definido no dicionário 'query'.
+        vendas_filtradas = colecao_vendas.find(query)
+
+        # Antes de adicionar novos dados, limpa todos os itens existentes na
+        #       tabela para evitar duplicações.
+        # '*self.tabela.get_children()' retorna uma lista de todos os elementos
+        #       atuais na Treeview, que são então deletados.
+        self.tabela.delete(*self.tabela.get_children())
+
+# Obtém todas as vendas armazenadas no banco de dados.
+        vendas = colecao_vendas.find()
+
