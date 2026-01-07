@@ -81,3 +81,8 @@ a = Analysis(
     noarchive=False,
 )
 # ...código existente...
+
+um único arquivo exe  
+--onefile: Compacta tudo num único .exe.
+pyinstaller --onefile --windowed --add-data "assets;assets" main.py ou
+pyinstaller --onefile --windowed main.py (sem o --add-data):
