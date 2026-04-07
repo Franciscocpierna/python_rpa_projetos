@@ -25,7 +25,7 @@ print()
 print()
 data.head()
 #5 últimos
-#print(data.tail())
+print(data.tail())
 #informação sobre tipo
 #data.info()
 print("#"*50)
@@ -51,8 +51,8 @@ print(data["Credit_Score"].value_counts())
 #                                  'Standard':'yellow',
 #                                  'Good':'green'})
 # #fig.show()
-# pio.show(fig, renderer="browser")
-#fig.show(renderer="browser")
+# #pio.show(fig, renderer="browser")
+# fig.show(renderer="browser")
 
 # Assim como a renda anual, quanto mais salário mensal você ganhar, melhor será sua pontuação de crédito. 
 # Agora vamos ver se ter mais contas bancárias impacta a pontuação de crédito ou não:
@@ -135,16 +135,16 @@ print(data["Credit_Score"].value_counts())
 
 # Agora vamos ver quantos empréstimos você pode tomar por vez para uma boa pontuação de crédito:
 
-fig = px.box(data, 
-             x="Credit_Score", 
-             y="Num_of_Loan", 
-             color="Credit_Score", 
-             title="Score de Crédito baseado no número de Emprestimos Tomados por Pessoa",
-             color_discrete_map={'Poor':'red',
-                                 'Standard':'yellow',
-                                 'Good':'green'})
-fig.update_traces(quartilemethod="exclusive")
-fig.show()
+# fig = px.box(data, 
+#              x="Credit_Score", 
+#              y="Num_of_Loan", 
+#              color="Credit_Score", 
+#              title="Score de Crédito baseado no número de Emprestimos Tomados por Pessoa",
+#              color_discrete_map={'Poor':'red',
+#                                  'Standard':'yellow',
+#                                  'Good':'green'})
+# fig.update_traces(quartilemethod="exclusive")
+# fig.show()
 # devido a não carregamento dos gráficos foi criado o arquivo estudodeCaso1.py 
 # que grava de um um arquivo temporario no pelo webbrowser sem passar pelo http 
 #Isso usa o protocolo 'file://'
