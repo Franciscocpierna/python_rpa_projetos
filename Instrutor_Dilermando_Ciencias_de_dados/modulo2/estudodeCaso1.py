@@ -2,9 +2,20 @@ import plotly.express as px
 import plotly.io as pio
 import os
 import pandas as pd
+import numpy as np
 import plotly.express as px
 import tempfile
 import webbrowser
+import matplotlib.pyplot as plt
+import seaborn as sns
+#Importação dos pacotes para criação do modelo
+# Importação da função train_test_split do pacote Sklearn
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split
+# Importanto o Algoritmo Random Forest para fazer a Classificação
+from sklearn.ensemble import RandomForestClassifier
+# Importando accuracy_score para calcular a Acurácia do modelo
+from sklearn.metrics import accuracy_score
 data = pd.read_csv("dataset/train.csv")
 
 print(data.head())
