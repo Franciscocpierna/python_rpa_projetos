@@ -161,9 +161,62 @@ metodos_publicos = [a for a in atributos if not a.startswith('_')]
 print(metodos_publicos)
 
 
+# Função arange --> cria um array NumPy contendo uma progressão aritmética a partir de um intervalo: inicio, fim, passo.
+array3 = np.arange(0, 40, 4)
+
+print(f'PA = {array3}')
+
+# Criar um array preenchido com zeros
+array4 = np.zeros(7)
+print(f'PREENCHIDO COM ZEROS = \n {array4}')
+
+
+# Criar uma matriz diagonal... 1 nas posições em diagonal e zero nas demais posições
+array5 = np.eye(5)
+print(f'MATRIZ DIAGONAL E O RESTO 0 = \n {array5}')
+
+# Podemos passar como parâmetro um array numpy para que o mesmo seja utilizado como diagonal...
+array6 = np.diag(np.array([1,2,3,4]))
+print(f'MATRIZ DIAGONAL com valores o array E O RESTO 0 = \n {array6}')
+
+# Criação de um array numpy de valores booleanos
+array7 = np.array([True, False, False, True])
+print(f'array com valores boleanos= \n {array7}')
 
 
 
+# Criação de um array numpy de strings
+array8 = np.array(['pyPRO', 'Python', 'Profissional'])
+print(f'Criação de um array numpy de strings = \n {array8}')
+
+#A função linspace() do NumPy é usada para criar uma sequência de números igualmente espaçados dentro de um 
+# intervalo especificado. Igualmente distribuidos no intervalo especificado.
+print(f'Igualmente distribuidos no intervalo especificado. = \n {np.linspace(0, 10)}')
 
 
+# Muito útil para inicializar uma matriz de pesos, em uma rede neural.
+# A função logspace() é semelhante, só que cria uma sequencia de números espaçados logaritmicamente, 
+# dentro de um intervalo especificado.
 
+print(f'só que cria uma sequencia de números espaçados logaritmicamente. = \n {np.linspace(0, 10, 15)}')
+
+#Outras funções/métodos Numpy:
+
+# - **np.ones:** ones gera um array preenchido com aqueles do formato especificado.
+#   - `np.ones(shape, dtype=None)`
+# - **np.zeros_like:** cria um novo array preenchido com zeros, mas com a mesma forma e tipo de dados de um array existente.
+# - **np.ones_like:** é semelhante a np.zeros_like, mas cria um novo array preenchido com uns em vez de zeros.
+
+# Crie um array 3x3 preenchido com zeros
+zeros_arr = np.zeros(( 3 , 3 )) 
+print(f'Crie um array 3x3 preenchido com zeros= \n {zeros_arr}')
+
+# Crie uma nova matriz preenchida com zeros, 
+# combinando a forma e o tipo de dados da matriz original
+zeros_array = np.zeros_like(zeros_arr)
+print(f'zeros, mas com a mesma forma e tipo de dados de um array existente= \n {zeros_arr}') 
+
+# Crie uma nova matriz preenchido com uns, 
+# correspondendo à forma e ao tipo de dados do array original
+ones_array = np.ones_like(zeros_arr)
+print(f'nova matriz preenchido com uns tipo de dados de um array existente= \n {ones_array}') 
