@@ -46,6 +46,10 @@ print('#'*100)
 
 # Valores ausentes
 print(df.target.isnull().sum())
+
+## Limpeza Concluída...
+
+
 print('#'*100)
 # Calcula o percentual
 print(df.target.isnull().mean()*100)
