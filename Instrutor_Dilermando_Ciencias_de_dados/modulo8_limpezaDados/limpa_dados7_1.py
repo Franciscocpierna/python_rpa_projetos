@@ -46,6 +46,9 @@ print(dataset.info())
 print('#'*100)
 print(dataset.describe())
 print('#'*100)
+
+# Verificar os valores ausentes no dataset
+
 print('#'*100)
 # Para que todas as funções lá criadas fiquem disponível, temos que importar da seguinte forma:
 # Carregando o arquivo de descrição das funções de limpeza de dados
