@@ -65,11 +65,3 @@ dic_dia_semana = {'Monday':1,
 df['Codigo_Dia_Semana'] = df['Dia_da_Semana'].map(dic_dia_semana)
 
 print(df)
-print('#'*100)
-print()
-print('#'*100)
-print()
-print('#'*100)
-print()
-print('#'*100)
-
