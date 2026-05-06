@@ -552,16 +552,3 @@ print('#'*100)
 # O ROC AUC do nosso modelo se aproxima de 1. Portanto, podemos concluir que nosso classificador faz 
 # um bom trabalho em prever se é câncer benigno ou maligno.
 
-print()
-
-print('#'*100)
-
-print()
-
-print('#'*100)
-
-print()
-
-print('#'*100)
-
-print()
