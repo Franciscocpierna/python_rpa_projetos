@@ -197,9 +197,91 @@ os.startfile(nome_arquivo)
 print()
 
 print('#'*100)
+# Portanto, não há muita diferença entre o tempo levado pelos parceiros de entrega dependendo do veículo 
+# que estão dirigindo e do tipo de comida que estão entregando.
+
+# Então, as características que mais contribuem para o tempo de entrega de alimentos com base em 
+# nossa análise são:
+
+# - idade do parceiro de entrega
+# - avaliações do parceiro de entrega
+# - distância entre o restaurante e o local de entrega
+
+# A seguir, vamos treinar um modelo de Machine Learning para previsão do tempo de entrega de alimentos.
+
+# ## Modelo de Previsão do Tempo de Entrega de Alimentos
+
+# Agora vamos treinar um modelo de Machine Learning usando uma rede neural LSTM para a tarefa de previsão 
+# do tempo de entrega de alimentos:
+
+#Fazendo a separação dos dados de treino e teste
+x = np.array(df[["Delivery_person_Age", 
+                   "Delivery_person_Ratings", 
+                   "distance"]])
+y = np.array(df[["Time_taken(min)"]])
+xtrain, xtest, ytrain, ytest = train_test_split(x, y, 
+                                                test_size=0.10, 
+                                                random_state=42)
+
+# Criando o modelo de rede neural LSTM 
+# Inicializa uma rede neural sequencial (uma camada após a outra)
+model = Sequential()
+# A primeira camada LSTM terá 128 neurônios // input_shape define a forma de entrada de dados. 
+# Xtrain.shape representa o número de passos de tempo e o valor 1, representa o número de features
+model.add(LSTM(128, return_sequences=True, input_shape= (xtrain.shape[1], 1)))
+# Adiciona uma segunda camada com 64 neurônios. A opção False, faz com que essa camada adicione apenas uma única saída com um vetor de 64 dimensões.
+model.add(LSTM(64, return_sequences=False))
+# Adiciona uma primeira camada densa (totalmente conectada) com 25 unidades.
+model.add(Dense(25))
+# adiciona uma segunda camada densa com apenas uma unidade (saída)
+model.add(Dense(1))
+# a linha abaixo imprime um resumo do modelo.
+model.summary()
+
+# Fazendo o treinamento do Modelo
+# o primeiro parâmetro indica a função de ativação escolhida: Adam (Adaptive Moment Estimation). É eficiente em termos de memória e não precisa
+# de muitos ajustes.  //  função de perda (loss) - Erro Médio Quadrático, é uma medida comum para problemas de regressão.
+model.compile(optimizer='adam', loss='mean_squared_error')
+# batch_size indica a quantidade de amostras de treinamento o modelo processa antes de atualizar os parâmetros.
+# epochs indica o número de épocas ou seja a qtd de vezes que o modelo verá todo o conjunto de dados de treinamento.
+model.fit(xtrain, ytrain, batch_size=1, epochs=9)
+
+### Acurácia do Modelo
+
+# Avaliar o modelo com os dados de teste
+loss = model.evaluate(xtest, ytest)
+print(f'Loss (Erro Quadrático Médio): {loss}')
+
+# Fazer previsões com os dados de teste
+predictions = model.predict(xtest)
+
+# Calcular métricas adicionais
+mae = mean_absolute_error(ytest, predictions)
+r2 = r2_score(ytest, predictions)
+print(f'Erro Médio Absoluto (MAE): {mae}')
+print(f'R² Score: {r2}')
+
+# Calcular a acurácia do modelo
+# Calcular MAPE
+mape = mean_absolute_percentage_error(ytest, predictions)
+# Calcular acurácia percentual
+accuracy = 100 - mape * 100
+print(f'Acurácia: {accuracy:.2f}%')
 
 print()
+### Testando o Modelo
 
+print("Predição do Tempo de Entrega de Alimentos")
+a = int(input("Idade do Entregador: "))
+b = float(input("Avaliação das Entregas Anteriores (1-5): "))
+c = int(input("Distância Total: "))
+
+features = np.array([[a, b, c]])
+tempo = model.predict(features)[0][0]
+print(f"Previsão do Tempo de Entrega: {tempo:.2f} minutos")
+
+#Então, assim é como você pode usar Machine Learning para a tarefa de previsão do tempo de entrega de 
+# alimentos.
 print('#'*100)
 
 print()
