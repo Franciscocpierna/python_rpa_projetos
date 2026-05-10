@@ -88,6 +88,7 @@ figure = px.scatter(
     trendline="ols", 
     title = "Relationship Between Distance and Time Taken"
 )
+#fig.show()
 
 # 2. Define o nome do arquivo que será criado na sua pasta
 nome_arquivo = "grafico_entrega_distancia.html"
