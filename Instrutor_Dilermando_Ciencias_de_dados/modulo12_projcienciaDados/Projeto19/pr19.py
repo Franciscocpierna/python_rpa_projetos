@@ -377,6 +377,7 @@ correl = dados_numericos.corr(method='spearman')
 
 plt.figure(figsize=(21, 21))
 sns.heatmap(correl, annot=True)
+plt.show()
 print(correl)
 print()
 
@@ -410,7 +411,7 @@ model.fit(xtrain, ytrain)
 predictions = model.predict(xtest)
 
 # Verificando a acurácia do modelo
-model.score(xtest, ytest)
+print(model.score(xtest, ytest))
 
 ### Testanto o Modelo
 
