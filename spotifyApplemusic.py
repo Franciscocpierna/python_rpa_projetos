@@ -3,10 +3,13 @@ from gtts import gTTS
 from moviepy import ImageClip, AudioFileClip
 
 # 1. Configuração dos arquivos
-imagem_entrada = "spotify.jpg"
-video_saida = "spotify_promocional1.mp4"
+#imagem_entrada = "spotify.jpg"
+#video_saida = "spotify_promocional1.mp4"
 #imagem_entrada = "applemusic.jpg"
 #video_saida = "applemusic.mp4"
+imagem_entrada = "Deezer.png"
+video_saida = "Deezer.mp4"
+
 
 audio_temp = "temp_voice.mp3"
 
@@ -16,7 +19,7 @@ if not os.path.exists(imagem_entrada):
     exit()
 
 print("1/4 - Gerando o áudio 'Inscreva-se'...")
-tts = gTTS(text="escaneie o qrcode, ou procure por Francisco Carlos Pierna no spotify, seguir ou Inscreva-se", lang='pt', slow=False)
+tts = gTTS(text="escaneie o qrcode, ou procure por Francisco Carlos Pierna no Deezer, seguir ou Inscreva-se", lang='pt', slow=False)
 tts.save(audio_temp)
 
 try:
