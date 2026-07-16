@@ -2,7 +2,11 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
 from datetime import datetime
-
+####
+from tkinter import filedialog
+import shutil
+import os
+####
 # --- Banco de Dados ---
 conn = sqlite3.connect('estoque.db')
 cursor = conn.cursor()
@@ -14,10 +18,21 @@ conn.commit()
 
 # --- Funções de Lógica ---
 def converter_para_banco(data_tela):
+    """
+    Converte uma string de data do formato brasileiro (DD/MM/AAAA)
+    para o formato padrão de banco de dados (AAAA-MM-DD).
+    Retorna None em caso de erro na conversão.
+    """
     try: return datetime.strptime(data_tela, "%d/%m/%Y").strftime("%Y-%m-%d")
     except: return None
 
 def converter_para_tela(data_banco):
+    """
+    Converte uma string de data do formato de banco de dados (AAAA-MM-DD)
+    para o formato brasileiro (DD/MM/AAAA) para exibição na interface.
+    Retorna uma string vazia em caso de erro na conversão.
+    """
+
     try: return datetime.strptime(data_banco, "%Y-%m-%d").strftime("%d/%m/%Y")
     except: return ""
 
@@ -73,11 +88,24 @@ def consultar_relatorio(tipo):
     elif tipo == "vencidos": query = f"SELECT * FROM produtos WHERE vencimento < '{hoje}'"
     elif tipo == "venc_mes": query = f"SELECT * FROM produtos WHERE vencimento LIKE '{mes_atual}%'"
     else: query = "SELECT * FROM produtos"
-    
+
+    # Itera sobre os registros retornados pela consulta SQL
     for row in cursor.execute(query):
+       # Converte a tupla de dados em lista para permitir edição
+       row = list(row)
+    
+      # Verifica se a coluna de data (índice 5) existe e contém um valor
+       if len(row) > 5 and row[5]: 
+        # Aplica a função de formatação para exibir a data no padrão brasileiro
+        row[5] = converter_para_tela(row[5]) 
+    
+         # Adiciona a linha formatada na Treeview
+       tree.insert("", "end", values=row)
+    
+    '''for row in cursor.execute(query):
         row = list(row)
         if len(row) > 5 and row[5]: row[5] = converter_para_tela(row[5])
-        tree.insert("", "end", values=row)
+        tree.insert("", "end", values=row) '''
 
 def carregar_campos(event):
     item = tree.selection()
@@ -88,6 +116,7 @@ def carregar_campos(event):
     ent_fornecedor.insert(0, v[4]); ent_venc.insert(0, v[5]); ent_min.insert(0, v[6])
 
 def atualizar_treeview(event=None):
+    #tree.delete(*tree.get_children()) também apaga todos os itens da treview
     for i in tree.get_children(): tree.delete(i)
     for row in cursor.execute("SELECT * FROM produtos WHERE nome LIKE ?", ('%'+ent_busca.get()+'%',)):
         row = list(row)
@@ -96,6 +125,36 @@ def atualizar_treeview(event=None):
 
 def limpar_campos():
     for ent in [ent_nome, ent_preco, ent_qtd, ent_fornecedor, ent_venc, ent_min]: ent.delete(0, 'end')
+
+#####
+def salvar_bco():
+    # 1. Solicita ao usuário que escolha o arquivo de banco de dados original
+    arquivo_origem = filedialog.askopenfilename(
+        title="Selecione o arquivo de banco de dados para copiar",
+        filetypes=[("Banco de dados SQLite", "*.db")],
+        initialdir="." # Começa a busca no diretório atual
+    )
+
+    # Se o usuário cancelar a seleção, encerra a função
+    if not arquivo_origem:
+        return
+
+    # 2. Solicita ao usuário onde ele deseja salvar a cópia
+    caminho_destino = filedialog.asksaveasfilename(
+        defaultextension=".db",
+        filetypes=[("Banco de dados SQLite", "*.db")],
+        title="Salvar cópia do banco de dados",
+        initialfile=f"copia_{os.path.basename(arquivo_origem)}"
+    )
+
+    # 3. Executa a cópia se o caminho de destino for definido
+    if caminho_destino:
+        try:
+            shutil.copy2(arquivo_origem, caminho_destino)
+            messagebox.showinfo("Sucesso", f"Backup realizado com sucesso em:\n{caminho_destino}")
+        except Exception as e:
+            messagebox.showerror("Erro", f"Erro ao realizar backup: {e}")
+##########
 
 # --- Interface ---
 root = tk.Tk()
@@ -116,6 +175,16 @@ menu_rel.add_command(label="Vencem este mês", command=lambda: consultar_relator
 menu_rel.add_command(label="Ver Todos", command=atualizar_treeview)
 menubar.add_cascade(label="Relatórios", menu=menu_rel)
 root.config(menu=menubar)
+##########
+
+menu_copia = tk.Menu(menubar, tearoff=0)
+menu_copia.add_command(label="Copia de segurança", command=lambda: salvar_bco())
+#menu_copia.add_command(label="Copia de segurança", command=salvar_bco) sem parenteses
+menubar.add_cascade(label="Copiar banco de dados", menu=menu_copia)
+
+
+   
+
 
 frame_form = tk.LabelFrame(root, text="Dados do Produto", padx=10, pady=10)
 frame_form.pack(fill="x", padx=10, pady=5)
