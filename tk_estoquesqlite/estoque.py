@@ -213,3 +213,92 @@ tree.bind("<<TreeviewSelect>>", carregar_campos)
 
 atualizar_treeview()
 root.mainloop()
+
+'''
+1. A Estratégia de "Adição com Valor Padrão"
+Se você quer adicionar um campo (por exemplo, categoria ou status) sem quebrar os registros antigos, 
+você deve definir um valor padrão (DEFAULT).
+
+Comando SQL:
+ALTER TABLE produtos ADD COLUMN categoria TEXT NOT NULL DEFAULT 'Geral';
+
+2. A Estratégia Avançada (Para Mudanças Complexas)
+Se a nova estrutura for mais complexa do que apenas um valor padrão (por exemplo, se você precisar calcular o novo valor com base em outros campos existentes), o ALTER TABLE simples não serve. Nesse caso, você deve usar o padrão de migração:
+
+Criar uma tabela temporária com a nova estrutura.
+
+Copiar os dados da tabela original para a nova, tratando a lógica dos campos.
+
+Remover a tabela original.
+
+Renomear a tabela temporária para o nome original.
+
+Exemplo prático (SQL):
+
+
+-- 1. Cria a nova tabela com a estrutura correta
+CREATE TABLE produtos_novo (
+    id INTEGER PRIMARY KEY,
+    nome TEXT,
+    preco REAL,
+    nova_coluna TEXT NOT NULL -- O novo campo
+);
+
+-- 2. Migra os dados com uma lógica de conversão (CASE, por exemplo)
+
+
+INSERT INTO produtos_novo (id, nome, preco, nova_coluna)
+SELECT id, nome, preco, 
+       CASE WHEN preco > 100 THEN 'Premium' ELSE 'Comum' END
+FROM produtos;
+
+-- 3. Remove a antiga
+DROP TABLE produtos;
+
+-- 4. Renomeia a nova
+ALTER TABLE produtos_novo RENAME TO produtos;
+
+
+
+
+
+INSERT INTO produtos_novo (id, nome, preco, nova_coluna)
+SELECT id, nome, preco, 'ESTOQUE_INICIAL' -- Este texto é o valor que populará a nova coluna
+FROM produtos;
+
+
+
+Quando você adiciona um campo de data em uma tabela já populada, o maior risco é o campo ficar com valor NULL 
+(vazio) ou com uma data incorreta, o que pode quebrar funções de cálculo ou filtros 
+(como o strftime que você usou anteriormente).
+
+Para o seu estoque.db, a melhor estratégia depende de qual informação você deseja colocar nesse novo campo.
+
+Estratégia: Adicionar com Valor Padrão (Recomendado)
+Se você quer que todos os registros antigos recebam a data de hoje (data da criação da coluna), 
+você pode usar o DEFAULT CURRENT_DATE.
+
+ALTER TABLE produtos ADD COLUMN data_inclusao DATE NOT NULL DEFAULT (DATE('now'));
+
+ou faça assim
+
+-- 1. Cria nova tabela com a coluna 'data_inclusao'
+CREATE TABLE produtos_novo (
+    id INTEGER PRIMARY KEY,
+    nome TEXT,
+    preco REAL,
+    data_inclusao DATE NOT NULL
+);
+
+-- 2. Migra os dados calculando a data (Exemplo: 2026-07-17 menos 1 dia por ID)
+
+
+INSERT INTO produtos_novo (id, nome, preco, data_inclusao)
+SELECT id, nome, preco, DATE('now', '-' || id || ' days')
+FROM produtos;
+
+-- 3. Troca as tabelas
+DROP TABLE produtos;
+ALTER TABLE produtos_novo RENAME TO produtos;
+'''
+
