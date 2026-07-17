@@ -215,6 +215,8 @@ atualizar_treeview()
 root.mainloop()
 
 '''
+ALTERAÇÃO DE ESTRUTURA DE TABELA SQLITE
+
 1. A Estratégia de "Adição com Valor Padrão"
 Se você quer adicionar um campo (por exemplo, categoria ou status) sem quebrar os registros antigos, 
 você deve definir um valor padrão (DEFAULT).
