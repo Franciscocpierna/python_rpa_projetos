@@ -189,11 +189,30 @@ menubar.add_cascade(label="Copiar banco de dados", menu=menu_copia)
 frame_form = tk.LabelFrame(root, text="Dados do Produto", padx=10, pady=10)
 frame_form.pack(fill="x", padx=10, pady=5)
 campos = ["Nome:", "Preço:", "Qtd/Mov:", "Fornecedor:", "Vencimento (DD/MM/AAAA):", "Estoque Mínimo:"]
+# entries = []
+# for i, l in enumerate(campos):
+#     tk.Label(frame_form, text=l).grid(row=i, column=0, sticky="w")
+#     ent = tk.Entry(frame_form); ent.grid(row=i, column=1, sticky="ew")
+#     entries.append(ent)
+# ent_nome, ent_preco, ent_qtd, ent_fornecedor, ent_venc, ent_min = entries
+
+# Inicializa uma lista vazia para armazenar as referências dos campos de entrada (Entry)
 entries = []
+
+# Itera sobre a lista 'campos', obtendo o índice (i) e o nome do campo (l)
 for i, l in enumerate(campos):
+    # Cria e posiciona um rótulo (Label) com o nome do campo na coluna 0
     tk.Label(frame_form, text=l).grid(row=i, column=0, sticky="w")
-    ent = tk.Entry(frame_form); ent.grid(row=i, column=1, sticky="ew")
+    
+    # Cria um campo de entrada (Entry), posiciona na coluna 1 e expande horizontalmente
+    ent = tk.Entry(frame_form)
+    ent.grid(row=i, column=1, sticky="ew")
+    
+    # Adiciona o objeto 'Entry' criado à lista 'entries' para acesso posterior
     entries.append(ent)
+
+# Desempacota a lista 'entries' atribuindo cada campo a uma variável específica 
+# (essencial para ler ou limpar os dados de cada campo individualmente depois)
 ent_nome, ent_preco, ent_qtd, ent_fornecedor, ent_venc, ent_min = entries
 frame_form.columnconfigure(1, weight=1)
 
