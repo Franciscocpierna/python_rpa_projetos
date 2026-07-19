@@ -13,7 +13,7 @@ cursor = conn.cursor()
 # Criando a tabela com as colunas completas
 cursor.execute('''CREATE TABLE IF NOT EXISTS produtos 
                   (id INTEGER PRIMARY KEY, nome TEXT, preco REAL, quantidade INTEGER, 
-                   fornecedor TEXT, vencimento TEXT, est_min INTEGER)''')
+                   fornecedor TEXT, vencimento TEXT, est_min INTEGER, data_inclusao TEXT)''')
 conn.commit()
 
 # --- Funções de Lógica ---
@@ -39,8 +39,9 @@ def converter_para_tela(data_banco):
 def salvar_produto():
     try:
         venc_banco = converter_para_banco(ent_venc.get())
-        cursor.execute("INSERT INTO produtos (nome, preco, quantidade, fornecedor, vencimento, est_min) VALUES (?,?,?,?,?,?)", 
-                       (ent_nome.get(), float(ent_preco.get()), int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get())))
+       
+        cursor.execute("INSERT INTO produtos (nome, preco, quantidade, fornecedor, vencimento, est_min) VALUES (?,?,?,?,?,?,?)", 
+                       (ent_nome.get(), float(ent_preco.get()), int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get(), DATE('now'))))
         conn.commit(); limpar_campos(); atualizar_treeview()
     except Exception as e: messagebox.showerror("Erro", f"Dados inválidos: {e}")
 
@@ -49,8 +50,8 @@ def alterar_produto():
     if not item: return
     id_p = tree.item(item)['values'][0]
     venc_banco = converter_para_banco(ent_venc.get())
-    cursor.execute("UPDATE produtos SET nome=?, preco=?, quantidade=?, fornecedor=?, vencimento=?, est_min=? WHERE id=?", 
-                   (ent_nome.get(), float(ent_preco.get()), int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get()), id_p))
+    cursor.execute("UPDATE produtos SET nome=?, preco=?, quantidade=?, fornecedor=?, vencimento=?, est_min=?, data_inclusao=?, WHERE id=?", 
+                   (ent_nome.get(), float(ent_preco.get()), int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get()),DATE('now'), id_p))
     conn.commit(); atualizar_treeview(); limpar_campos()
 
 def registrar_movimento(tipo):
@@ -98,6 +99,10 @@ def consultar_relatorio(tipo):
        if len(row) > 5 and row[5]: 
         # Aplica a função de formatação para exibir a data no padrão brasileiro
         row[5] = converter_para_tela(row[5]) 
+
+       if len(row) > 7 and row[7]: 
+        # Aplica a função de formatação para exibir a data no padrão brasileiro
+        row[7] = converter_para_tela(row[7])    
     
          # Adiciona a linha formatada na Treeview
        tree.insert("", "end", values=row)
@@ -113,7 +118,7 @@ def carregar_campos(event):
     v = list(tree.item(item)['values'])
     limpar_campos()
     ent_nome.insert(0, v[1]); ent_preco.insert(0, v[2]); ent_qtd.insert(0, v[3])
-    ent_fornecedor.insert(0, v[4]); ent_venc.insert(0, v[5]); ent_min.insert(0, v[6])
+    ent_fornecedor.insert(0, v[4]); ent_venc.insert(0, v[5]); ent_min.insert(0, v[6]); ent_inc.insert(0, v[7])
 
 def atualizar_treeview(event=None):
     #tree.delete(*tree.get_children()) também apaga todos os itens da treview
@@ -121,12 +126,23 @@ def atualizar_treeview(event=None):
     for row in cursor.execute("SELECT * FROM produtos WHERE nome LIKE ?", ('%'+ent_busca.get()+'%',)):
         row = list(row)
         if len(row) > 5 and row[5]: row[5] = converter_para_tela(row[5])
+        if len(row) > 7 and row[7]: row[7] = converter_para_tela(row[7]) 
+          
+             
         tree.insert("", "end", values=row)
 
 def limpar_campos():
-    for ent in [ent_nome, ent_preco, ent_qtd, ent_fornecedor, ent_venc, ent_min]: ent.delete(0, 'end')
+    for ent in [ent_nome, ent_preco, ent_qtd, ent_fornecedor, ent_venc, ent_min, ent_inc]: ent.delete(0, 'end')
 
 #####
+
+
+def fechar_programa():
+    conn.close()  # Fecha a conexão com segurança
+    root.destroy() # Destrói a janela
+
+
+
 def salvar_bco():
     # 1. Solicita ao usuário que escolha o arquivo de banco de dados original
     arquivo_origem = filedialog.askopenfilename(
@@ -213,7 +229,7 @@ for i, l in enumerate(campos):
 
 # Desempacota a lista 'entries' atribuindo cada campo a uma variável específica 
 # (essencial para ler ou limpar os dados de cada campo individualmente depois)
-ent_nome, ent_preco, ent_qtd, ent_fornecedor, ent_venc, ent_min = entries
+ent_nome, ent_preco, ent_qtd, ent_fornecedor, ent_venc, ent_min, ent_inc = entries
 frame_form.columnconfigure(1, weight=1)
 
 frame_busca = tk.Frame(root); frame_busca.pack(fill="x", padx=10)
@@ -231,6 +247,9 @@ tree.pack(fill="both", expand=True, padx=10, pady=10)
 tree.bind("<<TreeviewSelect>>", carregar_campos)
 
 atualizar_treeview()
+# Configura o botão "X" da janela para chamar a função de fechamento
+root.protocol("WM_DELETE_WINDOW", fechar_programa)
+
 root.mainloop()
 
 '''
