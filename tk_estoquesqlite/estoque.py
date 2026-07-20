@@ -45,9 +45,9 @@ def converter_para_tela(data_banco):
 def salvar_produto():
     try:
         venc_banco = converter_para_banco(ent_venc.get())
-       
-        cursor.execute("INSERT INTO produtos (nome, preco, quantidade, fornecedor, vencimento, est_min) VALUES (?,?,?,?,?,?,?)", 
-                       (ent_nome.get(), float(ent_preco.get()), int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get(), DATE('now'))))
+        cursor.execute("INSERT INTO produtos (nome, preco, quantidade, fornecedor, vencimento, est_min, data_inclusao) VALUES (?, ?, ?, ?, ?, ?, DATE('now'))",
+                       (ent_nome.get(), float(ent_preco.get()), int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get())))
+        
         conn.commit(); limpar_campos(); atualizar_treeview()
     except Exception as e: messagebox.showerror("Erro", f"Dados inválidos: {e}")
 
@@ -56,8 +56,9 @@ def alterar_produto():
     if not item: return
     id_p = tree.item(item)['values'][0]
     venc_banco = converter_para_banco(ent_venc.get())
-    cursor.execute("UPDATE produtos SET nome=?, preco=?, quantidade=?, fornecedor=?, vencimento=?, est_min=?, data_inclusao=?, WHERE id=?", 
-                   (ent_nome.get(), float(ent_preco.get()), int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get()),DATE('now'), id_p))
+    data_inclusao= converter_para_banco(ent_inc.get())
+    cursor.execute("UPDATE produtos SET nome=?, preco=?, quantidade=?, fornecedor=?, vencimento=?, est_min=?, data_inclusao=? WHERE id=?", 
+                   (ent_nome.get(), float(ent_preco.get()), int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get()),data_inclusao, id_p))
     conn.commit(); atualizar_treeview(); limpar_campos()
 
 def registrar_movimento(tipo):
