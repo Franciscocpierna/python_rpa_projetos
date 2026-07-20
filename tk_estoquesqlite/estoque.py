@@ -10,6 +10,12 @@ import os
 # --- Banco de Dados ---
 conn = sqlite3.connect('estoque.db')
 cursor = conn.cursor()
+'''
+# Executa o comando PRAGMA passando apenas o nome da tabela
+cursor.execute("PRAGMA table_info(produtos);")
+colunas = cursor.fetchall()
+print(colunas) para ver a estrutura da tabela usamos o PRAGMA
+'''
 # Criando a tabela com as colunas completas
 cursor.execute('''CREATE TABLE IF NOT EXISTS produtos 
                   (id INTEGER PRIMARY KEY, nome TEXT, preco REAL, quantidade INTEGER, 
@@ -125,6 +131,7 @@ def atualizar_treeview(event=None):
     for i in tree.get_children(): tree.delete(i)
     for row in cursor.execute("SELECT * FROM produtos WHERE nome LIKE ?", ('%'+ent_busca.get()+'%',)):
         row = list(row)
+        print(row)
         if len(row) > 5 and row[5]: row[5] = converter_para_tela(row[5])
         if len(row) > 7 and row[7]: row[7] = converter_para_tela(row[7]) 
           
@@ -204,7 +211,7 @@ menubar.add_cascade(label="Copiar banco de dados", menu=menu_copia)
 
 frame_form = tk.LabelFrame(root, text="Dados do Produto", padx=10, pady=10)
 frame_form.pack(fill="x", padx=10, pady=5)
-campos = ["Nome:", "Preço:", "Qtd/Mov:", "Fornecedor:", "Vencimento (DD/MM/AAAA):", "Estoque Mínimo:"]
+campos = ["Nome:", "Preço:", "Qtd/Mov:", "Fornecedor:", "Vencimento (DD/MM/AAAA):", "Estoque Mínimo:","Data Inclusão"]
 # entries = []
 # for i, l in enumerate(campos):
 #     tk.Label(frame_form, text=l).grid(row=i, column=0, sticky="w")
@@ -240,11 +247,42 @@ frame_btns = tk.Frame(root, pady=5); frame_btns.pack(fill="x", padx=10)
 tk.Button(frame_btns, text="Entrada", command=lambda: registrar_movimento("entrada"), bg="#d1e7dd").pack(side="left", padx=5)
 tk.Button(frame_btns, text="Saída", command=lambda: registrar_movimento("saida"), bg="#f8d7da").pack(side="left", padx=5)
 
-tree = ttk.Treeview(root, columns=("ID", "Nome", "Preço", "Qtd", "Fornecedor", "Venc", "Min"), show='headings')
-for col in ("ID", "Nome", "Preço", "Qtd", "Fornecedor", "Venc", "Min"):
+tree = ttk.Treeview(root, columns=("ID", "Nome", "Preço", "Qtd", "Fornecedor", "Venc", "Min", "Data de Inclusão"), show='headings')
+for col in ("ID", "Nome", "Preço", "Qtd", "Fornecedor", "Venc", "Min","Data de Inclusão",):
     tree.heading(col, text=col); tree.column(col, width=90)
 tree.pack(fill="both", expand=True, padx=10, pady=10)
 tree.bind("<<TreeviewSelect>>", carregar_campos)
+'''
+o for se resume em 2 linhas
+for col in ("ID", "Nome", "Preço", "Qtd", "Fornecedor", "Venc", "Min","Data de Inclusão",):
+    tree.heading(col, text=col); tree.column(col, width=90)   
+
+# Configuração manual coluna por coluna (sem o loop for)
+tree.heading("ID", text="ID")
+tree.column("ID", width=90)
+
+tree.heading("Nome", text="Nome")
+tree.column("Nome", width=90)
+
+tree.heading("Preço", text="Preço")
+tree.column("Preço", width=90)
+
+tree.heading("Qtd", text="Qtd")
+tree.column("Qtd", width=90)
+
+tree.heading("Fornecedor", text="Fornecedor")
+tree.column("Fornecedor", width=90)
+
+tree.heading("Venc", text="Venc")
+tree.column("Venc", width=90)
+
+tree.heading("Min", text="Min")
+tree.column("Min", width=90)
+
+tree.heading("Data de Inclusão", text="Data de Inclusão")
+tree.column("Data de Inclusão", width=90)
+
+'''
 
 atualizar_treeview()
 # Configura o botão "X" da janela para chamar a função de fechamento
