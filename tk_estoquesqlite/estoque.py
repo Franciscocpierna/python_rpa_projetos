@@ -6,6 +6,7 @@ from datetime import datetime
 from tkinter import filedialog
 import shutil
 import os
+from datetime import date
 ####
 # --- Banco de Dados ---
 conn = sqlite3.connect('estoque.db')
@@ -48,7 +49,9 @@ def salvar_produto():
         cursor.execute("INSERT INTO produtos (nome, preco, quantidade, fornecedor, vencimento, est_min, data_inclusao) VALUES (?, ?, ?, ?, ?, ?, DATE('now'))",
                        (ent_nome.get(), float(ent_preco.get()), int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get())))
         
-        conn.commit(); limpar_campos(); atualizar_treeview()
+        conn.commit()
+        #limpar_campos() 
+        atualizar_treeview()
     except Exception as e: messagebox.showerror("Erro", f"Dados inválidos: {e}")
 
 def alterar_produto():
@@ -144,7 +147,11 @@ def limpar_campos():
 
 #####
 
+def ganhou_foco(event):
+    if ent_inc.get()=='':
+        ent_inc.insert(0, converter_para_tela(date.today().isoformat()))
 
+      
 def fechar_programa():
     conn.close()  # Fecha a conexão com segurança
     root.destroy() # Destrói a janela
@@ -234,7 +241,7 @@ for i, l in enumerate(campos):
     
     # Adiciona o objeto 'Entry' criado à lista 'entries' para acesso posterior
     entries.append(ent)
-
+     
 # Desempacota a lista 'entries' atribuindo cada campo a uma variável específica 
 # (essencial para ler ou limpar os dados de cada campo individualmente depois)
 ent_nome, ent_preco, ent_qtd, ent_fornecedor, ent_venc, ent_min, ent_inc = entries
@@ -242,6 +249,7 @@ frame_form.columnconfigure(1, weight=1)
 
 frame_busca = tk.Frame(root); frame_busca.pack(fill="x", padx=10)
 tk.Label(frame_busca, text="Buscar:").pack(side="left"); ent_busca = tk.Entry(frame_busca); ent_busca.pack(side="left", fill="x", expand=True)
+ent_inc.bind("<FocusIn>", ganhou_foco)
 ent_busca.bind("<KeyRelease>", atualizar_treeview)
 
 frame_btns = tk.Frame(root, pady=5); frame_btns.pack(fill="x", padx=10)
