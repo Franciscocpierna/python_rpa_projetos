@@ -50,7 +50,7 @@ def salvar_produto():
                        (ent_nome.get(), float(ent_preco.get()), int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get())))
         
         conn.commit()
-        #limpar_campos() 
+        limpar_campos() 
         atualizar_treeview()
     except Exception as e: messagebox.showerror("Erro", f"Dados inválidos: {e}")
 
