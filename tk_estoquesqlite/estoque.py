@@ -29,9 +29,63 @@ def converter_para_banco(data_tela):
     Converte uma string de data do formato brasileiro (DD/MM/AAAA)
     para o formato padrão de banco de dados (AAAA-MM-DD).
     Retorna None em caso de erro na conversão.
+
+Esta linha de código em Python é muito utilizada para converter o formato de uma data (geralmente vinda de uma tela, input de usuário 
+ou banco de dados) do formato brasileiro (DD/MM/AAAA) para o formato padrão de banco de dados/internacional (AAAA-MM-DD).
+
+Abaixo, a explicação detalhada de cada comando e parte dessa instrução:
+
+1. datetime
+O que é: É um módulo nativo do Python (chamado datetime) que fornece classes para manipulação de datas e horas.
+
+Função: Para usar essa linha, você precisa ter importado o módulo antes no seu código (ex: from datetime import datetime).
+
+2. .strptime(data_tela, "%d/%m/%Y")
+Este é o primeiro método executado, responsável por ler e transformar uma string em um objeto de data do Python.
+
+data_tela: É a variável que contém a data em formato de texto (string), por exemplo: "25/12/2026".
+
+.strptime(): Significa string parse time (analisar tempo a partir de uma string). Ele pega um texto e o converte para um objeto 
+de data/hora compreensível pelo Python.
+
+"%d/%m/%Y": É a máscara de leitura que diz ao Python como a string original está organizada:
+
+%d: Dia com dois dígitos (01 até 31).
+
+/: O caractere literal de barra que separa os valores.
+
+%m: Mês com dois dígitos (01 até 12).
+
+/: O caractere de barra.
+
+%Y: Ano com quatro dígitos (ex: 2026).
+
+Resultado parcial: O trecho até aqui pega a string "25/12/2026" e a transforma em um objeto de data do Python: 
+datetime.date(2026, 12, 25).
+
+3. .strftime("%Y-%m-%d")
+Este é o segundo método executado, responsável por converter o objeto de data de volta para string, mas agora em um novo formato.
+
+.strftime(): Significa string format time (formatar tempo em string). Ele pega o objeto de data gerado pelo passo anterior e o 
+formata como texto de acordo com a máscara informada.
+
+"%Y-%m-%d": É a máscara de saída:
+
+%Y: Ano com quatro dígitos (2026).
+
+-: O caractere de hífen que separa os valores.
+
+%m: Mês com dois dígitos (12).
+
+-: O caractere de hífen.
+
+%d: Dia com dois dígitos (25).
+
+Resultado final: O objeto de data é transformado em uma nova string no formato americano/internacional: "2026-12-25".
     """
     try: return datetime.strptime(data_tela, "%d/%m/%Y").strftime("%Y-%m-%d")
     except: return None
+
 
 def converter_para_tela(data_banco):
     """
@@ -43,11 +97,65 @@ def converter_para_tela(data_banco):
     try: return datetime.strptime(data_banco, "%Y-%m-%d").strftime("%d/%m/%Y")
     except: return ""
 
+def converter_para_bancoPreco(valor):
+    #30.0 ou 30,00 
+
+    try:
+    # Se for um widget do Tkinter (Entry), pega o texto. Senão, usa o valor direto.
+     if hasattr(valor, "get"):
+      texto = str(valor.get())
+     else:
+      texto = str(valor)
+
+     # Se estiver vazio, retorna vazio
+     if not texto:
+      return ""
+     # Converte para float e formata com 2 casas decimais garantidas
+     # O objeto numero continua sendo um número (float) na memória do Python. O que acontece é que a expressão inteira 
+     # após o return se torna uma string.
+
+     # Se tem vírgula, o ponto é separador de milhar (remove ponto, troca vírgula por ponto)
+     if "," in texto:
+       texto_tratado = texto.replace(".", "").replace(",", ".")
+     else:
+       # Se NÃO tem vírgula, o ponto é decimal (mantém o ponto)
+       texto_tratado = texto
+
+     
+     numero = float(texto_tratado)
+     return f"{numero:.2f}".replace(",", ".")
+    except ValueError:
+      # Captura especificamente se o texto digitado não for um número válido
+      return 0.00
+
+def converter_para_telaPreco(valor):
+  try:
+    # Se for um widget do Tkinter (Entry), pega o texto. Senão, usa o valor direto.
+    if hasattr(valor, "get"):
+      texto = str(valor.get())
+    else:
+      texto = str(valor)
+
+    # Se estiver vazio, retorna vazio
+    if not texto:
+      return ""
+   # Converte para float e formata com 2 casas decimais garantidas
+   # O objeto numero continua sendo um número (float) na memória do Python. O que acontece é que a expressão inteira 
+   # após o return se torna uma string.
+    numero = float(texto)
+    return f"{numero:.2f}".replace(".", ",")
+  except:
+    return 0.00
+
 def salvar_produto():
     try:
+        preco = converter_para_bancoPreco(ent_preco.get()) 
+    
+        # Se o usuário deixou vazio, você pode tratar antes do execute para não mandar float("")
+        preco_banco = float(preco) if preco else 0.0  # ou 0
         venc_banco = converter_para_banco(ent_venc.get())
         cursor.execute("INSERT INTO produtos (nome, preco, quantidade, fornecedor, vencimento, est_min, data_inclusao) VALUES (?, ?, ?, ?, ?, ?, DATE('now'))",
-                       (ent_nome.get(), float(ent_preco.get()), int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get())))
+                       (ent_nome.get(), preco_banco, int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get())))
         
         conn.commit()
         limpar_campos() 
@@ -58,11 +166,16 @@ def alterar_produto():
     item = tree.selection()
     if not item: return
     id_p = tree.item(item)['values'][0]
+    preco = converter_para_bancoPreco(ent_preco.get()) 
+    # Se o usuário deixou vazio, você pode tratar antes do execute para não mandar float("")
+    preco_banco = float(preco) if preco else 0.0  # ou 0 
     venc_banco = converter_para_banco(ent_venc.get())
     data_inclusao= converter_para_banco(ent_inc.get())
     cursor.execute("UPDATE produtos SET nome=?, preco=?, quantidade=?, fornecedor=?, vencimento=?, est_min=?, data_inclusao=? WHERE id=?", 
-                   (ent_nome.get(), float(ent_preco.get()), int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get()),data_inclusao, id_p))
+                   (ent_nome.get(), preco_banco, int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get()),data_inclusao, id_p))
     conn.commit(); atualizar_treeview(); limpar_campos()
+
+
 
 def registrar_movimento(tipo):
     item = tree.selection()
@@ -135,7 +248,8 @@ def atualizar_treeview(event=None):
     for i in tree.get_children(): tree.delete(i)
     for row in cursor.execute("SELECT * FROM produtos WHERE nome LIKE ?", ('%'+ent_busca.get()+'%',)):
         row = list(row)
-        print(row)
+        #print(row)
+        if len(row) > 2 and row[2]: row[2] = converter_para_telaPreco(row[2])
         if len(row) > 5 and row[5]: row[5] = converter_para_tela(row[5])
         if len(row) > 7 and row[7]: row[7] = converter_para_tela(row[7]) 
           
