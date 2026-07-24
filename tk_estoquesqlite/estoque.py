@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import *
 from tkinter import ttk, messagebox
 import sqlite3
 from datetime import datetime
@@ -22,6 +23,9 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS produtos
                   (id INTEGER PRIMARY KEY, nome TEXT, preco REAL, quantidade INTEGER, 
                    fornecedor TEXT, vencimento TEXT, est_min INTEGER, data_inclusao TEXT)''')
 conn.commit()
+
+
+
 
 # --- Funções de Lógica ---
 def converter_para_banco(data_tela):
@@ -128,13 +132,34 @@ def converter_para_bancoPreco(valor):
       # Captura especificamente se o texto digitado não for um número válido
       return 0.00
 
-def converter_para_telaPreco(valor):
+def converter_para_telaPreco(event):
+
   try:
-    # Se for um widget do Tkinter (Entry), pega o texto. Senão, usa o valor direto.
-    if hasattr(valor, "get"):
-      texto = str(valor.get())
-    else:
-      texto = str(valor)
+    # Pega dinamicamente o campo que disparou o evento (ent_preco)
+    valor = event.widget
+    if valor.get() =="":
+        messagebox1("valor não pode ficar vazio")
+        valor.focus()   
+        return
+    texto = str(valor.get())
+    
+   # Converte para float e formata com 2 casas decimais garantidas
+   # O objeto numero continua sendo um número (float) na memória do Python. O que acontece é que a expressão inteira 
+   # após o return se torna uma string.
+    numero = float(texto)
+    # ent_preco.delete(0, "end")
+    # ent_preco.insert(0, f"{numero:.2f}".replace(".", ","))  
+    widget.delete(0, "end")
+    widget.insert(0, f"{numero:.2f}".replace(".", ","))
+    return f"{numero:.2f}".replace(".", ",")
+  except:
+    return 0.00
+
+
+def converter_para_telaPreco1(valor):
+
+  try:
+    texto = str(valor)
 
     # Se estiver vazio, retorna vazio
     if not texto:
@@ -143,30 +168,53 @@ def converter_para_telaPreco(valor):
    # O objeto numero continua sendo um número (float) na memória do Python. O que acontece é que a expressão inteira 
    # após o return se torna uma string.
     numero = float(texto)
+    # ent_preco.delete(0, "end")
+    # ent_preco.insert(0, f"{numero:.2f}".replace(".", ","))  
+    # ent_preco.delete(0, "end")
+    # ent_preco.insert(0, f"{numero:.2f}".replace(".", ","))
     return f"{numero:.2f}".replace(".", ",")
   except:
     return 0.00
 
+
 def salvar_produto():
     try:
-        preco = converter_para_bancoPreco(ent_preco.get()) 
-    
-        # Se o usuário deixou vazio, você pode tratar antes do execute para não mandar float("")
-        preco_banco = float(preco) if preco else 0.0  # ou 0
-        venc_banco = converter_para_banco(ent_venc.get())
-        cursor.execute("INSERT INTO produtos (nome, preco, quantidade, fornecedor, vencimento, est_min, data_inclusao) VALUES (?, ?, ?, ?, ?, ?, DATE('now'))",
+       if ent_nome.get()== None or ent_qtd.get()==None or ent_fornecedor.get()==None or ent_venc.get() ==None or ent_min.get()==None:
+            messagebox1("dados importantes vazios")
+            ent_nome.focus()
+            return
+       if ent_nome.get()=="" or ent_qtd.get()=="" or ent_fornecedor.get()=="" or ent_venc.get() =="" or ent_min.get()=="":
+            messagebox1("dados importantes vazios")
+            ent_nome.focus()
+            return
+       preco = converter_para_bancoPreco(ent_preco.get())
+       
+           # Se o usuário deixou vazio, você pode tratar antes do execute para não mandar float("")
+       preco_banco = float(preco) if preco else 0.0  # ou 0
+       venc_banco = converter_para_banco(ent_venc.get())
+       cursor.execute("INSERT INTO produtos (nome, preco, quantidade, fornecedor, vencimento, est_min, data_inclusao) VALUES (?, ?, ?, ?, ?, ?, DATE('now'))",
                        (ent_nome.get(), preco_banco, int(ent_qtd.get()), ent_fornecedor.get(), venc_banco, int(ent_min.get())))
         
-        conn.commit()
-        limpar_campos() 
-        atualizar_treeview()
+       conn.commit()
+       limpar_campos() 
+       atualizar_treeview()
     except Exception as e: messagebox.showerror("Erro", f"Dados inválidos: {e}")
 
 def alterar_produto():
     item = tree.selection()
     if not item: return
     id_p = tree.item(item)['values'][0]
-    preco = converter_para_bancoPreco(ent_preco.get()) 
+    if ent_nome.get()== "None" or ent_qtd.get()=="None" or ent_fornecedor.get()=="None" or ent_venc.get() =="None" or ent_min.get()=="None":
+            messagebox1("dados importantes vazios")
+            ent_nome.focus()
+            return
+    if ent_nome.get()=="" or ent_qtd.get()=="" or ent_fornecedor.get()=="" or ent_venc.get() =="" or ent_min.get()=="":
+            messagebox1("dados importantes vazios")
+            ent_nome.focus()
+            return
+    preco = converter_para_bancoPreco(ent_preco.get())
+    # Atualiza o Entry
+    
     # Se o usuário deixou vazio, você pode tratar antes do execute para não mandar float("")
     preco_banco = float(preco) if preco else 0.0  # ou 0 
     venc_banco = converter_para_banco(ent_venc.get())
@@ -249,7 +297,7 @@ def atualizar_treeview(event=None):
     for row in cursor.execute("SELECT * FROM produtos WHERE nome LIKE ?", ('%'+ent_busca.get()+'%',)):
         row = list(row)
         #print(row)
-        if len(row) > 2 and row[2]: row[2] = converter_para_telaPreco(row[2])
+        if len(row) > 2 and row[2]: row[2] = converter_para_telaPreco1(row[2])
         if len(row) > 5 and row[5]: row[5] = converter_para_tela(row[5])
         if len(row) > 7 and row[7]: row[7] = converter_para_tela(row[7]) 
           
@@ -261,9 +309,9 @@ def limpar_campos():
 
 #####
 
-def ganhou_foco(event):
-    if ent_inc.get()=='':
-        ent_inc.insert(0, converter_para_tela(date.today().isoformat()))
+# def ganhou_foco(event):
+#     if ent_inc.get()=='':
+#         ent_inc.insert(0, converter_para_tela(date.today().isoformat()))
 
       
 def fechar_programa():
@@ -301,10 +349,183 @@ def salvar_bco():
             messagebox.showerror("Erro", f"Erro ao realizar backup: {e}")
 ##########
 
+def verificadatac(memdata1):
+
+    data2=memdata1.split('/')
+
+    dia = int(data2[0])
+    mes = int(data2[1] )
+    ano = int(data2[2])
+
+    valida = False
+    
+    # Meses com 31 dias
+    if( mes==1 or mes==3 or mes==5 or mes==7 or \
+        mes==8 or mes==10 or mes==12):
+        if(dia<=31):
+            valida = True
+    # Meses com 30 dias
+    elif( mes==4 or mes==6 or mes==9 or mes==11):
+        if(dia<=30):
+            valida = True
+    elif mes==2:
+        # Testa se é bissexto
+        if (ano%4==0 and ano%100!=0) or (ano%400==0):
+            if(dia<=29):
+                valida = True
+        elif(dia<=28):
+                valida = True
+
+    if(valida) == False:
+       
+        messagebox1("Data Inválida digite novamente")
+        return valida 
+    return valida
+
+def dadosdataini(event):
+ # Pega dinamicamente o campo que disparou o evento (ent_inic ou ent_venc)
+ dataini = event.widget   
+ indice=len(dataini.get())
+ if indice==0:
+   return
+ indice=indice-1
+
+
+ memdata=dataini.get()
+
+ if str(indice) in ("0","1","3","4","6","7","8","9"):
+    if memdata[indice].isnumeric():
+       if indice ==1 or indice ==4:
+          memdata=memdata+"/"
+          dataini.delete(0,END)
+          dataini.insert(0,memdata)
+          return
+       elif indice == 9:
+           valida=verificadatac(memdata)
+           if valida==False:
+             dataini.delete(0,END) 
+             dataini.focus()
+             return
+           else:
+             return 
+       else:         
+           return
+    else:
+      messagebox1("data tem que ser numerica nessa posição") 
+      dataini.delete(0,END)
+      dataini.focus()
+      return
+ 
+ elif indice==2 or indice==5:
+     if memdata[indice] not in ("/"):
+         messagebox1("digite barra automatica nesta posição é data")
+         dataini.delete(0,END)
+         dataini.focus()
+         return   
+     else:
+        return 
+   
+ if len(dataini.get())==0:
+      dataini.focus()
+      return 
+ if len(dataini.get()) ==1:
+    digitado=dataini.get()
+    if digitado in ("0","1","2","3","4","5","6","7","8","9"):
+       return
+    else: 
+       messagebox1("digite números é data")
+       dataini.delete(0,END)
+       dataini.focus()   
+       return
+ if len(dataini.get()) ==2:
+      memdata=dataini.get()
+      if memdata.isnumeric():
+         memdata=memdata+"/"
+         dataini.delete(0,END)
+         dataini.insert(0,memdata)
+      else:
+         messagebox1("digite números é data")
+         dataini.delete(0,END)
+         dataini.focus()
+         return   
+ elif len(dataini.get())==5:
+         memdata1=dataini.get()
+         memdata=dataini.get().split('/')
+         memdata=memdata[1]
+         if memdata[1].isnumeric():
+           memdata1=memdata1+"/"
+           dataini.delete(0,END)
+           dataini.insert(0,memdata1)
+           return
+         else:
+           messagebox1("digite números é data")
+           dataini.delete(0,END)
+           dataini.focus()   
+           return
+ elif len(dataini.get())==10:
+         memdata=dataini.get()
+         memdata1=memdata
+         memdata=dataini.get().split('/')
+         memdata=memdata[2]
+         if memdata[2].isnumeric():
+           dataini.delete(0,END)
+           dataini.insert(0,memdata1)
+           valida=verificadatac(memdata1)
+           if valida==False:
+             dataini.delete(0,END) 
+             dataini.focus()   
+           return
+         else:
+           messagebox1("digite números é data") 
+           dataini.delete(0,END)
+           dataini.focus()   
+           return
+
+
+def vercampos1(event):
+  # Pega dinamicamente o campo que disparou o evento (ent_inic ou ent_venc)
+  dataini = event.widget     
+  if ent_inc.get()=='':
+      ent_inc.insert(0, converter_para_tela(date.today().isoformat()))
+
+  if len(dataini.get())>10:
+       messagebox1("campo data tamanho 10 digite novamente")
+       dataini.delete(0,END)
+       dataini.focus()
+  
+
 # --- Interface ---
 root = tk.Tk()
 root.title("Gestão de Estoque Profissional")
 root.geometry("950x650")
+def messagebox1(mensagem, janela_pai=root):
+    # Cria uma nova janela pop-up
+    top = tk.Toplevel(janela_pai)
+    top.title("Aviso")
+    top.geometry("450x200")
+    top.transient(janela_pai)
+    
+    # Centraliza a janela
+    top.update_idletasks()
+    x = janela_pai.winfo_x() + (janela_pai.winfo_width() // 2) - 225
+    y = janela_pai.winfo_y() + (janela_pai.winfo_height() // 2) - 100
+    top.geometry(f"+{x}+{y}")
+
+    # Texto com quebra automática para nunca cortar a mensagem
+    lbl_mensagem = tk.Label(top, text=mensagem, wraplength=420, justify="left", font=("Arial", 10))
+    lbl_mensagem.pack(padx=15, pady=15, fill="both", expand=True)
+
+    # Botão OK para fechar com segurança
+    btn_ok = ttk.Button(top, text="OK", command=top.destroy)
+    btn_ok.pack(pady=10)
+    
+    # Permite fechar a janela também ao apertar a tecla Enter ou Escape
+    top.bind("<Return>", lambda event: top.destroy())
+    top.bind("<Escape>", lambda event: top.destroy())
+    
+    btn_ok.focus()
+
+
 
 menubar = tk.Menu(root)
 menu_arq = tk.Menu(menubar, tearoff=0)
@@ -363,7 +584,16 @@ frame_form.columnconfigure(1, weight=1)
 
 frame_busca = tk.Frame(root); frame_busca.pack(fill="x", padx=10)
 tk.Label(frame_busca, text="Buscar:").pack(side="left"); ent_busca = tk.Entry(frame_busca); ent_busca.pack(side="left", fill="x", expand=True)
-ent_inc.bind("<FocusIn>", ganhou_foco)
+
+ent_venc.bind("<KeyRelease>", dadosdataini)
+ent_inc.bind("<KeyRelease>", dadosdataini)
+#ent_venc.bind("<FocusIn>",vercampos1)
+ent_venc.bind("<FocusOut>",vercampos1)
+#<FocusOut>
+ent_preco.bind("<FocusOut>",converter_para_telaPreco)
+#ent_preco.bind("<FocusOut>", lambda event: converter_para_telaPreco())
+
+ent_inc.bind("<FocusOut>",vercampos1)
 ent_busca.bind("<KeyRelease>", atualizar_treeview)
 
 frame_btns = tk.Frame(root, pady=5); frame_btns.pack(fill="x", padx=10)
