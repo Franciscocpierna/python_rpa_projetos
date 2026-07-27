@@ -8,6 +8,7 @@ from tkinter import filedialog
 import shutil
 import os
 from datetime import date
+from grafico import *
 ####
 # --- Banco de Dados ---
 conn = sqlite3.connect('estoque.db')
@@ -149,8 +150,8 @@ def converter_para_telaPreco(event):
     numero = float(texto)
     # ent_preco.delete(0, "end")
     # ent_preco.insert(0, f"{numero:.2f}".replace(".", ","))  
-    widget.delete(0, "end")
-    widget.insert(0, f"{numero:.2f}".replace(".", ","))
+    valor.delete(0, "end")
+    valor.insert(0, f"{numero:.2f}".replace(".", ","))
     return f"{numero:.2f}".replace(".", ",")
   except:
     return 0.00
@@ -547,6 +548,13 @@ menu_copia = tk.Menu(menubar, tearoff=0)
 menu_copia.add_command(label="Copia de segurança", command=lambda: salvar_bco())
 #menu_copia.add_command(label="Copia de segurança", command=salvar_bco) sem parenteses
 menubar.add_cascade(label="Copiar banco de dados", menu=menu_copia)
+
+menu_grafico = tk.Menu(menubar, tearoff=0)
+menu_grafico.add_command(label="Inclusão mes/ano barra", command=lambda: grafico_barra())
+menu_grafico.add_command(label="Inclusão mes/ano pizza", command=lambda: grafico_pizza())
+#menu_copia.add_command(label="Copia de segurança", command=salvar_bco) sem parenteses
+menubar.add_cascade(label="Gráficos", menu=menu_grafico)
+
 
 
    

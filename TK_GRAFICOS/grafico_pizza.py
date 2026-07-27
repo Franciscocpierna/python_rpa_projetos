@@ -327,7 +327,8 @@ class Application(Frame):
         titulo_grafico = self.entry_titulo.get()
         
         # Plotar gráfico de barras com os valores somados
-        # Plotar - "Plotar" é um termo usado em programação e em análise de dados para descrever a criação de um gráfico
+        # Plotar - "Plotar" é um termo usado em programação e em análise de dados para descrever
+        #  a criação de um gráfico
         self.ax.bar(df_agrupado.index, df_agrupado.values)
         self.ax.set_xlabel(col_x) #Define o titulo do eixo x
         self.ax.set_ylabel(col_y) #Define o titulo do eixo y
