@@ -296,7 +296,7 @@ def atualizar_treeview(event=None):
     #tree.delete(*tree.get_children()) também apaga todos os itens da treview
     for i in tree.get_children(): tree.delete(i)
     for row in cursor.execute("SELECT * FROM produtos WHERE nome LIKE ?", ('%'+ent_busca.get()+'%',)):
-        row = list(row)
+        row = list(row) # transforma em lista porque é mutavel e tuplas não
         #print(row)
         if len(row) > 2 and row[2]: row[2] = converter_para_telaPreco1(row[2])
         if len(row) > 5 and row[5]: row[5] = converter_para_tela(row[5])
@@ -741,3 +741,41 @@ DROP TABLE produtos;
 ALTER TABLE produtos_novo RENAME TO produtos;
 '''
 
+
+
+''' 
+relatórios com paginação
+
+# --- Lote 1: Pega os primeiros 10 registros (do 0 ao 9) ---
+cursor.execute("SELECT * FROM produtos LIMIT 10 OFFSET 0")
+lote_1 = cursor.fetchall()
+# Exibe ou processa o lote 1...
+
+# --- Lote 2: Pega os próximos 10 registros (do 10 em diante, pulando os 10 primeiros) ---
+cursor.execute("SELECT * FROM produtos LIMIT 10 OFFSET 10")
+lote_2 = cursor.fetchall()
+# Exibe ou processa o lote 2...
+
+
+
+ou ainda 
+
+tamanho_lote = 10  # Quantos registros você quer pegar por vez (LIMIT)
+offset_atual = 0   # Começa do primeiro registro
+
+while True:
+    # Executa a query usando as variáveis
+    cursor.execute("SELECT * FROM produtos LIMIT ? OFFSET ?", (tamanho_lote, offset_atual))
+    lote = cursor.fetchall()
+    
+    # Se o lote vier vazio, significa que acabaram os registros no banco
+    if not lote:
+        break
+        
+    # Processa os dados do lote atual
+    for row in lote:
+        print(row)
+        
+    # Prepara o offset para o próximo ciclo (pula para o próximo bloco)
+    offset_atual += tamanho_lote
+'''
