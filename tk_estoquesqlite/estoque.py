@@ -297,7 +297,6 @@ def atualizar_treeview(event=None):
     for i in tree.get_children(): tree.delete(i)
     for row in cursor.execute("SELECT * FROM produtos WHERE nome LIKE ?", ('%'+ent_busca.get()+'%',)):
         row = list(row) # transforma em lista porque é mutavel e tuplas não
-        #print(row)
         if len(row) > 2 and row[2]: row[2] = converter_para_telaPreco1(row[2])
         if len(row) > 5 and row[5]: row[5] = converter_para_tela(row[5])
         if len(row) > 7 and row[7]: row[7] = converter_para_tela(row[7]) 
@@ -614,6 +613,51 @@ for col in ("ID", "Nome", "Preço", "Qtd", "Fornecedor", "Venc", "Min","Data de 
 tree.pack(fill="both", expand=True, padx=10, pady=10)
 tree.bind("<<TreeviewSelect>>", carregar_campos)
 '''
+por exxemplo com mais de um campo de filtro
+comando_sql = "SELECT * FROM produtos WHERE nome LIKE ? AND categoria LIKE ? AND fornecedor LIKE ?"
+parametros = (
+    '%' + ent_busca_nome.get() + '%',
+    '%' + ent_busca_categoria.get() + '%',
+    '%' + ent_busca_fornecedor.get() + '%'
+) 
+outro exemplo
+
+# 1. Começa com a base da query e uma lista vazia para os parâmetros
+comando_sql = "SELECT * FROM produtos WHERE 1=1"  #1=1 é condição verdadeira traria todos registros
+parametros = []
+
+# 2. Puxa os valores dos campos de busca da tela
+nome = ent_busca_nome.get()
+categoria = ent_busca_categoria.get()
+fornecedor = ent_busca_fornecedor.get()
+
+# 3. Adiciona o filtro de nome apenas se o usuário digitou algo
+if nome:
+    comando_sql += " AND nome LIKE ?"
+    parametros.append('%' + nome + '%')
+
+# 4. Adiciona o filtro de categoria apenas se o usuário digitou algo
+if categoria:
+    comando_sql += " AND categoria LIKE ?"
+    parametros.append('%' + categoria + '%')
+
+# 5. Adiciona o filtro de fornecedor apenas se o usuário digitou algo
+if fornecedor:
+    comando_sql += " AND fornecedor LIKE ?"
+    parametros.append('%' + fornecedor + '%')
+
+# 6. Executa a query passando a string SQL pronta e a tupla de parâmetros
+sql = cursor.execute(comando_sql, tuple(parametros))
+
+# 7. Faz o loop linha por linha sem carregar tudo de uma vez
+for row in sql:
+    row = list(row)
+    if len(row) > 2 and row[2]: row[2] = converter_para_telaPreco1(row[2])
+    if len(row) > 5 and row[5]: row[5] = converter_para_tela(row[5])
+    if len(row) > 7 and row[7]: row[7] = converter_para_tela(row[7]) 
+    
+    tree.insert("", "end", values=row)
+
 o for se resume em 2 linhas
 for col in ("ID", "Nome", "Preço", "Qtd", "Fornecedor", "Venc", "Min","Data de Inclusão",):
     tree.heading(col, text=col); tree.column(col, width=90)   
