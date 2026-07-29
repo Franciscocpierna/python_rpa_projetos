@@ -1,3 +1,31 @@
+'''
+import tkinter as tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+root = tk.Tk()
+root.geometry("600x400")
+
+# 1. Criamos um Frame qualquer (uma moldura/área na tela)
+meu_painel = tk.Frame(root, bg="lightgray", bd=2, relief=tk.SUNKEN)
+meu_painel.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+# 2. Ao criar o canvas do gráfico, dizemos que o "master" (dono) é esse Frame
+# (Aqui 'fig' é o seu gráfico do matplotlib já configurado)
+canvas = FigureCanvasTkAgg(fig, master=meu_painel)
+canvas.draw()
+
+# 3. Posicionamos o gráfico dentro desse Frame usando o pack()
+canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+root.mainloop()
+''''
+
+
+
+
+
+
+
 # SELECT strftime('%m-%Y', data_inclusao) AS mes_ano, COUNT(*) AS total
 # FROM sua_tabela
 # GROUP BY mes_ano
@@ -6,9 +34,13 @@
 # Ao fazer isso, o resultado que chega ao seu Python já está agrupado: uma lista com "01-2026", "02-2026", etc.,
 #  e a contagem correspondente. 
 # Aí é só passar para o Matplotlib. completo
+
 import sqlite3
 import pandas as pd
 import matplotlib.pyplot as plt
+import tkinter as tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 
 # 1. Conectar ao seu banco de dados
 conn = sqlite3.connect('estoque.db')
@@ -295,3 +327,118 @@ canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
 root.mainloop()
 '''
+
+#PARA UMA AREA DE CANVAS O GRAFICO
+
+
+# Exemplo de janela principal do Tkinter
+root1 = tk.Tk()
+root1.title("Gráfico no Tkinter")
+root1.geometry("800x600")
+
+def inserir_grafico_no_tkinter(frame_destino):
+    # 1. Conectar ao banco e buscar os dados (sua query original)
+    conn = sqlite3.connect('estoque.db')
+    query = """
+    SELECT strftime('%m-%Y', data_inclusao) AS mes_ano, COUNT(*) AS total
+    FROM produtos
+    GROUP BY mes_ano
+    ORDER BY mes_ano;
+    """
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+
+    # 2. Criar a figura do Matplotlib (Note que usamos 'fig, ax = plt.subplots' em vez de plt.figure)
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.pie(df['total'], labels=df['mes_ano'], autopct='%1.1f%%', startangle=90)
+    ax.set_title('Registros Incluídos por Mês')
+    fig.tight_layout()
+
+    # 3. Converter a figura do Matplotlib para um widget compatível com o Tkinter
+    canvas = FigureCanvasTkAgg(fig, master=frame_destino)
+    canvas.draw()
+    
+    # 4. Posicionar o gráfico na tela usando o pack() ou grid() do Tkinter
+    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+def pegar_selecao():
+    valor_escolhido = combo_mes.get()
+    print(f"Você escolheu: {valor_escolhido}")
+
+# 1. Criar um Frame (ou usar sua estrutura existente)
+minhaescolha = tk.Frame(root1)
+minhaescolha.pack(padx=20, pady=20)
+
+# 2. Criar uma Label para orientar o usuário
+rotulo = tk.Label(minhaescolha, text="tipo de gráfico:")
+rotulo.pack(anchor="w", pady=5)
+
+# 3. Criar o Combobox
+# Definimos as opções disponíveis usando o parâmetro 'values'
+opcoes = ["Barra", "Pizza"]
+combo_mes = ttk.Combobox(minhaescolha, values=opcoes, state="readonly") # "readonly" impede que o usuário digite texto livre
+combo_mes.pack(pady=5)
+
+# Opcional: Selecionar um item padrão inicial (ex: o primeiro da lista)
+combo_mes.current(0)
+
+# 4. Função para pegar o valor que o usuário escolheu
+
+# Criando um Frame na tela para receber o gráfico
+meu_painel = tk.Frame(root1)
+meu_painel.pack(fill=tk.BOTH, expand=True)
+
+# Chamando a função passando o painel onde o gráfico vai aparecer
+inserir_grafico_no_tkinter(meu_painel)
+
+root1.mainloop()
+
+# O que muda em relação ao código original:
+# fig, ax = plt.subplots(...): Em vez de usar funções globais soltas como plt.figure(), criamos explicitamente 
+# um objeto de figura (fig) e de eixos (ax).
+# Isso é obrigatório para manipular o gráfico dentro de bibliotecas de interface como o Tkinter.
+
+# FigureCanvasTkAgg(fig, master=frame): É o "tradutor" que pega o seu gráfico do Matplotlib e o 
+# transforma em um elemento gráfico que o Tkinter entende.
+
+# canvas.get_tk_widget().pack(...): Insere o gráfico na tela da sua aplicação Tkinter, 
+# substituindo o antigo plt.show() (que abria uma janela externa separada).
+
+# O que costuma ir dentro do pack():
+# Geralmente, para gráficos e painéis, usamos parâmetros como estes:
+# canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+# O significado de cada parâmetro comum:
+
+# side=tk.TOP: Define que o gráfico vai se posicionar a partir do topo do painel/janela.
+
+# fill=tk.BOTH: Faz com que o gráfico tente preencher todo o espaço disponível tanto na 
+# horizontal quanto na vertical.
+
+# expand=True: Permite que o gráfico cresça ou diminua de tamanho caso o usuário redimensione 
+# a janela do aplicativo.
+
+
+
+
+PODE SER FEITO EM QUALUER AREA DO TK INTER
+
+import tkinter as tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+root = tk.Tk()
+root.geometry("600x400")
+
+# 1. Criamos um Frame qualquer (uma moldura/área na tela)
+meu_painel = tk.Frame(root, bg="lightgray", bd=2, relief=tk.SUNKEN)
+meu_painel.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+# 2. Ao criar o canvas do gráfico, dizemos que o "master" (dono) é esse Frame
+# (Aqui 'fig' é o seu gráfico do matplotlib já configurado)
+canvas = FigureCanvasTkAgg(fig, master=meu_painel)
+canvas.draw()
+
+# 3. Posicionamos o gráfico dentro desse Frame usando o pack()
+canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+root.mainloop()
