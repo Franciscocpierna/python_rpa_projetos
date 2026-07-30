@@ -348,11 +348,36 @@ def inserir_grafico_no_tkinter(frame_destino):
     df = pd.read_sql_query(query, conn)
     conn.close()
 
-    # 2. Criar a figura do Matplotlib (Note que usamos 'fig, ax = plt.subplots' em vez de plt.figure)
-    fig, ax = plt.subplots(figsize=(8, 5))
-    ax.pie(df['total'], labels=df['mes_ano'], autopct='%1.1f%%', startangle=90)
-    ax.set_title('Registros Incluídos por Mês')
-    fig.tight_layout()
+    # 5. Salvar em PDF (substitui o plt.show())
+    if meu_check_var.get():
+      plt.savefig('grafico_estoque.pdf', format='pdf', bbox_inches='tight')
+    escolha = combo_tipo.get()
+    if escolha = "Pizza":
+      # 2. Criar a figura do Matplotlib (Note que usamos 'fig, ax = plt.subplots' em vez de plt.figure)
+      fig, ax = plt.subplots(figsize=(8, 5))
+      ax.pie(df['total'], labels=df['mes_ano'], autopct='%1.1f%%', startangle=90)
+      ax.set_title('Registros Incluídos por Mês')
+      fig.tight_layout()
+    else:
+      #   fig, ax = plt.subplots(figsize=(8, 5))
+      #   ax.bar(df['total'], labels=df['mes_ano'], autopct='%1.1f%%', startangle=90)
+      #   ax.set_title('Registros Incluídos por Mês')
+      #   fig.tight_layout()
+
+      fig, ax = plt.subplots(figsize=(8, 5))
+
+      # O eixo X (mes_ano) vem primeiro, depois o eixo Y (total)
+      ax.bar(df['mes_ano'], df['total'])
+
+      ax.set_title('Registros Incluídos por Mês')
+      ax.set_xlabel('Mês/Ano')
+      ax.set_ylabel('Total')
+
+      # Rotaciona os rótulos do eixo X para não embolarem
+      plt.xticks(rotation=45)
+
+      fig.tight_layout()
+
 
     # 3. Converter a figura do Matplotlib para um widget compatível com o Tkinter
     canvas = FigureCanvasTkAgg(fig, master=frame_destino)
@@ -361,14 +386,27 @@ def inserir_grafico_no_tkinter(frame_destino):
     # 4. Posicionar o gráfico na tela usando o pack() ou grid() do Tkinter
     canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-def pegar_selecao():
-    valor_escolhido = combo_mes.get()
+def pegar_selecao(event):
+    valor_escolhido = combo_tipo.get()
     print(f"Você escolheu: {valor_escolhido}")
+    
 
 # 1. Criar um Frame (ou usar sua estrutura existente)
 minhaescolha = tk.Frame(root1)
 minhaescolha.pack(padx=20, pady=20)
+# Variável de controle
+meu_check_var = tk.BooleanVar(value=False)
 
+# Criando o Checkbutton e ligando à variável
+chk = ttk.Checkbutton(minhaescolha, text="Grava em Pdf", variable=meu_check_var)
+chk.pack(pady=20)
+'''
+# Cria o Combobox
+opcoes = ["Python", "JavaScript", "C++", "Java"]
+combo = ttk.Combobox(root, values=opcoes, state="readonly")
+combo.pack(pady=20)
+combo.set("Selecione uma linguagem") # Valor inicial opcional
+'''
 # 2. Criar uma Label para orientar o usuário
 rotulo = tk.Label(minhaescolha, text="tipo de gráfico:")
 rotulo.pack(anchor="w", pady=5)
@@ -376,22 +414,31 @@ rotulo.pack(anchor="w", pady=5)
 # 3. Criar o Combobox
 # Definimos as opções disponíveis usando o parâmetro 'values'
 opcoes = ["Barra", "Pizza"]
-combo_mes = ttk.Combobox(minhaescolha, values=opcoes, state="readonly") # "readonly" impede que o usuário digite texto livre
-combo_mes.pack(pady=5)
+combo_tipo = ttk.Combobox(minhaescolha, values=opcoes, state="readonly") # "readonly" impede que o usuário digite texto livre
+combo_tipo.pack(pady=5)
 
 # Opcional: Selecionar um item padrão inicial (ex: o primeiro da lista)
-combo_mes.current(0)
-
+combo_tipo.current(0)
 # 4. Função para pegar o valor que o usuário escolheu
+
+# Associa o evento de mudança ao combobox
+valor = combo_tipo.bind("<<ComboboxSelected>>",pegar_selecao)
 
 # Criando um Frame na tela para receber o gráfico
 meu_painel = tk.Frame(root1)
 meu_painel.pack(fill=tk.BOTH, expand=True)
 
 # Chamando a função passando o painel onde o gráfico vai aparecer
-inserir_grafico_no_tkinter(meu_painel)
 
+# COMO ASSOCIAR A TECLA F3:
+# Usamos lambda para passar o 'frame_destino' para a sua função,
+# já que o bind vai injetar o argumento 'event' automaticamente.
+# ---------------------------------------------------------
+root1.bind("<F3>", lambda event: inserir_grafico_no_tkinter(meu_painel))
+root1.title("Atalho F3 para Gráfico")
 root1.mainloop()
+#if meu_check_var.get():
+
 
 # O que muda em relação ao código original:
 # fig, ax = plt.subplots(...): Em vez de usar funções globais soltas como plt.figure(), criamos explicitamente 
@@ -421,7 +468,7 @@ root1.mainloop()
 
 
 
-PODE SER FEITO EM QUALUER AREA DO TK INTER
+#PODE SER FEITO EM QUALUER AREA DO TK INTER
 
 import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
