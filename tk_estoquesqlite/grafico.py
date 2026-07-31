@@ -69,9 +69,7 @@ def grafico_pizza():
     plt.xticks(rotation=45) # Gira o texto do eixo X para não sobrepor
     plt.tight_layout()      # Ajusta o layout para não cortar as legendas
   
-    # 5. Salvar em PDF (substitui o plt.show())
-    plt.savefig('grafico_estoque.pdf', format='pdf', bbox_inches='tight')
-    
+        
     # 5. Exibir
     plt.show()
     plt.close()  # Fecha a figura da memória
@@ -357,9 +355,7 @@ def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var):
     df = pd.read_sql_query(query, conn)
     conn.close()
     escolha = combo_tipo.get()
-    # 5. Salvar em PDF (substitui o plt.show())
-    if meu_check_var.get():
-      plt.savefig('grafico_estoque.pdf', format='pdf', bbox_inches='tight')
+    
     
     if escolha == "Pizza":
       # 2. Criar a figura do Matplotlib (Note que usamos 'fig, ax = plt.subplots' em vez de plt.figure)
@@ -388,14 +384,21 @@ def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var):
 
       fig.tight_layout()
 
+     # 3. Salvar em PDF DEPOIS que o gráfico foi gerado
+    if meu_check_var.get():
+        fig.savefig('grafico_estoque.pdf', format='pdf', bbox_inches='tight')
 
+   # # 5. Salvar em PDF (substitui o plt.show())
+    # if meu_check_var.get():
+    #   plt.savefig('grafico_estoque.pdf', format='pdf', bbox_inches='tight')     
+    
     # 3. Converter a figura do Matplotlib para um widget compatível com o Tkinter
     canvas = FigureCanvasTkAgg(fig, master=frame_destino)
     canvas.draw()
     
     # 4. Posicionar o gráfico na tela usando o pack() ou grid() do Tkinter
     canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
+    
 def pegar_selecao(event):
     # event.widget é o Combobox, e o .get() extrai o texto selecionado dele
     valor_escolhido = event.widget.get() 

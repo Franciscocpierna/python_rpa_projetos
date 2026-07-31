@@ -230,7 +230,7 @@ def registrar_movimento(tipo):
     item = tree.selection()
     if not item: return
     v = tree.item(item)['values']
-    id_p, nome, _, qtd_atual, _, _, est_min = v
+    id_p, nome, _, qtd_atual, _, _, est_min, _= v
     try:
         valor = int(ent_qtd.get())
         if tipo == "saida":
