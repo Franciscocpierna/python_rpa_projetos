@@ -42,7 +42,12 @@ import matplotlib.pyplot as plt
 import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib
-matplotlib.use('Agg')
+
+
+#matplotlib.use('Agg')
+def fechar_programa1(janela):
+    conn.close()      # Fecha a conexão com o banco
+    janela.destroy()   # Destrói a janela de vez e limpa da memória
 
 
 # 1. Conectar ao seu banco de dados
@@ -340,7 +345,7 @@ root.mainloop()
 # def inserir_grafico_no_tkinter(frame_destino):
 def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var):    
     # 1. Conectar ao banco e buscar os dados (sua query original)
-    conn = sqlite3.connect('estoque.db')
+  #  conn = sqlite3.connect('estoque.db')
     query = """
     SELECT strftime('%m-%Y', data_inclusao) AS mes_ano, COUNT(*) AS total
     FROM produtos
@@ -353,7 +358,7 @@ def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var):
     
     plt.close('all')
     df = pd.read_sql_query(query, conn)
-    conn.close()
+   # conn.close()
     escolha = combo_tipo.get()
     
     
@@ -408,10 +413,14 @@ def pegar_selecao(event):
 
 # 1. Criar um Frame (ou usar sua estrutura existente)
 def grafico_tela():
+    matplotlib.use('Agg')
     root1 = tk.Toplevel()
     root1.title("Gráfico de Inclusões por Mês")
     root1.geometry("800x600")
     root1.grab_set()
+    #root1.protocol("WM_DELETE_WINDOW", fechar_programa1)
+    # Configura o fechamento da janela usando lambda para passar a root1 correta
+    root1.protocol("WM_DELETE_WINDOW", lambda: fechar_programa1(root1))
     minhaescolha = tk.Frame(root1)
     minhaescolha.pack(padx=20, pady=20)
     # Variável de controle
