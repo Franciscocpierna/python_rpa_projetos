@@ -108,6 +108,46 @@ def grafico_barra():
      plt.show()
      plt.close()  # Fecha a figura da memória
      conn.close()
+
+def graficoLinha(): 
+        # SOBRESCREVA imediatamente com o backend interativo do Windows/Tkinter:
+    matplotlib.use('TkAgg')
+    import matplotlib.pyplot as plt
+
+    # 1. Conectar ao seu banco de dados
+    conn = sqlite3.connect('estoque.db')    
+
+    # 2. Executar a consulta e carregar diretamente em um DataFrame
+    query = """
+    SELECT strftime('%m-%Y', data_inclusao) AS mes_ano, COUNT(*) AS total
+    FROM produtos
+    GROUP BY mes_ano
+    ORDER BY mes_ano;
+    """
+    df = pd.read_sql_query(query, conn)
+
+    # 3. Criar o gráfico (MODIFICADO DE PIZZA PARA LINHA)
+    plt.figure(figsize=(10, 6))
+
+    # Mudou de plt.pie para plt.plot
+    # Usamos marker='o' para marcar cada ponto no mês, linestyle='-' para a linha e linewidth para grossura
+    plt.plot(df['mes_ano'], df['total'], marker='o', linestyle='-', color='b', linewidth=2)
+    # plt.bar(df['mes_ano'], df['total'], color='skyblue') 
+    # 4. Ajustes visuais
+    plt.title('Registros Incluídos por Mês')
+    plt.xlabel('Mês/Ano')
+    plt.ylabel('Quantidade')
+    plt.xticks(rotation=45) # Gira o texto do eixo X para não sobrepor
+    plt.grid(True, linestyle='--', alpha=0.6) # Adiciona uma grade de fundo sutil (ótimo para gráficos de linha)
+    plt.tight_layout()      # Ajusta o layout para não cortar as legendas
+        
+    # 5. Exibir
+    plt.show()
+    plt.close()  # Fecha a figura da memória
+    conn.close() 
+
+
+
     # Não esqueça de fechar a conexão
 #    conn.close()
 
@@ -371,12 +411,8 @@ def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var,conn):
       ax.pie(df['total'], labels=df['mes_ano'], autopct='%1.1f%%', startangle=90)
       ax.set_title('Registros Incluídos por Mês')
       fig.tight_layout()
-    else:
-      #   fig, ax = plt.subplots(figsize=(8, 5))
-      #   ax.bar(df['total'], labels=df['mes_ano'], autopct='%1.1f%%', startangle=90)
-      #   ax.set_title('Registros Incluídos por Mês')
-      #   fig.tight_layout()
-
+    elif escolha == "Barra":
+      
       fig, ax = plt.subplots(figsize=(8, 5))
 
       # O eixo X (mes_ano) vem primeiro, depois o eixo Y (total)
@@ -391,7 +427,20 @@ def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var,conn):
       plt.setp(ax.get_xticklabels(), rotation=45, ha='right')
 
       fig.tight_layout()
-
+    else:
+      # 2. Criar a figura do Matplotlib (Note que usamos 'fig, ax = plt.subplots' em vez de plt.figure)
+      fig, ax = plt.subplots(figsize=(8, 5))
+      # Mudou de plt.pie para plt.plot
+      # Usamos marker='o' para marcar cada ponto no mês, linestyle='-' para a linha e linewidth para grossura
+      plt.plot(df['mes_ano'], df['total'], marker='o', linestyle='-', color='b', linewidth=2)
+      # plt.bar(df['mes_ano'], df['total'], color='skyblue') 
+      # 4. Ajustes visuais
+      plt.title('Registros Incluídos por Mês')
+      plt.xlabel('Mês/Ano')
+      plt.ylabel('Quantidade')
+      plt.xticks(rotation=45) # Gira o texto do eixo X para não sobrepor
+      plt.grid(True, linestyle='--', alpha=0.6) # Adiciona uma grade de fundo sutil (ótimo para gráficos de linha)
+      plt.tight_layout()      # Ajusta o layout para não cortar as legendas
      # 3. Salvar em PDF DEPOIS que o gráfico foi gerado
     if meu_check_var.get():
         fig.savefig('grafico_estoque.pdf', format='pdf', bbox_inches='tight')
@@ -461,7 +510,7 @@ def grafico_tela():
 
     # 3. Criar o Combobox
     # Definimos as opções disponíveis usando o parâmetro 'values'
-    opcoes = ["Barra", "Pizza"]
+    opcoes = ["Barra", "Pizza", "Linha"]
     combo_tipo = ttk.Combobox(minhaescolha, values=opcoes, state="readonly") # "readonly" impede que o usuário digite texto livre
     combo_tipo.pack(side=tk.LEFT,pady=40)
     # Opcional: Selecionar um item padrão inicial (ex: o primeiro da lista)

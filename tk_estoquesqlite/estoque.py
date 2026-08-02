@@ -549,8 +549,9 @@ menu_copia.add_command(label="Copia de segurança", command=lambda: salvar_bco()
 menubar.add_cascade(label="Copiar banco de dados", menu=menu_copia)
 
 menu_grafico = tk.Menu(menubar, tearoff=0)
-menu_grafico.add_command(label="Inclusão mes/ano barra", command=lambda: grafico_barra())
-menu_grafico.add_command(label="Inclusão mes/ano pizza", command=lambda: grafico_pizza())
+menu_grafico.add_command(label="Inclusão mes/ano Barra", command=lambda: grafico_barra())
+menu_grafico.add_command(label="Inclusão mes/ano Pizza", command=lambda: grafico_pizza())
+menu_grafico.add_command(label="Inclusão mes/ano Linha", command=lambda: graficoLinha())
 menu_grafico.add_command(label="Inclusão mes/ano Gráfico escolha", command=lambda: grafico_tela())
 #menu_copia.add_command(label="Copia de segurança", command=salvar_bco) sem parenteses
 menubar.add_cascade(label="Gráficos", menu=menu_grafico)
