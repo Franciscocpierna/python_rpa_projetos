@@ -693,7 +693,8 @@ tree.column("Data de Inclusão", width=90)
 atualizar_treeview()
 # Configura o botão "X" da janela para chamar a função de fechamento
 root.protocol("WM_DELETE_WINDOW", fechar_programa)
-
+# Faz a janela abrir maximizada no Windows
+root.state('zoomed')
 root.mainloop()
 
 '''

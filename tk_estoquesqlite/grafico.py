@@ -45,16 +45,14 @@ import matplotlib
 
 
 #matplotlib.use('Agg')
-def fechar_programa1(janela):
-    conn.close()      # Fecha a conexão com o banco
-    janela.destroy()   # Destrói a janela de vez e limpa da memória
 
 
-# 1. Conectar ao seu banco de dados
-conn = sqlite3.connect('estoque.db')
 def grafico_pizza():
-# 2. Executar a consulta e carregar diretamente em um DataFrame
-
+    # 1. Conectar ao seu banco de dados
+    conn = sqlite3.connect('estoque.db')    
+    # 2. Executar a consulta e carregar diretamente em um DataFrame
+    # SOBRESCREVA imediatamente com o backend interativo do Windows/Tkinter:
+    matplotlib.use('TkAgg')
     query = """
     SELECT strftime('%m-%Y', data_inclusao) AS mes_ano, COUNT(*) AS total
     FROM produtos
@@ -78,11 +76,15 @@ def grafico_pizza():
     # 5. Exibir
     plt.show()
     plt.close()  # Fecha a figura da memória
- 
+    conn.close() 
 
 def grafico_barra():
+     
+     # 1. Conectar ao seu banco de dados
+     conn = sqlite3.connect('estoque.db')
      # 2. Executar a consulta e carregar diretamente em um DataFrame
-
+     # SOBRESCREVA imediatamente com o backend interativo do Windows/Tkinter:
+     matplotlib.use('TkAgg')
      query = """
       SELECT strftime('%m-%Y', data_inclusao) AS mes_ano, COUNT(*) AS total
       FROM produtos
@@ -105,6 +107,7 @@ def grafico_barra():
      # 5. Exibir
      plt.show()
      plt.close()  # Fecha a figura da memória
+     conn.close()
     # Não esqueça de fechar a conexão
 #    conn.close()
 
@@ -343,7 +346,7 @@ root.mainloop()
 # root1.geometry("800x600")
 
 # def inserir_grafico_no_tkinter(frame_destino):
-def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var):    
+def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var,conn):    
     # 1. Conectar ao banco e buscar os dados (sua query original)
   #  conn = sqlite3.connect('estoque.db')
     query = """
@@ -410,6 +413,12 @@ def pegar_selecao(event):
     
     print(f"Você escolheu: {valor_escolhido}")
     
+def desativar_x():
+    pass
+
+def fechar_programa1(janela,conn):
+    conn.close()      # Fecha a conexão com o banco
+    janela.destroy()   # Destrói a janela de vez e limpa da memória
 
 # 1. Criar um Frame (ou usar sua estrutura existente)
 def grafico_tela():
@@ -418,17 +427,28 @@ def grafico_tela():
     root1.title("Gráfico de Inclusões por Mês")
     root1.geometry("800x600")
     root1.grab_set()
+    # Faz a janela abrir maximizada no Windows
+    root1.state('zoomed')
+    # 1. Conectar ao seu banco de dados
+    conn = sqlite3.connect('estoque.db')
     #root1.protocol("WM_DELETE_WINDOW", fechar_programa1)
     # Configura o fechamento da janela usando lambda para passar a root1 correta
-    root1.protocol("WM_DELETE_WINDOW", lambda: fechar_programa1(root1))
+    #root1.protocol("WM_DELETE_WINDOW", lambda: fechar_programa1(root1))
+    # 2. Atrela essa função vazia ao protocolo do "X"
+    root1.protocol("WM_DELETE_WINDOW", desativar_x)
+    # 3. Cria o seu próprio botão ou menu "Sair" que realmente fecha a janela
+    
     minhaescolha = tk.Frame(root1)
     minhaescolha.pack(padx=20, pady=20)
+    
+      
+
     # Variável de controle
     meu_check_var = tk.BooleanVar(value=False)
 
     # Criando o Checkbutton e ligando à variável
     chk = ttk.Checkbutton(minhaescolha, text="Grava em Pdf", variable=meu_check_var)
-    chk.pack(pady=20)
+    chk.pack(side=tk.LEFT,padx=40)
     
     # # Cria o Combobox
     # opcoes = ["Python", "JavaScript", "C++", "Java"]
@@ -443,10 +463,12 @@ def grafico_tela():
     # Definimos as opções disponíveis usando o parâmetro 'values'
     opcoes = ["Barra", "Pizza"]
     combo_tipo = ttk.Combobox(minhaescolha, values=opcoes, state="readonly") # "readonly" impede que o usuário digite texto livre
-    combo_tipo.pack(pady=20)
-
+    combo_tipo.pack(side=tk.LEFT,pady=40)
     # Opcional: Selecionar um item padrão inicial (ex: o primeiro da lista)
     combo_tipo.current(0)
+    btn_sair = ttk.Button(minhaescolha, text="Sair / Fechar", command= lambda: fechar_programa1(root1,conn))
+    btn_sair.pack(side=tk.LEFT, padx=40) # padx adiciona um espaço horizontal entre eles 
+    
     # 4. Função para pegar o valor que o usuário escolheu
     #escolha = combo_tipo.get()
     # Associa o evento de mudança ao combobox
@@ -462,8 +484,9 @@ def grafico_tela():
     # Usamos lambda para passar o 'frame_destino' para a sua função,
     # já que o bind vai injetar o argumento 'event' automaticamente.
     # ---------------------------------------------------------
-    root1.bind("<F3>", lambda event: inserir_grafico_no_tkinter(meu_painel, combo_tipo, meu_check_var))
-    
+    root1.bind("<F3>", lambda event: inserir_grafico_no_tkinter(meu_painel, combo_tipo, meu_check_var,conn))
+    # 3. Força o foco do sistema operacional para esta janela imediatamente
+    root1.focus_force()
     
     root1.title("Atalho F3 para Gráfico")
     
