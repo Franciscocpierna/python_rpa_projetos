@@ -35,58 +35,58 @@ def converter_para_banco(data_tela):
     para o formato padrão de banco de dados (AAAA-MM-DD).
     Retorna None em caso de erro na conversão.
 
-Esta linha de código em Python é muito utilizada para converter o formato de uma data (geralmente vinda de uma tela, input de usuário 
-ou banco de dados) do formato brasileiro (DD/MM/AAAA) para o formato padrão de banco de dados/internacional (AAAA-MM-DD).
+    Esta linha de código em Python é muito utilizada para converter o formato de uma data (geralmente vinda de uma tela, input de usuário 
+    ou banco de dados) do formato brasileiro (DD/MM/AAAA) para o formato padrão de banco de dados/internacional (AAAA-MM-DD).
 
-Abaixo, a explicação detalhada de cada comando e parte dessa instrução:
+    Abaixo, a explicação detalhada de cada comando e parte dessa instrução:
 
-1. datetime
-O que é: É um módulo nativo do Python (chamado datetime) que fornece classes para manipulação de datas e horas.
+    1. datetime
+    O que é: É um módulo nativo do Python (chamado datetime) que fornece classes para manipulação de datas e horas.
 
-Função: Para usar essa linha, você precisa ter importado o módulo antes no seu código (ex: from datetime import datetime).
+    Função: Para usar essa linha, você precisa ter importado o módulo antes no seu código (ex: from datetime import datetime).
 
-2. .strptime(data_tela, "%d/%m/%Y")
-Este é o primeiro método executado, responsável por ler e transformar uma string em um objeto de data do Python.
+    2. .strptime(data_tela, "%d/%m/%Y")
+    Este é o primeiro método executado, responsável por ler e transformar uma string em um objeto de data do Python.
 
-data_tela: É a variável que contém a data em formato de texto (string), por exemplo: "25/12/2026".
+    data_tela: É a variável que contém a data em formato de texto (string), por exemplo: "25/12/2026".
 
-.strptime(): Significa string parse time (analisar tempo a partir de uma string). Ele pega um texto e o converte para um objeto 
-de data/hora compreensível pelo Python.
+    .strptime(): Significa string parse time (analisar tempo a partir de uma string). Ele pega um texto e o converte para um objeto 
+    de data/hora compreensível pelo Python.
 
-"%d/%m/%Y": É a máscara de leitura que diz ao Python como a string original está organizada:
+    "%d/%m/%Y": É a máscara de leitura que diz ao Python como a string original está organizada:
 
-%d: Dia com dois dígitos (01 até 31).
+    %d: Dia com dois dígitos (01 até 31).
 
-/: O caractere literal de barra que separa os valores.
+    /: O caractere literal de barra que separa os valores.
 
-%m: Mês com dois dígitos (01 até 12).
+    %m: Mês com dois dígitos (01 até 12).
 
-/: O caractere de barra.
+    /: O caractere de barra.
 
-%Y: Ano com quatro dígitos (ex: 2026).
+    %Y: Ano com quatro dígitos (ex: 2026).
 
-Resultado parcial: O trecho até aqui pega a string "25/12/2026" e a transforma em um objeto de data do Python: 
-datetime.date(2026, 12, 25).
+    Resultado parcial: O trecho até aqui pega a string "25/12/2026" e a transforma em um objeto de data do Python: 
+    datetime.date(2026, 12, 25).
 
-3. .strftime("%Y-%m-%d")
-Este é o segundo método executado, responsável por converter o objeto de data de volta para string, mas agora em um novo formato.
+    3. .strftime("%Y-%m-%d")
+    Este é o segundo método executado, responsável por converter o objeto de data de volta para string, mas agora em um novo formato.
 
-.strftime(): Significa string format time (formatar tempo em string). Ele pega o objeto de data gerado pelo passo anterior e o 
-formata como texto de acordo com a máscara informada.
+    .strftime(): Significa string format time (formatar tempo em string). Ele pega o objeto de data gerado pelo passo anterior e o 
+    formata como texto de acordo com a máscara informada.
 
-"%Y-%m-%d": É a máscara de saída:
+    "%Y-%m-%d": É a máscara de saída:
 
-%Y: Ano com quatro dígitos (2026).
+    %Y: Ano com quatro dígitos (2026).
 
--: O caractere de hífen que separa os valores.
+    -: O caractere de hífen que separa os valores.
 
-%m: Mês com dois dígitos (12).
+    %m: Mês com dois dígitos (12).
 
--: O caractere de hífen.
+    -: O caractere de hífen.
 
-%d: Dia com dois dígitos (25).
+    %d: Dia com dois dígitos (25).
 
-Resultado final: O objeto de data é transformado em uma nova string no formato americano/internacional: "2026-12-25".
+     Resultado final: O objeto de data é transformado em uma nova string no formato americano/internacional: "2026-12-25".
     """
     try: return datetime.strptime(data_tela, "%d/%m/%Y").strftime("%Y-%m-%d")
     except: return None
@@ -493,7 +493,8 @@ def vercampos1(event):
        dataini.delete(0,END)
        dataini.focus()
   
-
+def desativar_x():
+    pass
 # --- Interface ---
 root = tk.Tk()
 root.title("Gestão de Estoque Profissional")
@@ -555,6 +556,12 @@ menu_grafico.add_command(label="Inclusão mes/ano Linha", command=lambda: grafic
 menu_grafico.add_command(label="Inclusão mes/ano Gráfico escolha", command=lambda: grafico_tela())
 #menu_copia.add_command(label="Copia de segurança", command=salvar_bco) sem parenteses
 menubar.add_cascade(label="Gráficos", menu=menu_grafico)
+
+menu_fechar = tk.Menu(menubar, tearoff=0)
+menu_fechar.add_command(label="Sair", command=lambda: fechar_programa())
+#menu_copia.add_command(label="Copia de segurança", command=salvar_bco) sem parenteses
+menubar.add_cascade(label="Sair", menu=menu_fechar)
+
 
 
 
@@ -692,8 +699,9 @@ tree.column("Data de Inclusão", width=90)
 '''
 
 atualizar_treeview()
+root.protocol("WM_DELETE_WINDOW", desativar_x)
 # Configura o botão "X" da janela para chamar a função de fechamento
-root.protocol("WM_DELETE_WINDOW", fechar_programa)
+#root.protocol("WM_DELETE_WINDOW", fechar_programa)
 # Faz a janela abrir maximizada no Windows
 root.state('zoomed')
 root.mainloop()
