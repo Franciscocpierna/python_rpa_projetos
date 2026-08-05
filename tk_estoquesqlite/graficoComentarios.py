@@ -1,3 +1,168 @@
+
+
+'''
+
+
+
+PAGAMENTO EM ATRASO 
+
+SQL
+SELECT 
+    strftime('%m-%Y', data_vencimento) AS mes_ano, 
+    COUNT(*) AS total_atrasados
+FROM pagamentos
+WHERE data_vencimento < DATE('now')          -- 1. Só o que já venceu (deixa os futuros de fora!)
+  AND data_pagamento IS NULL                 -- 2. E que ainda não foi pago
+GROUP BY mes_ano
+ORDER BY mes_ano;
+
+Python
+import sqlite3
+import matplotlib.pyplot as plt
+
+conn = sqlite3.connect('seu_banco.db')
+cursor = conn.cursor()
+
+# Consulta SQL comparando com a data atual (DATE('now'))
+query = """
+   SQL
+SELECT 
+    strftime('%m-%Y', data_vencimento) AS mes_ano, 
+    COUNT(*) AS total_atrasados
+FROM pagamentos
+WHERE data_vencimento < DATE('now')          -- 1. Só o que já venceu (deixa os futuros de fora!)
+  AND data_pagamento IS NULL                 -- 2. E que ainda não foi pago
+GROUP BY mes_ano
+ORDER BY mes_ano;
+"""
+
+cursor.execute(query)
+dados = cursor.fetchall()
+conn.close()
+
+# Separando os dados para o gráfico
+meses = [row[0] for row in dados]
+totais = [row[1] for row in dados]
+
+# Criando o Gráfico de Colunas
+plt.figure(figsize=(10, 5))
+plt.bar(meses, totais, color='darkorange')
+plt.xlabel('Mês/Ano')
+plt.ylabel('Quantidade de Atrasados')
+plt.title('Histórico de Pagamentos em Atraso (Comparado com a Data Atual)')
+plt.xticks(rotation=45)
+plt.tight_layout()
+
+plt.show()
+
+COM GRÁFICO DE LINHA
+
+import sqlite3
+import matplotlib.pyplot as plt
+
+# 1. Conexão com o banco de dados
+conn = sqlite3.connect('seu_banco.db')
+cursor = conn.cursor()
+
+# 2. Consulta SQL 
+# Filtra o que já venceu (< DATE('now')) e o que ainda não foi pago (IS NULL), agrupando por mês/ano
+query = """
+    SELECT 
+        strftime('%m-%Y', data_vencimento) AS mes_ano, 
+        COUNT(*) AS total_atrasados
+    FROM pagamentos
+    WHERE data_vencimento < DATE('now')
+      AND data_pagamento IS NULL
+    GROUP BY mes_ano
+    ORDER BY mes_ano;
+"""
+
+cursor.execute(query)
+dados = cursor.fetchall()
+conn.close()
+
+# 3. Tratamento dos dados para o gráfico
+meses = [row[0] for row in dados]
+totais = [row[1] for row in dados]
+
+# 4. Construção do Gráfico de Linha
+plt.figure(figsize=(11, 6))
+
+# plt.plot gera o gráfico de linha com marcadores nos pontos
+plt.plot(meses, totais, color='crimson', marker='o', linewidth=2.5, markersize=6, label='Atrasados')
+
+# Adicionando os valores exatos em cima de cada ponto da linha para facilitar a leitura
+for i, txt in enumerate(totais):
+    plt.annotate(str(txt), (meses[i], totais[i]), textcoords="offset points", xytext=(0, 10), ha='center', fontsize=9)
+
+# Estilização do gráfico
+plt.xlabel('Mês/Ano de Vencimento', fontsize=11)
+plt.ylabel('Quantidade de Pagamentos em Atraso', fontsize=11)
+plt.title('Evolução Mensal de Pagamentos em Atraso (Baseado na Data Atual)', fontsize=13, pad=15)
+plt.xticks(rotation=45)
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.tight_layout()
+
+# Exibição
+plt.show()  
+
+
+INCLUSÃO NO MÊS
+
+SELECT 
+    strftime('%d', data_inclusao) AS dia, 
+    COUNT(*) AS total
+FROM produtos
+WHERE strftime('%Y-%m', data_inclusao) = ?
+GROUP BY dia
+ORDER BY dia;
+
+
+GRAFICO DE BARRA EM DETERMINADO MES
+
+import sqlite3
+import matplotlib.pyplot as plt
+
+# Exemplo de valor que veio de um input do usuário ou tela de seleção
+mes_escolhido = "2026-08"  # Formato: YYYY-MM
+
+conn = sqlite3.connect('seu_banco.db')
+cursor = conn.cursor()
+
+# A query utiliza o parâmetro (?) para evitar injeção de SQL e aceitar qualquer mês
+query = """
+    SELECT 
+        strftime('%d', data_vencimento) AS dia, 
+        COUNT(*) AS total
+    FROM produtos
+    WHERE strftime('%Y-%m', data_vencimento) = ?
+      -- AND data_vencimento < DATE('now') -- Sua regra de vencido, se aplicável
+    GROUP BY dia
+    ORDER BY dia;
+"""
+
+cursor.execute(query, (mes_escolhido,))
+dados = cursor.fetchall()
+conn.close()
+
+# Separando os dados para o gráfico
+dias = [row[0] for row in dados]
+totais = [row[1] for row in dados]
+
+# Criando o Gráfico
+plt.figure(figsize=(10, 5))
+plt.bar(dias, totais, color='crimson')
+plt.xlabel('Dias do Mês')
+plt.ylabel('Quantidade de Produtos Vencidos')
+plt.title(f'Produtos Vencidos por Dia - Referência: {mes_escolhido}')
+plt.xticks(rotation=45)
+plt.tight_layout()
+
+plt.show()
+'''
+
+
+
 '''
 import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -326,4 +491,51 @@ canvas.draw()
 # 3. Posicionamos o gráfico dentro desse Frame usando o pack()
 canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
-root.mainloop() '''
+root.mainloop() 
+
+
+EXPLICA PASSO A PASSO EM UM GRÁFICO DE LINHA
+
+# Adicionando os valores exatos em cima de cada ponto da linha para facilitar a leitura
+for i, txt in enumerate(totais):
+    plt.annotate(str(txt), (meses[i], totais[i]), textcoords="offset points", xytext=(0, 10), ha='center', fontsize=9)
+
+Passo a Passo de cada parte:
+for i, txt in enumerate(totais):
+
+totais é a lista com os números (ex: [5, 12, 8]).
+
+enumerate() percorre essa lista pegando duas coisas ao mesmo tempo: o índice (i) que é a posição do número (0, 1, 2...) e o valor (txt) que é o número em si (5, 12, 8).
+
+plt.annotate(...)
+
+É a função do Matplotlib usada para colocar um texto em uma coordenada específica do gráfico.
+
+str(txt)
+
+Converte o número total (que é um número inteiro) em texto, pois a função de anotação precisa receber um texto para desenhar na tela.
+
+(meses[i], totais[i])
+
+Indica onde o texto deve ser colocado no gráfico. Ele pega o mês correspondente na horizontal (meses[i]) e a quantidade exata na vertical (totais[i]), posicionando o número exatamente em cima da bolinha da linha.
+
+textcoords="offset points", xytext=(0, 10)
+
+Controla o deslocamento do texto em relação ao ponto exato:
+
+xytext=(0, 10): Significa que o número vai ficar deslocado 0 pixels para os lados e 10 pixels para cima. Isso garante que o texto não fique colado em cima da bolinha da linha, flutuando bonitinho logo acima dela.
+
+ha='center'
+
+Alinha o texto horizontalmente ao centro (Horizontal Alignment), garantindo que o número fique centralizado perfeitamente em cima da marcação.
+
+fontsize=9
+
+Define o tamanho da fonte do número como 9, mantendo a visualização limpa e sem poluir o gráfico.
+
+
+
+
+
+
+'''
