@@ -138,27 +138,25 @@ def converter_para_telaPreco(event):
   try:
     # Pega dinamicamente o campo que disparou o evento (ent_preco)
     valor = event.widget
-    if valor.get() =="":
-        messagebox1("valor não pode ficar vazio")
-        valor.focus()   
-        return
-    texto = str(valor.get())
-    
-   # Converte para float e formata com 2 casas decimais garantidas
-   # O objeto numero continua sendo um número (float) na memória do Python. O que acontece é que a expressão inteira 
-   # após o return se torna uma string.
+    if valor.get() == "":
+      # Se estiver vazio, retorna vazio
+      return ""    
+    texto=valor.get()
+    # Converte para float e formata com 2 casas decimais garantidas
+    # O objeto numero continua sendo um número (float) na memória do Python. O que acontece é que a expressão inteira 
+    # após o return se torna uma string.
     numero = float(texto)
     # ent_preco.delete(0, "end")
     # ent_preco.insert(0, f"{numero:.2f}".replace(".", ","))  
     valor.delete(0, "end")
     valor.insert(0, f"{numero:.2f}".replace(".", ","))
-    return f"{numero:.2f}".replace(".", ",")
+    return 
   except:
     return 0.00
 
 
 def converter_para_telaPreco1(valor):
-
+  
   try:
     texto = str(valor)
 
