@@ -185,7 +185,84 @@ def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var,conn):
     
     # 4. Posicionar o gráfico na tela usando o pack() ou grid() do Tkinter
     canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+
+# def inserir_grafico_no_tkinter(frame_destino):
+def inserir_grafico_no_tkinter1(frame_destino, combo_tipo, meu_check_var,conn,mes_escolhido):    
+    # 1. Conectar ao banco e buscar os dados (sua query original)
+    # conn = sqlite3.connect('estoque.db')
+    escolha = combo_tipo.get()
+    if escolha = "Inclusao"  
+        query = """
+          SELECT 
+          strftime('%d', data_inclusao) AS dia, 
+          COUNT(*) AS total
+          FROM produtos
+          WHERE strftime('%Y-%m', data_inclusao) = ?
+          GROUP BY dia
+          ORDER BY dia;
+          """
+    else:
+        query = """
+            SELECT 
+                strftime('%d', data_vencimento) AS dia, 
+                COUNT(*) AS total
+            FROM produtos
+            WHERE strftime('%Y-%m', data_vencimento) = ?
+            AND data_vencimento < DATE('now') 
+            GROUP BY dia
+            ORDER BY dia;
+            """
+    cursor.execute(query, (mes_escolhido,))
+    dados = cursor.fetchall()
+    # Separando os dados para o gráfico
+    dias = [row[0] for row in dados]
+    totais = [row[1] for row in dados]
+
+        # # 1. Limpa qualquer widget anterior (o gráfico velho) de dentro do painel
+    for widget in frame_destino.winfo_children():
+        widget.destroy()
     
+    plt.close('all')
+   # df = pd.read_sql_query(query, conn)
+   # conn.close()
+    
+   fig, ax = plt.subplots(figsize=(8, 5))      
+   plt.bar(dias, totais, color='crimson')
+   plt.xlabel('Dias do Mês')
+   if escolha = "Inclusao"
+        ax.ylabel('Quantidade de Produtos Inclusos')
+        ax.title(f'Produtos Inclusos por Dia - Referência: {mes_escolhido}')
+        ax.xticks(rotation=45)
+        ax.tight_layout()
+    else:
+        ax.ylabel('Quantidade de Produtos Vencidos')
+        ax.title(f'Produtos Vencidos por Dia - Referência: {mes_escolhido}')
+        ax.xticks(rotation=45)
+        ax.tight_layout()
+      # O eixo X (mes_ano) vem primeiro, depois o eixo Y (total)
+      
+      # Rotaciona os rótulos do eixo X para não embolarem
+      #plt.xticks(rotation=45)
+    plt.setp(ax.get_xticklabels(), rotation=45, ha='right')
+
+    fig.tight_layout()  
+      
+    # 3. Salvar em PDF DEPOIS que o gráfico foi gerado
+    if meu_check_var.get():
+        fig.savefig('grafico_estoque.pdf', format='pdf', bbox_inches='tight')
+
+   # # 5. Salvar em PDF (substitui o plt.show())
+    # if meu_check_var.get():
+    #   plt.savefig('grafico_estoque.pdf', format='pdf', bbox_inches='tight')     
+    
+    # 3. Converter a figura do Matplotlib para um widget compatível com o Tkinter
+    canvas = FigureCanvasTkAgg(fig, master=frame_destino)
+    canvas.draw()
+    
+    # 4. Posicionar o gráfico na tela usando o pack() ou grid() do Tkinter
+    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
 def pegar_selecao(event):
     # event.widget é o Combobox, e o .get() extrai o texto selecionado dele
     valor_escolhido = event.widget.get() 
@@ -261,3 +338,68 @@ def grafico_tela():
     
     root1.title("Atalho F3 para Gráfico")
     
+
+def grafico_tela_mes():
+    matplotlib.use('Agg')
+    root1 = tk.Toplevel()
+    root1.title("Gráfico em determinado Mês")
+    root1.geometry("800x600")
+    root1.grab_set()
+    # Faz a janela abrir maximizada no Windows
+    root1.state('zoomed')
+    # 1. Conectar ao seu banco de dados
+    conn = sqlite3.connect('estoque.db')
+    #root1.protocol("WM_DELETE_WINDOW", fechar_programa1)
+    # Configura o fechamento da janela usando lambda para passar a root1 correta
+    #root1.protocol("WM_DELETE_WINDOW", lambda: fechar_programa1(root1))
+    # 2. Atrela essa função vazia ao protocolo do "X"
+    root1.protocol("WM_DELETE_WINDOW", desativar_x)
+    # 3. Cria o seu próprio botão ou menu "Sair" que realmente fecha a janela
+    
+    minhaescolha = tk.Frame(root1)
+    minhaescolha.pack(padx=20, pady=20)
+    
+      
+
+    # Variável de controle
+    meu_check_var = tk.BooleanVar(value=False)
+
+    # Criando o Checkbutton e ligando à variável
+    chk = ttk.Checkbutton(minhaescolha, text="Grava em Pdf", variable=meu_check_var)
+    chk.pack(side=tk.LEFT,padx=40)
+    tk.label
+
+    tk.Label(minhaescolha, text="Digiteb o Mês").pack(side=tk.LEFT,padx=40)
+    mes_escolhido = tk.Entry(minhaescolha).pack(side=tk.LEFT,padx=40)
+   
+   
+    # 3. Criar o Combobox
+    # Definimos as opções disponíveis usando o parâmetro 'values'
+    opcoes = ["Inclusao", "Vencimento"]
+    combo_tipo = ttk.Combobox(minhaescolha, values=opcoes, state="readonly") # "readonly" impede que o usuário digite texto livre
+    combo_tipo.pack(side=tk.LEFT,pady=40)
+    # Opcional: Selecionar um item padrão inicial (ex: o primeiro da lista)
+    combo_tipo.current(0)
+    btn_sair = ttk.Button(minhaescolha, text="Sair / Fechar", command= lambda: fechar_programa1(root1,conn))
+    btn_sair.pack(side=tk.LEFT, padx=40) # padx adiciona um espaço horizontal entre eles 
+    
+    # 4. Função para pegar o valor que o usuário escolheu
+    #escolha = combo_tipo.get()
+    # Associa o evento de mudança ao combobox
+    combo_tipo.bind("<<ComboboxSelected>>",pegar_selecao)
+
+    # Criando um Frame na tela para receber o gráfico
+    meu_painel = tk.Frame(root1)
+    meu_painel.pack(fill=tk.BOTH, expand=True)
+
+    # Chamando a função passando o painel onde o gráfico vai aparecer
+
+    # COMO ASSOCIAR A TECLA F3:
+    # Usamos lambda para passar o 'frame_destino' para a sua função,
+    # já que o bind vai injetar o argumento 'event' automaticamente.
+    # ---------------------------------------------------------
+    root1.bind("<F3>", lambda event: inserir_grafico_no_tkinter1(meu_painel, combo_tipo, meu_check_var,conn,mes_escolhido.get()))
+    # 3. Força o foco do sistema operacional para esta janela imediatamente
+    root1.focus_force()
+    
+    root1.title("Atalho F3 para Gráfico")
