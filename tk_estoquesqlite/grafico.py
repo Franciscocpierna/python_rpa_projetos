@@ -198,22 +198,33 @@ def inserir_grafico_no_tkinter1(frame_destino, combo_tipo, meu_check_var,conn,me
           strftime('%d', data_inclusao) AS dia, 
           COUNT(*) AS total
           FROM produtos
-          WHERE strftime('%Y-%m', data_inclusao) = ?
+          WHERE strftime('%Y-%m', data_inclusao) = '{mes_escolhido}'
           GROUP BY dia
           ORDER BY dia;
           """
     else:
-        query = """
-            SELECT 
-                strftime('%d', data_vencimento) AS dia, 
-                COUNT(*) AS total
-            FROM produtos
-            WHERE strftime('%Y-%m', data_vencimento) = ?
-            AND data_vencimento < DATE('now') 
-            GROUP BY dia
-            ORDER BY dia;
-            """
-    cursor.execute(query, (mes_escolhido,))
+        # #query = """
+        #     SELECT 
+        #         strftime('%d', data_vencimento) AS dia, dessa forma faz assim cursor.execute(query, (mes_escolhido,))
+        #         COUNT(*) AS total
+        #     FROM produtos
+        #     WHERE strftime('%Y-%m', data_vencimento) = ?
+        #     AND data_vencimento < DATE('now') 
+        #     GROUP BY dia
+        #     ORDER BY dia;
+        #     """
+        # dessa forma
+        query = f"""
+         SELECT 
+           strftime('%d', data_vencimento) AS dia, 
+           COUNT(*) AS total
+         FROM produtos
+         WHERE strftime('%Y-%m', data_vencimento) = '{mes_escolhido}'
+         AND data_vencimento < DATE('now') 
+         GROUP BY dia
+         ORDER BY dia;
+         """   
+    cursor.execute(query)
     dados = cursor.fetchall()
     # Separando os dados para o gráfico
     dias = [row[0] for row in dados]
@@ -337,7 +348,19 @@ def grafico_tela():
     root1.focus_force()
     
     root1.title("Atalho F3 para Gráfico")
-    
+# 2. Define uma função chamada 'validar_input' que recebe o argumento 'P'    
+def validar_input(P):
+    # P é o valor que o Entry *terá* se a ação for permitida
+    # Permite apenas números e o hífen, com no máximo 7 caracteres
+    # 3. Comentário explicando que 'P' representa o valor que o campo 'Entry' passará a ter caso a digitação seja permitida
+    # 4. Verifica se o comprimento (quantidade de caracteres) do texto em 'P' é menor ou igual a 7
+    if len(P) <= 7:
+        # 5. Verifica se todos os caracteres da string 'P' são dígitos numéricos OU se o caractere é um hífen ('-')
+        if all(c.isdigit() or c == '-' for c in P):
+            # 6. Se a verificação anterior for verdadeira, retorna True, permitindo que o caractere seja digitado
+            return True
+    # 7. Se a quantidade passar de 7 ou houver algum caractere inválido, retorna False, bloqueando a digitação        
+    return False
 
 def grafico_tela_mes():
     matplotlib.use('Agg')
@@ -368,11 +391,17 @@ def grafico_tela_mes():
     chk = ttk.Checkbutton(minhaescolha, text="Grava em Pdf", variable=meu_check_var)
     chk.pack(side=tk.LEFT,padx=40)
     tk.label
+    # 8. Registra a função Python 'validar_input' no interpretador do Tkinter para que ele possa usá-la como regra
+    vcmd = root.register(validar_input)
+    tk.Label(minhaescolha, text="Digite o Mês").pack(side=tk.LEFT,padx=40)
+    #mes_escolhido = tk.Entry(minhaescolha).pack(side=tk.LEFT,padx=40)
+    # Cria o Entry já aplicando a regra
 
-    tk.Label(minhaescolha, text="Digiteb o Mês").pack(side=tk.LEFT,padx=40)
-    mes_escolhido = tk.Entry(minhaescolha).pack(side=tk.LEFT,padx=40)
-   
-   
+    # 9. Cria o campo de texto (Entry), configurando-o para validar a cada tecla pressionada ('validate="key"') 
+    # e passando a regra registrada junto com o argumento '%P' (que envia o futuro texto para a função)
+    mes_escolhido = tk.Entry(root, validate="key", validatecommand=(vcmd, '%P'))
+    mes_escolhido.pack(side=tk.LEFT,padx=40)
+    mes_escolhido.insert(0, "AAAA-MM")
     # 3. Criar o Combobox
     # Definimos as opções disponíveis usando o parâmetro 'values'
     opcoes = ["Inclusao", "Vencimento"]
