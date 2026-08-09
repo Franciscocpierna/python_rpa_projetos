@@ -44,3 +44,26 @@ entry_qtd.pack(pady=5)
 
 # 5. Inicia o loop principal da interface gráfica
 root.mainloop()
+
+
+
+# Não exatamente! Há uma diferença bem importante no funcionamento entre usar o validatecommand e o <KeyRelease> (com bind).
+
+# Veja o que muda na prática:
+
+# 1. validatecommand (O Bloqueador / Pré-validação)
+# Quando age: Acontece antes de o caractere aparecer na tela.
+
+# Comportamento: Se a sua função retornar False, o caractere nem chega a ser digitado. O usuário pode ficar esmagando a tecla que for inválida (como uma letra), e o campo simplesmente não vai aceitar.
+
+# 2. <KeyRelease> com .bind() (O Revisor / Pós-validação)
+# Quando age: Acontece depois que a tecla já foi solta e o caractere já apareceu na tela.
+
+# Comportamento: Se você usar o <KeyRelease>, a letra ou caractere errado vai ser digitado no campo primeiro, e só depois o seu código vai rodar para checar. Para corrigir, você teria que apagar o caractere via código (o que costuma causar um efeito visual "chato" de o texto piscando ou sumindo sozinho).
+
+# Resumo da diferença:
+# validatecommand: Funciona como uma catraca. Ou você passa (digita certo), ou a catraca trava e você nem entra.
+
+# <KeyRelease>: Funciona como um fiscal na saída. O erro entra no campo, e depois o fiscal tenta corrigir.
+
+# Por isso, para impedir que o usuário digite letras onde só deveria ter números e hífens, o validatecommand é muito superior ao <KeyRelease>.
