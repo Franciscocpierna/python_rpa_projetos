@@ -192,8 +192,8 @@ def inserir_grafico_no_tkinter1(frame_destino, combo_tipo, meu_check_var,conn,me
     # 1. Conectar ao banco e buscar os dados (sua query original)
     # conn = sqlite3.connect('estoque.db')
     escolha = combo_tipo.get()
-    if escolha = "Inclusao"  
-        query = """
+    if escolha == "Inclusao":  
+        query = f"""
           SELECT 
           strftime('%d', data_inclusao) AS dia, 
           COUNT(*) AS total
@@ -216,14 +216,16 @@ def inserir_grafico_no_tkinter1(frame_destino, combo_tipo, meu_check_var,conn,me
         # dessa forma
         query = f"""
          SELECT 
-           strftime('%d', data_vencimento) AS dia, 
+           strftime('%d', vencimento) AS dia, 
            COUNT(*) AS total
          FROM produtos
-         WHERE strftime('%Y-%m', data_vencimento) = '{mes_escolhido}'
-         AND data_vencimento < DATE('now') 
+         WHERE strftime('%Y-%m', vencimento) = '{mes_escolhido}'
          GROUP BY dia
          ORDER BY dia;
-         """   
+         """ 
+
+    #AND vencimento < DATE('now') PARA VENCIDOS NO MES SÓ COLOCAR ANTES DO GROUP BY dia       
+    cursor = conn.cursor()     
     cursor.execute(query)
     dados = cursor.fetchall()
     # Separando os dados para o gráfico
@@ -235,26 +237,25 @@ def inserir_grafico_no_tkinter1(frame_destino, combo_tipo, meu_check_var,conn,me
         widget.destroy()
     
     plt.close('all')
-   # df = pd.read_sql_query(query, conn)
-   # conn.close()
-    
-   fig, ax = plt.subplots(figsize=(8, 5))      
-   plt.bar(dias, totais, color='crimson')
-   plt.xlabel('Dias do Mês')
-   if escolha = "Inclusao"
-        ax.ylabel('Quantidade de Produtos Inclusos')
-        ax.title(f'Produtos Inclusos por Dia - Referência: {mes_escolhido}')
-        ax.xticks(rotation=45)
-        ax.tight_layout()
+    # df = pd.read_sql_query(query, conn)
+    # conn.close()
+    fig, ax = plt.subplots(figsize=(8, 5))      
+    plt.bar(dias, totais, color='crimson')
+    plt.xlabel('Dias do Mês')
+    if escolha == "Inclusao":
+        ax.set_ylabel('Quantidade de Produtos Inclusos')
+        ax.set_title(f'Produtos Inclusos por Dia - Referência: {mes_escolhido}')
+         
     else:
-        ax.ylabel('Quantidade de Produtos Vencidos')
-        ax.title(f'Produtos Vencidos por Dia - Referência: {mes_escolhido}')
-        ax.xticks(rotation=45)
-        ax.tight_layout()
+        ax.set_ylabel('Quantidade de Produtos Vencidos')
+        ax.set_title(f'Produtos Vencidos por Dia - Referência: {mes_escolhido}')
+       
+      
       # O eixo X (mes_ano) vem primeiro, depois o eixo Y (total)
       
       # Rotaciona os rótulos do eixo X para não embolarem
       #plt.xticks(rotation=45)
+      
     plt.setp(ax.get_xticklabels(), rotation=45, ha='right')
 
     fig.tight_layout()  
@@ -390,20 +391,21 @@ def grafico_tela_mes():
     # Criando o Checkbutton e ligando à variável
     chk = ttk.Checkbutton(minhaescolha, text="Grava em Pdf", variable=meu_check_var)
     chk.pack(side=tk.LEFT,padx=40)
-    tk.label
+    #tk.label
     # 8. Registra a função Python 'validar_input' no interpretador do Tkinter para que ele possa usá-la como regra
-    vcmd = root.register(validar_input)
-    tk.Label(minhaescolha, text="Digite o Mês").pack(side=tk.LEFT,padx=40)
+    vcmd = root1.register(validar_input)
+    tk.Label(minhaescolha, text="Digite o Mês").pack(side=tk.LEFT,padx=10)
     #mes_escolhido = tk.Entry(minhaescolha).pack(side=tk.LEFT,padx=40)
     # Cria o Entry já aplicando a regra
 
     # 9. Cria o campo de texto (Entry), configurando-o para validar a cada tecla pressionada ('validate="key"') 
     # e passando a regra registrada junto com o argumento '%P' (que envia o futuro texto para a função)
-    mes_escolhido = tk.Entry(root, validate="key", validatecommand=(vcmd, '%P'))
-    mes_escolhido.pack(side=tk.LEFT,padx=40)
+    mes_escolhido = tk.Entry(minhaescolha, validate="key", validatecommand=(vcmd, '%P'))
+    mes_escolhido.pack(side=tk.LEFT,padx=10)
     mes_escolhido.insert(0, "AAAA-MM")
     # 3. Criar o Combobox
     # Definimos as opções disponíveis usando o parâmetro 'values'
+    
     opcoes = ["Inclusao", "Vencimento"]
     combo_tipo = ttk.Combobox(minhaescolha, values=opcoes, state="readonly") # "readonly" impede que o usuário digite texto livre
     combo_tipo.pack(side=tk.LEFT,pady=40)
@@ -427,6 +429,7 @@ def grafico_tela_mes():
     # Usamos lambda para passar o 'frame_destino' para a sua função,
     # já que o bind vai injetar o argumento 'event' automaticamente.
     # ---------------------------------------------------------
+    #tirei m_escolhido.get()
     root1.bind("<F3>", lambda event: inserir_grafico_no_tkinter1(meu_painel, combo_tipo, meu_check_var,conn,mes_escolhido.get()))
     # 3. Força o foco do sistema operacional para esta janela imediatamente
     root1.focus_force()

@@ -552,6 +552,9 @@ menu_grafico.add_command(label="Inclusão mes/ano Barra", command=lambda: grafic
 menu_grafico.add_command(label="Inclusão mes/ano Pizza", command=lambda: grafico_pizza())
 menu_grafico.add_command(label="Inclusão mes/ano Linha", command=lambda: graficoLinha())
 menu_grafico.add_command(label="Inclusão mes/ano Gráfico escolha", command=lambda: grafico_tela())
+menu_grafico.add_command(label="Inclusão/vencimento no mês Gráfico escolha", command=lambda: grafico_tela_mes())
+ 
+
 #menu_copia.add_command(label="Copia de segurança", command=salvar_bco) sem parenteses
 menubar.add_cascade(label="Gráficos", menu=menu_grafico)
 
