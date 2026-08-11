@@ -161,16 +161,25 @@ def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var,conn):
       # 2. Criar a figura do Matplotlib (Note que usamos 'fig, ax = plt.subplots' em vez de plt.figure)
       fig, ax = plt.subplots(figsize=(8, 5))
       # Mudou de plt.pie para plt.plot
+      # Usando o ax em vez de plt
       # Usamos marker='o' para marcar cada ponto no mês, linestyle='-' para a linha e linewidth para grossura
-      plt.plot(df['mes_ano'], df['total'], marker='o', linestyle='-', color='b', linewidth=2)
-      # plt.bar(df['mes_ano'], df['total'], color='skyblue') 
-      # 4. Ajustes visuais
-      plt.title('Registros Incluídos por Mês')
-      plt.xlabel('Mês/Ano')
-      plt.ylabel('Quantidade')
-      plt.xticks(rotation=45) # Gira o texto do eixo X para não sobrepor
-      plt.grid(True, linestyle='--', alpha=0.6) # Adiciona uma grade de fundo sutil (ótimo para gráficos de linha)
-      plt.tight_layout()      # Ajusta o layout para não cortar as legendas
+      ax.plot(df['mes_ano'], df['total'], marker='o', linestyle='-', color='b', linewidth=2)
+      ax.set_title('Registros Incluídos por Mês')
+      ax.set_xlabel('Mês/Ano')
+      ax.set_ylabel('Quantidade')
+      ax.tick_params(axis='x', rotation=45)  # Equivalente ao plt.xticks(rotation=45)
+      ax.grid(True, linestyle='--', alpha=0.6)
+      fig.tight_layout()
+    #   # Usamos marker='o' para marcar cada ponto no mês, linestyle='-' para a linha e linewidth para grossura
+    #   plt.plot(df['mes_ano'], df['total'], marker='o', linestyle='-', color='b', linewidth=2)
+    #   # plt.bar(df['mes_ano'], df['total'], color='skyblue') 
+    #   # 4. Ajustes visuais
+    #   plt.title('Registros Incluídos por Mês')
+    #   plt.xlabel('Mês/Ano')
+    #   plt.ylabel('Quantidade')
+    #   plt.xticks(rotation=45) # Gira o texto do eixo X para não sobrepor
+    #   plt.grid(True, linestyle='--', alpha=0.6) # Adiciona uma grade de fundo sutil (ótimo para gráficos de linha)
+    #   plt.tight_layout()      # Ajusta o layout para não cortar as legendas
      # 3. Salvar em PDF DEPOIS que o gráfico foi gerado
     if meu_check_var.get():
         fig.savefig('grafico_estoque.pdf', format='pdf', bbox_inches='tight')
@@ -243,13 +252,18 @@ def inserir_grafico_no_tkinter1(frame_destino, combo_tipo, meu_check_var,conn,me
     plt.bar(dias, totais, color='crimson')
     plt.xlabel('Dias do Mês')
     if escolha == "Inclusao":
-        ax.set_ylabel('Quantidade de Produtos Inclusos')
-        ax.set_title(f'Produtos Inclusos por Dia - Referência: {mes_escolhido}')
+        # é possível trocar ax por plt
+        # ax.set_ylabel('Quantidade de Produtos Inclusos')
+        # ax.set_title(f'Produtos Inclusos por Dia - Referência: {mes_escolhido}')
+        plt.ylabel("Quantidade de Produtos Inclusos")
+        plt.title(f"Produtos Inclusos por Dia - Referência: {mes_escolhido}")
          
     else:
-        ax.set_ylabel('Quantidade de Produtos Vencidos')
-        ax.set_title(f'Produtos Vencidos por Dia - Referência: {mes_escolhido}')
-       
+        # é possível trocar ax por plt
+        # ax.set_ylabel('Quantidade de Produtos Vencidos')
+        # ax.set_title(f'Produtos Vencidos por Dia - Referência: {mes_escolhido}')
+        plt.ylabel("Quantidade de Produtos Vencidos")
+        plt.title(f"Produtos Vencidos por Dia - Referência: {mes_escolhido}")
       
       # O eixo X (mes_ano) vem primeiro, depois o eixo Y (total)
       
