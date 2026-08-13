@@ -116,15 +116,25 @@ def graficoLinha():
 
 
 # def inserir_grafico_no_tkinter(frame_destino):
-def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var,conn):    
+def inserir_grafico_no_tkinter(frame_destino, combo_tipo, combo_incvenc, meu_check_var,conn):    
     # 1. Conectar ao banco e buscar os dados (sua query original)
   #  conn = sqlite3.connect('estoque.db')
-    query = """
-    SELECT strftime('%m-%Y', data_inclusao) AS mes_ano, COUNT(*) AS total
-    FROM produtos
-    GROUP BY mes_ano
-    ORDER BY mes_ano;
-    """
+    escolha1=combo_incvenc.get()
+    if escolha1 == "Inclusao":  
+        query = """
+        SELECT strftime('%m-%Y', data_inclusao) AS mes_ano, COUNT(*) AS total
+        FROM produtos
+        GROUP BY mes_ano
+        ORDER BY mes_ano;
+        """
+    else:
+        query = """
+        SELECT strftime('%m-%Y', vencimento) AS mes_ano, COUNT(*) AS total
+        FROM produtos
+        WHERE  vencimento < DATE('now') 
+        GROUP BY mes_ano
+        ORDER BY mes_ano;
+        """    
     # # 1. Limpa qualquer widget anterior (o gráfico velho) de dentro do painel
     for widget in frame_destino.winfo_children():
         widget.destroy()
@@ -135,11 +145,15 @@ def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var,conn):
     escolha = combo_tipo.get()
     
     
-    if escolha == "Pizza":
+    if escolha == "Pizza": 
       # 2. Criar a figura do Matplotlib (Note que usamos 'fig, ax = plt.subplots' em vez de plt.figure)
       fig, ax = plt.subplots(figsize=(8, 5))
       ax.pie(df['total'], labels=df['mes_ano'], autopct='%1.1f%%', startangle=90)
-      ax.set_title('Registros Incluídos por Mês')
+      if escolha1 == 'Inclusao':
+        titulo = "Registros Incluídos por Mês"
+      else:
+         titulo = "Registros Vencidos por Mês"
+      ax.set_title(titulo)
       fig.tight_layout()
     elif escolha == "Barra":
       
@@ -148,7 +162,11 @@ def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var,conn):
       # O eixo X (mes_ano) vem primeiro, depois o eixo Y (total)
       ax.bar(df['mes_ano'], df['total'])
 
-      ax.set_title('Registros Incluídos por Mês')
+      if escolha1 == 'Inclusao':
+        titulo = "Registros Incluídos por Mês"
+      else:
+         titulo = "Registros Vencidos por Mês"
+      ax.set_title(titulo)
       ax.set_xlabel('Mês/Ano')
       ax.set_ylabel('Total')
 
@@ -164,7 +182,11 @@ def inserir_grafico_no_tkinter(frame_destino, combo_tipo, meu_check_var,conn):
       # Usando o ax em vez de plt
       # Usamos marker='o' para marcar cada ponto no mês, linestyle='-' para a linha e linewidth para grossura
       ax.plot(df['mes_ano'], df['total'], marker='o', linestyle='-', color='b', linewidth=2)
-      ax.set_title('Registros Incluídos por Mês')
+      if escolha1 == 'Inclusao':
+        titulo = "Registros Incluídos por Mês"
+      else:
+        titulo = "Registros Vencidos por Mês"
+      ax.set_title(titulo)
       ax.set_xlabel('Mês/Ano')
       ax.set_ylabel('Quantidade')
       ax.tick_params(axis='x', rotation=45)  # Equivalente ao plt.xticks(rotation=45)
@@ -337,9 +359,28 @@ def grafico_tela():
     # Definimos as opções disponíveis usando o parâmetro 'values'
     opcoes = ["Barra", "Pizza", "Linha"]
     combo_tipo = ttk.Combobox(minhaescolha, values=opcoes, state="readonly") # "readonly" impede que o usuário digite texto livre
-    combo_tipo.pack(side=tk.LEFT,pady=40)
+    combo_tipo.pack(side=tk.LEFT,padx=40)
     # Opcional: Selecionar um item padrão inicial (ex: o primeiro da lista)
     combo_tipo.current(0)
+
+
+    #vencimento/inclusao
+    #####################
+
+    opcoes1 = ["Inclusao", "Vencidos"]
+    combo_incvenc = ttk.Combobox(minhaescolha, values=opcoes1, state="readonly") # "readonly" impede que o usuário digite texto livre
+    combo_incvenc.pack(side=tk.LEFT,padx=40)
+    # Opcional: Selecionar um item padrão inicial (ex: o primeiro da lista)
+    combo_incvenc.current(0)
+     
+    
+    # 4. Função para pegar o valor que o usuário escolheu
+    #escolha = combo_tipo.get()
+    # Associa o evento de mudança ao combobox
+    combo_incvenc.bind("<<ComboboxSelected>>",pegar_selecao)
+
+    ####################
+
     btn_sair = ttk.Button(minhaescolha, text="Sair / Fechar", command= lambda: fechar_programa1(root1,conn))
     btn_sair.pack(side=tk.LEFT, padx=40) # padx adiciona um espaço horizontal entre eles 
     
@@ -347,6 +388,8 @@ def grafico_tela():
     #escolha = combo_tipo.get()
     # Associa o evento de mudança ao combobox
     combo_tipo.bind("<<ComboboxSelected>>",pegar_selecao)
+
+   
 
     # Criando um Frame na tela para receber o gráfico
     meu_painel = tk.Frame(root1)
@@ -358,7 +401,7 @@ def grafico_tela():
     # Usamos lambda para passar o 'frame_destino' para a sua função,
     # já que o bind vai injetar o argumento 'event' automaticamente.
     # ---------------------------------------------------------
-    root1.bind("<F3>", lambda event: inserir_grafico_no_tkinter(meu_painel, combo_tipo, meu_check_var,conn))
+    root1.bind("<F3>", lambda event: inserir_grafico_no_tkinter(meu_painel, combo_tipo,combo_incvenc, meu_check_var,conn))
     # 3. Força o foco do sistema operacional para esta janela imediatamente
     root1.focus_force()
     
