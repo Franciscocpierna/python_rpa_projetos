@@ -11,15 +11,15 @@ import matplotlib
 #matplotlib.use('Agg')
 
 
-def grafico_pizza():
+def grafico_pizza(nome_tabela_escolhida):
     # 1. Conectar ao seu banco de dados
     conn = sqlite3.connect('estoque.db')    
     # 2. Executar a consulta e carregar diretamente em um DataFrame
     # SOBRESCREVA imediatamente com o backend interativo do Windows/Tkinter:
     matplotlib.use('TkAgg')
-    query = """
+    query = f"""
     SELECT strftime('%m-%Y', data_inclusao) AS mes_ano, COUNT(*) AS total
-    FROM produtos
+    FROM {nome_tabela_escolhida}
     GROUP BY mes_ano
     ORDER BY mes_ano;
     """
@@ -42,16 +42,16 @@ def grafico_pizza():
     plt.close()  # Fecha a figura da memória
     conn.close() 
 
-def grafico_barra():
+def grafico_barra(nome_tabela_escolhida):
      
      # 1. Conectar ao seu banco de dados
      conn = sqlite3.connect('estoque.db')
      # 2. Executar a consulta e carregar diretamente em um DataFrame
      # SOBRESCREVA imediatamente com o backend interativo do Windows/Tkinter:
      matplotlib.use('TkAgg')
-     query = """
+     query = f"""
       SELECT strftime('%m-%Y', data_inclusao) AS mes_ano, COUNT(*) AS total
-      FROM produtos
+      FROM {nome_tabela_escolhida}
       GROUP BY mes_ano
       ORDER BY mes_ano;
      """
@@ -73,7 +73,7 @@ def grafico_barra():
      plt.close()  # Fecha a figura da memória
      conn.close()
 
-def graficoLinha(): 
+def graficoLinha(nome_tabela_escolhida): 
         # SOBRESCREVA imediatamente com o backend interativo do Windows/Tkinter:
     matplotlib.use('TkAgg')
     import matplotlib.pyplot as plt
@@ -82,9 +82,9 @@ def graficoLinha():
     conn = sqlite3.connect('estoque.db')    
 
     # 2. Executar a consulta e carregar diretamente em um DataFrame
-    query = """
+    query = f"""
     SELECT strftime('%m-%Y', data_inclusao) AS mes_ano, COUNT(*) AS total
-    FROM produtos
+    FROM {nome_tabela_escolhida}
     GROUP BY mes_ano
     ORDER BY mes_ano;
     """
@@ -116,25 +116,25 @@ def graficoLinha():
 
 
 # def inserir_grafico_no_tkinter(frame_destino):
-def inserir_grafico_no_tkinter(frame_destino, combo_tipo, combo_incvenc, meu_check_var,conn):    
+def inserir_grafico_no_tkinter(frame_destino, combo_tipo, combo_incvenc, meu_check_var,conn,nome_tabela_escolhida):    
     # 1. Conectar ao banco e buscar os dados (sua query original)
   #  conn = sqlite3.connect('estoque.db')
     escolha1=combo_incvenc.get()
     if escolha1 == "Inclusao":  
-        query = """
+        query = f"""
         SELECT strftime('%m-%Y', data_inclusao) AS mes_ano, COUNT(*) AS total
-        FROM produtos
+        FROM {nome_tabela_escolhida}
         GROUP BY mes_ano
         ORDER BY mes_ano;
         """
     else:
-        query = """
+        query = f"""
         SELECT strftime('%m-%Y', vencimento) AS mes_ano, COUNT(*) AS total
-        FROM produtos
-        WHERE  vencimento < DATE('now') 
+        FROM {nome_tabela_escolhida}
         GROUP BY mes_ano
         ORDER BY mes_ano;
         """    
+     #WHERE  vencimento < DATE('now') 
     # # 1. Limpa qualquer widget anterior (o gráfico velho) de dentro do painel
     for widget in frame_destino.winfo_children():
         widget.destroy()
@@ -219,7 +219,7 @@ def inserir_grafico_no_tkinter(frame_destino, combo_tipo, combo_incvenc, meu_che
 
 
 # def inserir_grafico_no_tkinter(frame_destino):
-def inserir_grafico_no_tkinter1(frame_destino, combo_tipo, meu_check_var,conn,mes_escolhido):    
+def inserir_grafico_no_tkinter1(frame_destino, combo_tipo, meu_check_var,conn,mes_escolhido,nome_tabela_escolhida):    
     # 1. Conectar ao banco e buscar os dados (sua query original)
     # conn = sqlite3.connect('estoque.db')
     escolha = combo_tipo.get()
@@ -228,8 +228,8 @@ def inserir_grafico_no_tkinter1(frame_destino, combo_tipo, meu_check_var,conn,me
           SELECT 
           strftime('%d', data_inclusao) AS dia, 
           COUNT(*) AS total
-          FROM produtos
-          WHERE strftime('%Y-%m', data_inclusao) = '{mes_escolhido}'
+          FROM {nome_tabela_escolhida}
+          WHERE strftime('%Y-%m', data_inclusao) = ?
           GROUP BY dia
           ORDER BY dia;
           """
@@ -249,15 +249,15 @@ def inserir_grafico_no_tkinter1(frame_destino, combo_tipo, meu_check_var,conn,me
          SELECT 
            strftime('%d', vencimento) AS dia, 
            COUNT(*) AS total
-         FROM produtos
-         WHERE strftime('%Y-%m', vencimento) = '{mes_escolhido}'
+         FROM {nome_tabela_escolhida}
+         WHERE strftime('%Y-%m', vencimento) = ?
          GROUP BY dia
          ORDER BY dia;
          """ 
 
     #AND vencimento < DATE('now') PARA VENCIDOS NO MES SÓ COLOCAR ANTES DO GROUP BY dia       
-    cursor = conn.cursor()     
-    cursor.execute(query)
+    cursor = conn.cursor()   
+    cursor.execute(query, (mes_escolhido,))
     dados = cursor.fetchall()
     # Separando os dados para o gráfico
     dias = [row[0] for row in dados]
@@ -325,7 +325,7 @@ def fechar_programa1(janela,conn):
     janela.destroy()   # Destrói a janela de vez e limpa da memória
 
 # 1. Criar um Frame (ou usar sua estrutura existente)
-def grafico_tela():
+def grafico_tela(nome_tabela_escolhida):
     matplotlib.use('Agg')
     root1 = tk.Toplevel()
     root1.title("Gráfico de Inclusões por Mês")
@@ -401,7 +401,7 @@ def grafico_tela():
     # Usamos lambda para passar o 'frame_destino' para a sua função,
     # já que o bind vai injetar o argumento 'event' automaticamente.
     # ---------------------------------------------------------
-    root1.bind("<F3>", lambda event: inserir_grafico_no_tkinter(meu_painel, combo_tipo,combo_incvenc, meu_check_var,conn))
+    root1.bind("<F3>", lambda event: inserir_grafico_no_tkinter(meu_painel, combo_tipo,combo_incvenc, meu_check_var,conn,nome_tabela_escolhida))
     # 3. Força o foco do sistema operacional para esta janela imediatamente
     root1.focus_force()
     
@@ -420,7 +420,7 @@ def validar_input(P):
     # 7. Se a quantidade passar de 7 ou houver algum caractere inválido, retorna False, bloqueando a digitação        
     return False
 
-def grafico_tela_mes():
+def grafico_tela_mes(nome_tabela_escolhida):
     matplotlib.use('Agg')
     root1 = tk.Toplevel()
     root1.title("Gráfico em determinado Mês")
@@ -463,7 +463,7 @@ def grafico_tela_mes():
     # 3. Criar o Combobox
     # Definimos as opções disponíveis usando o parâmetro 'values'
     
-    opcoes = ["Inclusao", "Vencimento"]
+    opcoes = ["Inclusao", "Vencido"]
     combo_tipo = ttk.Combobox(minhaescolha, values=opcoes, state="readonly") # "readonly" impede que o usuário digite texto livre
     combo_tipo.pack(side=tk.LEFT,pady=40)
     # Opcional: Selecionar um item padrão inicial (ex: o primeiro da lista)
@@ -487,7 +487,7 @@ def grafico_tela_mes():
     # já que o bind vai injetar o argumento 'event' automaticamente.
     # ---------------------------------------------------------
     #tirei m_escolhido.get()
-    root1.bind("<F3>", lambda event: inserir_grafico_no_tkinter1(meu_painel, combo_tipo, meu_check_var,conn,mes_escolhido.get()))
+    root1.bind("<F3>", lambda event: inserir_grafico_no_tkinter1(meu_painel, combo_tipo, meu_check_var,conn,mes_escolhido.get(),nome_tabela_escolhida))
     # 3. Força o foco do sistema operacional para esta janela imediatamente
     root1.focus_force()
     

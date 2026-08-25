@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk, messagebox
-import sqlite3
+import sqlite3 
 from datetime import datetime
 ####
 from tkinter import filedialog
@@ -547,12 +547,14 @@ menu_copia.add_command(label="Copia de segurança", command=lambda: salvar_bco()
 #menu_copia.add_command(label="Copia de segurança", command=salvar_bco) sem parenteses
 menubar.add_cascade(label="Copiar banco de dados", menu=menu_copia)
 
+nome_tabela_escolhida="produtos"
+
 menu_grafico = tk.Menu(menubar, tearoff=0)
-menu_grafico.add_command(label="Inclusão mes/ano Barra", command=lambda: grafico_barra())
-menu_grafico.add_command(label="Inclusão mes/ano Pizza", command=lambda: grafico_pizza())
-menu_grafico.add_command(label="Inclusão mes/ano Linha", command=lambda: graficoLinha())
-menu_grafico.add_command(label="Inclusão mes/ano Gráfico escolha", command=lambda: grafico_tela())
-menu_grafico.add_command(label="Inclusão/vencimento no mês Gráfico escolha", command=lambda: grafico_tela_mes())
+menu_grafico.add_command(label="Inclusão mes/ano Barra", command=lambda: grafico_barra(nome_tabela_escolhida))
+menu_grafico.add_command(label="Inclusão mes/ano Pizza", command=lambda: grafico_pizza(nome_tabela_escolhida))
+menu_grafico.add_command(label="Inclusão mes/ano Linha", command=lambda: graficoLinha(nome_tabela_escolhida))
+menu_grafico.add_command(label="Inclusão/vencidos mes/ano Gráfico escolha", command=lambda: grafico_tela(nome_tabela_escolhida))
+menu_grafico.add_command(label="Inclusão/vencidos no mês Gráfico escolha", command=lambda: grafico_tela_mes(nome_tabela_escolhida))
  
 
 #menu_copia.add_command(label="Copia de segurança", command=salvar_bco) sem parenteses
