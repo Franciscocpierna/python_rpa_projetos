@@ -561,10 +561,11 @@ menu_grafico.add_command(label="Inclusão/vencidos no mês Gráfico escolha", co
 menubar.add_cascade(label="Gráficos", menu=menu_grafico)
 
 menu_fechar = tk.Menu(menubar, tearoff=0)
-menu_fechar.add_command(label="Sair", command=lambda: fechar_programa())
+menu_fechar.add_command(label="Sair CTRL F", command=lambda: fechar_programa())
 #menu_copia.add_command(label="Copia de segurança", command=salvar_bco) sem parenteses
 menubar.add_cascade(label="Sair", menu=menu_fechar)
-
+root.bind("<Control-f>", lambda event: fechar_programa())
+root.bind("<Control-F>", lambda event: fechar_programa())
 
 
 
