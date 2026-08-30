@@ -383,7 +383,8 @@ def grafico_tela(nome_tabela_escolhida):
 
     btn_sair = ttk.Button(minhaescolha, text="Sair / Fechar", command= lambda: fechar_programa1(root1,conn))
     btn_sair.pack(side=tk.LEFT, padx=40) # padx adiciona um espaço horizontal entre eles 
-    
+    root1.bind("<Control-f>", lambda event: fechar_programa1(root, conexao_banco))
+    root1.bind("<Control-F>", lambda event: fechar_programa1(root, conexao_banco))
     # 4. Função para pegar o valor que o usuário escolheu
     #escolha = combo_tipo.get()
     # Associa o evento de mudança ao combobox
@@ -468,9 +469,10 @@ def grafico_tela_mes(nome_tabela_escolhida):
     combo_tipo.pack(side=tk.LEFT,pady=40)
     # Opcional: Selecionar um item padrão inicial (ex: o primeiro da lista)
     combo_tipo.current(0)
-    btn_sair = ttk.Button(minhaescolha, text="Sair / Fechar", command= lambda: fechar_programa1(root1,conn))
+    btn_sair = ttk.Button(minhaescolha, text="Sair / Fechar CTRL F", command= lambda: fechar_programa1(root1,conn))
     btn_sair.pack(side=tk.LEFT, padx=40) # padx adiciona um espaço horizontal entre eles 
-    
+    root1.bind("<Control-f>", lambda event: fechar_programa1(root, conexao_banco))
+    root.bind1("<Control-F>", lambda event: fechar_programa1(root, conexao_banco))
     # 4. Função para pegar o valor que o usuário escolheu
     #escolha = combo_tipo.get()
     # Associa o evento de mudança ao combobox
