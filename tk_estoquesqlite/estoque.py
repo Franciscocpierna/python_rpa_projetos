@@ -633,6 +633,8 @@ parametros = (
     '%' + ent_busca_categoria.get() + '%',
     '%' + ent_busca_fornecedor.get() + '%'
 ) 
+cursor.execute(comando_sql, parametros)
+resultados = cursor.fetchall() # Para pegar os resultados da busca
 outro exemplo
 
 # 1. Começa com a base da query e uma lista vazia para os parâmetros
